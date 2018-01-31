@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">Ronald Piacenti Júnior</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.5.0.v201506092134 Build &lt;@BUILD@></property>
+    <text-property name="title">Relatório de Grupos de Atendimento</text-property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">666</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">666</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">666</property>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="pCD" id="717">
+            <property name="hidden">false</property>
+            <text-property name="helpText">Informe o MCU do Centro de Distribuição.</text-property>
+            <text-property name="promptText">Centro de Distribuição</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">%</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</property>
+            <property name="odaUser">SISCAP</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2F0ZWw4NDcxcHJk</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="grupo_atendimento" id="666">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">tp_grp_desc</property>
+                    <expression name="expression">if(row["GAT_IN_ITEM_PEDIDO"] == "M"){&#13;
+resu = "Material";&#13;
+}else{&#13;
+resu = "Produto";&#13;
+};&#13;
+tp_grp_desc = resu;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">sigla_cd</property>
+                    <expression name="expression">if(row["MCMCU_CENTRO_DISTRIBUICAO"] == "    00004010"){&#13;
+resu = "CD Oeste";&#13;
+}else{&#13;
+resu = "CD Leste";&#13;
+};&#13;
+sigla_cd = resu;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">mcucia</property>
+                    <property name="paramName">pCD</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">GAT_NU</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">MCMCU_CENTRO_DISTRIBUICAO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">GAT_NO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">GAT_QT_PEDIDO_EXTRA_TERCEIRO</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">GAT_QT_PEDIDO_EXTRA_ECT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">GAT_IN_ITEM_PEDIDO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">tp_grp_desc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">sigla_cd</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">GAT_NU</property>
+                    <property name="nativeName">GAT_NU</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">MCMCU_CENTRO_DISTRIBUICAO</property>
+                    <property name="nativeName">MCMCU_CENTRO_DISTRIBUICAO</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">GAT_NO</property>
+                    <property name="nativeName">GAT_NO</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">GAT_QT_PEDIDO_EXTRA_TERCEIRO</property>
+                    <property name="nativeName">GAT_QT_PEDIDO_EXTRA_TERCEIRO</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">GAT_QT_PEDIDO_EXTRA_ECT</property>
+                    <property name="nativeName">GAT_QT_PEDIDO_EXTRA_ECT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">GAT_IN_ITEM_PEDIDO</property>
+                    <property name="nativeName">GAT_IN_ITEM_PEDIDO</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select GAT_NU,
+MCMCU_CENTRO_DISTRIBUICAO,
+GAT_NO,
+GAT_QT_PEDIDO_EXTRA_TERCEIRO,
+GAT_QT_PEDIDO_EXTRA_ECT,
+GAT_IN_ITEM_PEDIDO
+from grupo_atendimento
+where MCMCU_CENTRO_DISTRIBUICAO = ?
+order by MCMCU_CENTRO_DISTRIBUICAO,GAT_NU ]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">auto</property>
+            <property name="headerHeight">90px</property>
+            <property name="footerHeight">49px</property>
+            <page-header>
+                <grid id="547">
+                    <property name="verticalAlign">top</property>
+                    <property name="canShrink">false</property>
+                    <property name="height">1.6354166666666667in</property>
+                    <property name="width">7.6875in</property>
+                    <column id="548">
+                        <property name="width">2.2291666666666665in</property>
+                    </column>
+                    <column id="549">
+                        <property name="width">5.458333333333333in</property>
+                    </column>
+                    <row id="550">
+                        <property name="height">1.6354166666666667in</property>
+                        <cell id="551">
+                            <image id="665">
+                                <property name="height">49px</property>
+                                <property name="width">201px</property>
+                                <property name="source">embed</property>
+                                <property name="imageName">logo.png</property>
+                            </image>
+                        </cell>
+                        <cell id="552">
+                            <text id="554">
+                                <property name="fontSize">9pt</property>
+                                <property name="textAlign">center</property>
+                                <property name="display">block</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<CENTER>
+<H3>
+EMPRESA BRASILEIRA DE CORREIOS E TELÉGRAFOS
+</H3>
+<p>
+<H5>
+Sistema de Captação de Pedido - SISCAP
+</H5>
+<p>
+<H5>
+Relatório de Grupos de Atendimento
+</H5>
+</CENTER>
+]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="667">
+            <property name="fontSize">smaller</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">medium</property>
+            <property name="width">7.78125in</property>
+            <property name="dataSet">grupo_atendimento</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">GAT_NU</property>
+                    <text-property name="displayName">GAT_NU</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["GAT_NU"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">MCMCU_CENTRO_DISTRIBUICAO</property>
+                    <text-property name="displayName">MCMCU_CENTRO_DISTRIBUICAO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MCMCU_CENTRO_DISTRIBUICAO"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">GAT_NO</property>
+                    <text-property name="displayName">GAT_NO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["GAT_NO"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">GAT_QT_PEDIDO_EXTRA_TERCEIRO</property>
+                    <text-property name="displayName">GAT_QT_PEDIDO_EXTRA_TERCEIRO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["GAT_QT_PEDIDO_EXTRA_TERCEIRO"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">GAT_QT_PEDIDO_EXTRA_ECT</property>
+                    <text-property name="displayName">GAT_QT_PEDIDO_EXTRA_ECT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["GAT_QT_PEDIDO_EXTRA_ECT"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">GAT_IN_ITEM_PEDIDO</property>
+                    <text-property name="displayName">GAT_IN_ITEM_PEDIDO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["GAT_IN_ITEM_PEDIDO"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">tp_grp_desc</property>
+                    <text-property name="displayName">tp_grp_desc</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["tp_grp_desc"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">tp_grp_desc_1</property>
+                    <text-property name="displayName">tp_grp_desc</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["tp_grp_desc"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">sigla_cd</property>
+                    <text-property name="displayName">sigla_cd</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["sigla_cd"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="689">
+                <property name="width">0.6875in</property>
+            </column>
+            <column id="690">
+                <property name="width">1.3125in</property>
+            </column>
+            <column id="691">
+                <property name="width">4.677083333333333in</property>
+            </column>
+            <column id="712">
+                <property name="width">1.0833333333333333in</property>
+            </column>
+            <header>
+                <row id="668">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <cell id="669">
+                        <label id="695">
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">ID Grupo</text-property>
+                        </label>
+                    </cell>
+                    <cell id="670">
+                        <label id="697">
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Centro de Distibuição</text-property>
+                        </label>
+                    </cell>
+                    <cell id="671">
+                        <label id="699">
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Descrição do Grupo</text-property>
+                        </label>
+                    </cell>
+                    <cell id="709">
+                        <property name="numberAlign">center</property>
+                        <label id="713">
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Tipo do Grupo</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="675">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <list-property name="highlightRules">
+                        <structure>
+                            <property name="operator">ne</property>
+                            <property name="backgroundColor">#F9EEE3</property>
+                            <expression name="testExpr" type="javascript">row.__rownum % 2</expression>
+                            <simple-property-list name="value1">
+                                <value type="javascript">0</value>
+                            </simple-property-list>
+                        </structure>
+                    </list-property>
+                    <cell id="676">
+                        <data id="696">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">GAT_NU</property>
+                        </data>
+                    </cell>
+                    <cell id="677">
+                        <data id="716">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">sigla_cd</property>
+                        </data>
+                    </cell>
+                    <cell id="678">
+                        <data id="700">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">GAT_NO</property>
+                        </data>
+                    </cell>
+                    <cell id="710">
+                        <data id="715">
+                            <property name="fontSize">xx-small</property>
+                            <structure name="stringFormat">
+                                <property name="category">></property>
+                                <property name="pattern">></property>
+                            </structure>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">tp_grp_desc</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="682">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <cell id="683"/>
+                    <cell id="684"/>
+                    <cell id="685"/>
+                    <cell id="711"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">logo.png</property>
+            <property name="type">image/png</property>
+            <property name="data">
+                iVBORw0KGgoAAAANSUhEUgAAAMkAAAAxCAMAAABH2X1DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
+                ZVJlYWR5ccllPAAAAYBQTFRFAJXKW8foAKHZ0pwPAC9VwNDaAGiXze347MEGAKrj88sE/O6p1alNwNrm
+                xYkShdHt6b0Hx5VOAI/D/fTA1aENADli/OVp58hw99ICAFmHAJvRpdXru3wT6dCS3q0LAHKjrWgWAHus
+                //zw7Ner/vbQMKfOQGiG4LEKQKrY5rgIAIK0AIq+ZbXYtHIV2KUNpeP1AJva78YF8Pn9AJPV4PP6/Nkx
+                EE10+dYRypQo89JDJZzSAIW52qgM4rUZ9uzT0JkPMGWHALPo4rQJ5LYJAEt1AKbfgKC1QGF9oLjIAH6w
+                kKy/57oHAIzQ+u/CUH2Z3KsLypAQ/+6Q4KsIcJSs/uRQAK7nAFJ+AEZvAHekAGGPAHeoQHGQ8PT2YImj
+                0NzkIFl+4OjtsMTRuHcUwIISsG0W26oM368KqGEX8Pf69u/i/Pjx1a5sQG6M//vgOL7oAHOeUJOx4blC
+                EKzf/d8w4L1q9swTELbm1Kc+AG6eEI26EJ7MEI/PEI/QEJDRAEFr////VjJZCwAAAIB0Uk5T////////
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+                /wA4BUtnAAAGUElEQVR42uyY+1fURhTHERvZXVBWRQSKi6+WV0UWNEgVCeimIdCoXZeKk2QTqNhSSmvp
+                g76Sf73zzswkC9FzemB7uD9Bkp3MJ/d+72M64v+LdZySnJIcB4m5u7v7KbYvsO2O7Y31zrQjSaBHV5B9
+                xG2yOPtPVztGlxYRFM7ydGl67fOZdtSJqZAcLNWm18baUvGOhBItNRoQpbcdSVxDQLlSKxYbxc7ZtY/b
+                MQv7eoIyVKwVG43i9Ozf99qxnlgRS2Cvip01hFKbnj2Rqj+yMtapUzaWhjoZytpnbVnjiVS+bnQMIRQo
+                lUbn9EmUytEkLpJK1NnRwVGQ6rvakAQXyMmOS5SEqv6vmTYkie3o1dDkJRHlJBZImeRLZpcTuxnHP9Ue
+                PkyhnFddh+yEkHQvjI+vlsuFQrVaLZVKA9hexvHMbysTDycTFKz6WbGouLYREXOsE0DSvb38BJFIKPvQ
+                JXsrKxMYhai+hlUv9iymHiXWDI+b5PHC6DJBKSCUEkaZux3HvROvb0CnEBQWX2eEPsCIZNOOl2Tn3fZ2
+                gsKc0h3Hdy+NvKIoiVT2ZsSGRjbvmH1y9U2lglAkqfTHcdefBwcjr2/ckKTyc5c4j5Ggqtua6cF/DDeB
+                tEwz9HPv5fCMEaRvu/CSr5Jce/TmWaUyOgqdkqDch2rfO3fuYGQEOUVAuZusBggHe4kF2NJBnTGarrAf
+                ExiRAWz8rAd0HXi+mDMM/rBrQgvYN/HIYoaVrGWRX+iOJpI8nppCKDy+MMocVPuZc5BEREEkvVKHiQLK
+                TRchIej0MOnieARyeQXy07rJCzKTnOuk13JBcg0EnGRnqk9BgaovIbX/uLGBUUSpiEWxiVNvOhY8WTum
+                fFV3E3nV4a7kp4Erk/hN6XadDoHK8oTkXV8fRqkIKNUXUCSvBzcoCpEKQhF7+hCHj3sUSBRZ/Gn6ZpBA
+                pZ42JJJATSkIxZfQeXRdPXu2jzqFS6UA1X7vj8FBijKSqL5L3XG6GNItA1vTWM30cVuN9wkcthMdgBAd
+                F5CIszSLyqEuktAFPCgb6hz2G93WQqhG8iURya3FxQRlG6Oslu9DkXyyvo5RJKlIDT1eOu0SfFnXRMWg
+                74YdGNDDDp6vA8IXiJLwExKiRIe8JMRrNalLA5IrfKb42wtnMYkklV+hSM6sPxVRsFQm5CGL+1YdNCGI
+                LzTTeHOaoBgn+QR1eRGPMjKSplSjiLwsQuIq9WR+/NFigkKkUkUlcfApJFFQlGkxUaB8JAPNFk+b8GMi
+                Cd4J+VOnamHZt0luURKNOkH6SoDgNy1fIpmrLk/x+CIoqwvfQXzc3WrnRfs2TpOYKRK8N7GCkbdnk/ik
+                jCQGBASNfAVLjVzqZ1RN7ICTdA8URvtEqVTGVzcv7uQqy9k5OHXVSN6eItGiLLMZiaeGUZ2EqqOmeKT4
+                /lK5gqTCULYLm5vD3+ci0WXXt/IUOITEziQxGYkQhkKoalJl9HgW3i+tvhFUX926szk8fCsPCcjsfVN9
+                5GEk4YeR8G6FRR8m+WGu+mSKq778/A4i2XqcazDOSl6KSIlOjA+LLpMVIymd0CbO9kiFafIaf3mgsMyk
+                svzVN4TkQQ6puJGSpjI9ZRMnZZO42ZmckViKgwPlM2k6RaUd5IuBwjZBeVa+Tkm2enI4xYsyqrwt9zCk
+                BoStsrCT9TE4iasMb0BN/Da9z7r6l6XyMyyVwh1OcuFaDqfQ9oJtO7D4RVq1aQPYjFuRaFFmy8Mqoyf2
+                C7TXDPBM4GaS3Nwv4QJZHb6ekFzIoXoqWL0OF3NDj0SCSftz1HR4vFdqQUKbScfHkd/UA5mENpBeiO/y
+                tixEhdFl/UsgzIy3cYFcXXwrkjzIoXorq+0FUcZI3IqEN7tA552w0EGmXoCmUnnmbkonEqhAPiq/lUie
+                /77z/iio4XKNjNm+FYl6FFBXJi0rDaIMAqF8StQ/UB7vU0ie/5JD9crhCm5bXafF3rJIlBUMdWa09NQc
+                JhZGoTIylFK5dF0hWbyWp0AKRcphaUbj7wJafAQJXIHPhU0rNf3GgcdYDCv1C91On6Ze7p+f77lIrYda
+                vgYssEwHeGYodkiBXQfAtILkNAIaLXIW+lv2rImeNnkRdB0AAP+tG5oeMG1f/oUHHDN8jxPu9rBTklOS
+                /87+FWAAsjTrWp2H/XsAAAAASUVORK5CYII=
+</property>
+        </structure>
+    </list-property>
+</report>

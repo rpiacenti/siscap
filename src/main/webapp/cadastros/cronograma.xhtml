@@ -1,0 +1,132 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="Cronograma Atendimento" />
+	</ui:define>
+
+
+	<ui:define name="corpo">
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
+
+		<h:form id="formCronograma" frame="none">
+			<f:metadata>
+				<f:viewParam name="id" value="#{cronogramaMB.id}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+			<ppj:messages />
+<p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>
+
+			<fieldset class="formSearch">
+			#{msgs.CD}: #{usuario.abrevCD}
+			</fieldset>
+			<p:fieldset styleClass="formSearch" legend="Entrada de Cronograma">
+				<label>#{msgs.cronograma}:*<br /> <h:selectOneMenu
+						value="#{cronogramaMB.grupoAtendimento.numGrupo}"
+						styleClass="#{component.valid ? '': 'error' } f6col" id="campoGRP"
+						required="true" imedidate="true" label="#{msgs.grupoatendimento}"
+						disabled="#{cronogramaMB.disabledGrp}">
+						<f:selectItem itemValue="0" itemLabel="" />
+						<f:selectItems value="#{cronogramaMB.gruposDeAtendimento}"
+							var="grp" itemLabel="#{grp.descricao}"
+							itemValue="#{grp.numGrupo}" />
+						<p:ajax render="@this" listener="#{cronogramaMB.actionCarregaAno}" />
+
+					</h:selectOneMenu>
+				</label> <label>Ano:<br /> <h:selectOneMenu
+						value="#{cronogramaMB.ano}" id="campoAno" required="true"
+						label="#{msgs.ano}" rows="10"
+						disabled="#{cronogramaMB.disabledAno}">
+						<f:selectItem itemValue="0" itemLabel="" />
+						<f:selectItems value="#{cronogramaMB.listaAnos}" />
+						<p:ajax change="#{cronogramaMB.SetListaCronograma()}"
+							update=":formCronograma:croList" />
+					</h:selectOneMenu>
+				</label>
+			</p:fieldset>
+
+
+			<fieldset>
+
+
+				<p:panel id="Lista-Crono" width="790" rules="none" frame="none"
+					align="center" columns="1" toggleable="false" visible="true">
+
+					<p:dataTable value="#{cronogramaMB.cronogramalist}" var="cro"
+						id="croList" widgetVar="croListW" editable="true" 
+						emptyMessage="Nenhum item na lista !">
+						
+						
+						<p:ajax event="rowEdit" listener="#{cronogramaMB.onEdit}"
+							update=":formCronograma:messages :formCronograma:croList" />
+						<p:ajax event="rowEditCancel" listener="#{cronogramaMB.onCancel}"
+							update=":formCronograma:messages :formCronograma:croList" />
+						<f:facet name="header"><div style="font:caption;">Cronograma de Atendimento</div></f:facet>
+
+						<p:column headerText="Mês" style="width:170px">
+
+							<label>#{cro.cro_me}</label>
+
+						</p:column>
+
+						<p:column headerText="Data de Início da Validação"
+							style="width:140px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{cro.cro_dt_fim_solicitacao}" />
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText id="dia_fim" value="#{cro.cro_dt_fim_solicitacao}"
+										style="width:75%" maxlength="12" />
+
+								</f:facet>
+
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Data do Fim da Validação"
+							style="width:180px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{cro.cro_dt_processamento}" />
+
+
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText id="dia_pro" value="#{cro.cro_dt_processamento}"
+										style="width:75%; align: center" maxlength="12" />
+
+								</f:facet>
+
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Opções" style="width:80px">
+							<p:rowEditor />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+				<div class="separator"></div>
+
+
+			</fieldset>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>

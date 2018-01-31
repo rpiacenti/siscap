@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true" />
+	<cc:attribute name="tituloOrigem" default="Itens disponíveis" />
+	<cc:attribute name="tituloDestino" default="Itens vinculados" />
+	<cc:attribute name="itensSelecionadosOrigem" default="itensSelecionadosOrigem" />
+	<cc:attribute name="itensSelecionadosDestino" default="itensSelecionadosDestino" />
+	<cc:attribute name="itensDisponiveis" default="itensDisponiveis" />
+	<cc:attribute name="itensAtribuidos" default="itensAtribuidos" />
+	<cc:attribute name="acaoMovimentarItens" default="acaoMovimentarItens" />
+	<cc:attribute name="adicionarDblClick" default="adicionarDblClick" />
+	<cc:attribute name="removerDblClick" default="removerDblClick" />
+</cc:interface>
+
+<cc:implementation >
+	<div class="div16col pickList">
+		<div class="div6col">
+			<label> #{cc.attrs.tituloOrigem}<br />
+				<h:selectManyListbox id="objListaOrigem" value="#{cc.attrs.managedBean[cc.attrs.itensSelecionadosOrigem]}" 
+					styleClass="f6col">
+					<f:selectItems value="#{cc.attrs.managedBean[cc.attrs.itensDisponiveis]}" />
+					<f:ajax execute="@this" event="click" />
+					<f:ajax execute="@this" event="dblclick" listener="#{cc.attrs.managedBean[cc.attrs.adicionarDblClick]}" render="@form" />
+				</h:selectManyListbox>
+			</label>
+		</div>
+		<div class="div4col">
+			<div class="Btns" align="center" style="position: center">
+				<div class="separator"></div><br></br>
+				<h:commandButton id="btnAdicionarTodosPL" value="Adicionar todos &gt;&gt;" actionListener="#{cc.attrs.managedBean[cc.attrs.acaoMovimentarItens]}" styleClass="f3col">
+					<f:attribute name="acao" value="AT" />
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+				<div class="separator"></div>
+				<h:commandButton id="btnAdicionarPL" value="Adicionar &gt;" actionListener="#{cc.attrs.managedBean[cc.attrs.acaoMovimentarItens]}" styleClass="f3col">
+					<f:attribute name="acao" value="A" />
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+				<div class="separator"></div>
+				<h:commandButton id="btnRemoverPL" value="&lt; Remover" actionListener="#{cc.attrs.managedBean[cc.attrs.acaoMovimentarItens]}" styleClass="f3col">
+					<f:attribute name="acao" value="R" />
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+				<div class="separator"></div>
+				<h:commandButton id="btnRemoverTodosPL" value="&lt;&lt; Remover todos" actionListener="#{cc.attrs.managedBean[cc.attrs.acaoMovimentarItens]}" styleClass="f3col">
+					<f:attribute name="acao" value="RT" />
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+			</div>
+		</div>
+		<div class="div6col">
+			<label> #{cc.attrs.tituloDestino}<br />
+				<h:selectManyListbox id="objListaDestino" value="#{cc.attrs.managedBean[cc.attrs.itensSelecionadosDestino]}" 
+					styleClass="f6col">
+					<f:selectItems value="#{cc.attrs.managedBean[cc.attrs.itensAtribuidos]}"/>
+					<f:ajax execute="@this" event="click" />
+					<f:ajax execute="@this" event="dblclick" listener="#{cc.attrs.managedBean[cc.attrs.removerDblClick]}" render="@form" />
+				</h:selectManyListbox>
+			</label>
+		</div>
+	</div>
+</cc:implementation>
+</html>
+

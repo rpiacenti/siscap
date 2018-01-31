@@ -1,0 +1,39 @@
+<ui:composition template="/template/template.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ppj="http://java.sun.com/jsf/composite/ppj">
+		
+		<ui:define name="corpo">	
+		
+				<script>
+				//<![CDATA[
+					$(function(){
+						carregaInfo();	
+				            	
+					});
+				
+					function carregaInfo(){
+						$.getJSON('#{request.contextPath}/rest/informacoes?callback=?',{format: "json"})
+					    .done(function( data ) {
+					    	$('.infoContainer').text('');
+					    	$('.infoContainer').append('<h4>'+data.cabecalho+'</h4>');
+					    	for(var i = 0; i < data.paragrafos.length ; i++){
+					    		$('.infoContainer').append('<p>'+data.paragrafos[i]+'</p>')
+					    	} 
+					    	var listaConcatenada = '<ul class="listArrow">';
+				            for(var i = 0; i < data.lista.length ; i++){
+				                listaConcatenada += '<li>'+data.lista[i]+'</li>';
+				            } 
+				            listaConcatenada += '</ul>';
+				            $('.infoContainer').append(listaConcatenada);
+					    });	
+					}
+					//]]>
+				</script>
+				
+				<div class="infoContainer"></div>	
+  		</ui:define>
+</ui:composition>

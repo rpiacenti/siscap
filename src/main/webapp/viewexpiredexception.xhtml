@@ -1,0 +1,34 @@
+<ui:composition template="/template/templatePaginaErro.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="tituloPagina">
+		#{msgs['ocorreu.erro']}:
+	</ui:define>
+	
+	<ui:define name="subtituloPagina">
+		#{msgs.aviso}!
+	</ui:define>
+	
+	<ui:define name="corpo">	
+		<h:form id="form-erro" style="color:red">		
+			<p>
+				#{msgs['codigo.erro']}: #{requestScope['javax.servlet.error.status_code']} <br/>
+				#{msgs.excecao}: #{requestScope['javax.servlet.error.exception']} #{pfExceptionHandler.exception}<br/>
+				#{msgs['mensagem.excecao']}: #{requestScope.erro} - #{requestScope['javax.servlet.error.message']}  <br/>
+				#{msgs['tipo.excecao']}: #{requestScope['javax.servlet.error.exception_type']} <br/>
+				#{msgs['url.gerou.excecao']}: #{requestScope['javax.servlet.error.request_uri']} <br/>
+				<a onclick="$('#stack').show('fast')">#{msgs['exibir.stack']}</a>
+			</p>				
+			
+			<div id="stack" class="modal">
+				<pre><code>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</code></pre>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

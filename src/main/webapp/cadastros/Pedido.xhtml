@@ -1,0 +1,435 @@
+
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.solicitapedido}" />
+	</ui:define>
+
+
+	<ui:define name="corpo">
+
+		<p:ajaxStatus id="ajaxStatusPanel" styleClass="ajaxStatus">
+			<f:facet name="start">
+				<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+					width="22px" height="22px" styleClass="aguarde" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+		<h:form id="formPedido">
+
+
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="true" autoUpdate="true" redisplay="false" />
+
+			<fieldset>
+				<label> #{msgs.mcuOrgao}: <br /> <h:inputText
+						disabled="true" value="#{usuario.mculotacao}" styleClass=" f3col" />
+				</label> <label>#{msgs.tipopedido}: *<br /> <h:selectOneMenu
+						id="campoTipoPedido" label="#{msgs.tipopedido}"
+						value="#{pedidoMB.tipoPedido}" disabled="#{pedidoMB.habilitado}"
+						styleClass="#{component.valid ? '': 'error' } f4col"
+						required="true" requiredMessage="#{msgs.tipopedido} é Obrigatório">
+						<f:selectItem itemValue="" itemLabel="Selecione um Item." />
+						<f:selectItem itemValue="N" itemLabel="Normal" />
+						<f:selectItem itemValue="E" itemLabel="Extra" />
+						<p:ajax execute="@this" update="@form" process="@this"
+							listener="#{pedidoMB.verificaTipoPedido()}" />
+					</h:selectOneMenu> <br /> <h:message for="campoTipoPedido" errorClass="errorMsg"
+						infoClass="errorMsg" />
+				</label>
+
+			</fieldset>
+			<p:fieldset styleClass="formSearch"
+				legend="Informe o Item e Quantidade">
+				<div class="separator"></div>
+
+				<h:inputHidden value="#{pedidoMB.tipoItem}" id="campoTipoItem" />
+
+				<label><br /> <p:commandLink
+						rendered="#{pedidoMB.lupaItemDisponivel}" process="@this"
+						update=":form2" oncomplete="PF('dlg').show(); return false;">
+						<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+							styleClass="pesq" title="Consulta Itens" />
+					</p:commandLink> <p:commandLink onclick="return false;"
+						rendered="#{not pedidoMB.lupaItemDisponivel}">
+						<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+							styleClass="npesq" title="Consulta Itens" />
+					</p:commandLink> </label>
+
+				<label>Código do Item <br /> <h:inputText readonly="true"
+						value="#{pedidoMB.itemDisponivel.itp_co_item}" id="campoCodItem"
+						required="true"
+						requiredMessage="Código do Item é um campo obrigatório"
+						styleClass="#{component.valid ? '':'error'} f2col" /> <br /> <h:message
+						for="campoCodItem" errorClass="errorMsg" infoClass="errorMsg" />
+				</label>
+
+
+				<label>Descrição <br /> <h:inputText
+						value="#{pedidoMB.itemDisponivel.itp_tx_descricao_item}"
+						id="descricao" readonly="true" required="true"
+						requiredMessage="Descrição é um item obrigatório"
+						styleClass="#{component.valid ? '':'error'} f6col" /> <br /> <h:message
+						for="descricao" errorClass="errorMsg" infoClass="errorMsg" />
+				</label>
+
+				<label>Tipo<br /> <h:inputText
+						value="#{pedidoMB.itemDisponivel.itp_tx_tipo_item}" id="tipo"
+						required="true"
+						requiredMessage="Tipo de Material é um campo obrigatório"
+						readonly="true" styleClass="#{component.valid ? '':'error'} f1col" />
+					<br /> <h:message for="tipo" errorClass="errorMsg"
+						infoClass="errorMsg" />
+				</label>
+
+				<label>Unidade<br /> <h:inputText
+						value="#{pedidoMB.itemDisponivel.unidMedFormatada.trim()}"
+						id="unidade" required="true"
+						requiredMessage="Unidade de Medida é um campo obrigatório"
+						readonly="true" styleClass="#{component.valid ? '':'error'} f2col" />
+					<br /> <h:message for="unidade" errorClass="errorMsg"
+						infoClass="errorMsg" />
+				</label>
+
+				<label>Custo <br /> <h:inputText
+						value="#{pedidoMB.itemDisponivel.itp_tx_valor_unitario_formatado}"
+						id="custo" readonly="true"
+						styleClass="#{component.valid ? '':'error'} f2colright" /> <br />
+					<h:message for="custo" errorClass="errorMsg" infoClass="errorMsg" />
+				</label>
+
+				<label>Quantidade *: <br /> <h:inputText size="10"
+						value="#{pedidoMB.itemDisponivel.itp_tx_quantidade}"
+						id="campoQuantidade"
+						styleClass="#{component.valid ? '':'error'} f2col" required="true"
+						requiredMessage="O campo Quantidade é obrigatório." /> <br /> <h:message
+						for="campoQuantidade" errorClass="errorMsg"
+						id="msgCampoQuantidade" infoClass="errorMsg" />
+				</label>
+
+				<div class="fldBtns">
+					<p:commandButton action="#{pedidoMB.adicionaItemAoPedido}"
+						update=":formPedido:dlgConfirma :formPedido:campoQuantidade :formPedido:msgCampoQuantidade"
+						value="Incluir na Lista"
+						title="Clique para adicionar o item à lista do pedido."
+						process="@this campoCodItem campoTipoItem descricao unidade custo campoQuantidade"
+						disabled="#{not pedidoMB.habilitado}" />
+
+				</div>
+			</p:fieldset>
+
+			<fieldset>
+				<p:dataTable value="#{pedidoMB.itensDoPedido}" var="ped"
+					id="listaDoPedido" editMode="cell" editable="true"
+					emptyMessage="Nenhum item na lista !" paginator="true" rows="20"
+					currentPageReportTemplate="{currentPage} de {totalPages} páginas, {totalRecords} registros"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}  ">
+
+					<p:ajax event="cellEdit" listener="#{pedidoMB.editaQuantidade}"
+						update="@this" />
+
+					<f:facet name="header">
+						<div style="font: caption;">Código do Pedido:
+							#{pedidoMB.numeroPedido}</div>
+					</f:facet>
+
+					<p:column headerText="Opções" style="width:30px">
+						<p:commandLink
+							onclick="PF('confirmaExclusao#{ped.EALITM}').show(); return false;">
+							<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+								styleClass="excl" title="Exclui Item da Lista." />
+						</p:commandLink>
+						<p:confirmDialog
+							message="Deseja realmente excluir o item Selecionado ?"
+							widgetVar="confirmaExclusao#{ped.EALITM}" severity="info">
+							<div class="fldBtns">
+								<p:commandButton value="Sim"
+									action="#{pedidoMB.excluiItemDoPedido(ped)}" process="@this"
+									update=":formPedido:listaDoPedido"
+									onclick="PF('confirmaExclusao#{ped.EALITM}').hide();" />
+								<p:commandButton
+									onclick="PF('confirmaExclusao#{ped.EALITM}').hide();return false;"
+									value="Não" styleClass="cancelar" />
+							</div>
+						</p:confirmDialog>
+					</p:column>
+
+					<p:column headerText="Código Item" style="width:50px">
+
+						<h:outputText value="#{ped.EALITM}" />
+
+					</p:column>
+
+					<p:column headerText="Descrição" style="width:250px">
+						<h:outputText value="#{ped.IMDSC1}" />
+					</p:column>
+
+					<p:column headerText="Tipo" style="width:25px; text-align: center;">
+						<h:outputText value="#{ped.EAT001}" title="(P)roduto, (M)aterial" />
+
+					</p:column>
+
+					<p:column headerText="Unidade Medida"
+						style="width:100px; text-align: center;">
+						<h:outputText value="#{ped.unidMedFormatada}" />
+
+					</p:column>
+
+					<p:column headerText="Valor Unitário"
+						style="width:50px; text-align: right;">
+						<h:outputText value="#{ped.valorUnitarioFormatado}"
+							style="text-align: right;">
+						</h:outputText>
+
+					</p:column>
+
+					<p:column headerText="Quantidade"
+						style="width:50px; text-align: right;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{ped.EAUORG}"
+									title="Clique no campo para editar." />
+							</f:facet>
+
+							<f:facet name="input">
+								<p:inputText value="#{ped.EAUORG}"
+									title="Clique no campo para editar."
+									styleClass="#{component.valid ? '':'error'} f3col" />
+
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+				</p:dataTable>
+				<div style="align: right;">
+					<h:outputText value="Custo Total Pedido: #{pedidoMB.custoTotal}"
+						id="campoCusto" styleClass="f4col"
+						style="float:right; text-align: right;" />
+				</div>
+
+				<div class="separator"></div>
+
+				<div class="fldBtns">
+					<p:button value="#{msgs.cancelar}" styleClass="cancelar"
+						outcome="/inicio/abertura.jsf" id="btnCancelar" />
+					<p:commandButton value="#{msgs.excluir}"
+						onclick="PF('dlgExcluir').show();" type="button" />
+					<p:commandButton value="#{msgs.salvar}" id="btnIncluir"
+						styleClass="ui-priority-primary" action="#{pedidoMB.salvarPedido}"
+						process="@this" onclick="PF('dlgResu').show()" />
+				</div>
+
+			</fieldset>
+
+			<!-- ////////////// Inicio Dialogs ///////////////////// -->
+
+			<p:dialog header="Resumo do Pedido" id="dlgResu" severity="alert"
+				widgetVar="dlgResu" resizable="false" modal="true" width="750">
+				<fieldset>
+					<p:dataTable value="#{pedidoMB.itensDoPedido}" var="res"
+						id="resList" editable="false"
+						emptyMessage="Nenhum item na lista !"
+						currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+						paginator="true" rows="20" filterEvent="enter"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport}">
+
+						<f:facet name="header">
+							<table style="font-size: small;">
+								<tr>
+									<td width="60%"><h:outputText
+											value="Pedido Nº: #{pedidoMB.numeroPedido}" /></td>
+								</tr>
+							</table>
+						</f:facet>
+
+						<p:column headerText="Código Item" style="width:5%">
+							<h:outputText value="#{res.EALITM}" />
+						</p:column>
+
+						<p:column headerText="Descrição" style="width:40%">
+							<h:outputText value="#{res.IMDSC1}" />
+						</p:column>
+
+						<p:column headerText="Categoria" style="width:5%">
+							<h:outputText value="#{res.EAT001}" style="text-align: center;"
+								title="(P)roduto, (M)aterial" />
+						</p:column>
+
+						<p:column headerText="Unid. Medida" style="width:8%">
+							<h:outputText value="#{res.unidMedFormatada}"
+								style="text-align: center;" />
+						</p:column>
+
+						<p:column classStyle="texto_direita" headerText="Valor Unitário"
+							style="width:7%">
+							<h:outputText value="#{res.valorUnitarioFormatado}"
+								style="float: right;" />
+						</p:column>
+
+						<p:column headerText="Quantidade" style="width:8%">
+							<h:outputText value="#{res.EAUORG}" style="float: right;" />
+						</p:column>
+						<!-- 
+						<p:column headerText="Estoque Disponivel" style="width:50px">
+							<h:outputText value="?" style="float: right;" />
+						</p:column>
+ -->
+					</p:dataTable>
+					<h:outputText
+						value="Seu pedido foi solicitado. O atendimento total de seu pedido está condicionado a disponibilidade do item em estoque no momento do processamento." />
+					<div class="fldBtns">
+						<p:button value="   Fechar   " outcome="/inicio/abertura.jsf"
+							id="btnSalvoFecha" />
+					</div>
+				</fieldset>
+			</p:dialog>
+
+
+			<p:confirmDialog
+				
+				message="Atenção ao item #{pedidoMB.itemDisponivel.itp_co_item} !!!"
+				id="dlgConfirma" showEffect="bounce" hideEffect="explode"
+				widgetVar="dlgConfirma">
+				<fieldset>
+					<p>
+						A quantidade média solicitada por seu órgão, do item
+						#{pedidoMB.itemDisponivel.itp_tx_descricao_item}, nos últimos 6
+						meses foi de
+						<h:outputText value="#{pedidoMB.mediaSemestre}" />
+						unidades. <br /> Ou você solicitou mais que a média, ou nunca
+						pediu este item antes. <br /> <b>A justificativa é
+							obrigatória, e deve conter pelo menos 15 caracteres.</b><br /> Se
+						cometeu um engano, corrija a quantidade e adicione novamente.
+					</p>
+					<p>
+						<b>Justificativa:</b><br />
+						<h:inputTextarea id="campojustificativa" cols="14" rows="5"
+							style="width: 100%; font-size:1.1em;">
+						</h:inputTextarea>
+
+					</p>
+				</fieldset>
+				<div class="fldBtns">
+					<h:commandButton value="Sim quero"
+						actionListener="#{pedidoMB.adicionaItemAoPedidoConfirmado()}"/>
+					<h:commandButton value="Agora Não"
+						onclick="PF('dlgConfirma').hide(); return false;" />
+				</div>
+			</p:confirmDialog>
+
+
+			<p:confirmDialog
+				message="Atenção Pedido: #{pedidoMB.numeroPedido} !!!"
+				id="dlgRecPedido" showEffect="bounce" hideEffect="explode"
+				widgetVar="dlgRecPedido">
+				<label> <h:outputText id="recMsg"
+						value="Você têm um pedido em aberto." />
+				</label>
+				<label> <h:outputText value="Deseja editar este pedido ?" />
+				</label>
+				<div class="fldBtns">
+					<p:commandButton value="Sim, quero." update="@form" process="@this"
+						oncomplete="PF('dlgRecPedido').hide();"
+						action="#{pedidoMB.recuperaPedido()}" />
+
+					<p:commandButton value="Agora não." update="@form" process="@this"
+						oncomplete="PF('dlgRecPedido').hide();"
+						action="#{pedidoMB.fechaPedido()}" />
+				</div>
+			</p:confirmDialog>
+
+			<p:confirmDialog
+				message="Atenção Pedido: #{pedidoMB.numeroPedido} !!!"
+				id="dlgExcluir" showEffect="bounce" hideEffect="explode"
+				widgetVar="dlgExcluir">
+				<fieldset>
+					<label> <h:outputText
+							value="Você têm certeza que deseja excluir este pedido ?" />
+					</label> <br />
+				</fieldset>
+				<div class="fldBtns">
+					<p:commandButton value="Sim quero"
+						update=":formPedido:listaDoPedido  messages"
+						actionListener="#{pedidoMB.excluir}" process="@this"
+						onclick="PF('dlgExcluir').hide();"
+						Style="padding-right: 25px; padding-left: 25px;" />
+					<p:commandButton value="Agora Não"
+						onclick="PF('dlgExcluir').hide();" type="button"
+						Style="padding-right: 25px; padding-left: 25px;" />
+				</div>
+
+			</p:confirmDialog>
+		</h:form>
+
+		<p:dialog header="Pesquisa de Itens" widgetVar="dlg"
+			id="pesquisaDeItens" resizable="false" modal="true" width="750">
+			<h:form id="form2">
+
+				<div class="separator"></div>
+
+				<p:dataTable value="#{pedidoMB.itemDisponivelParaPedir}" var="item"
+					id="listaDeItemDisponivel" rendered="#{pedidoMB.habilitado}"
+					rowIndexVar="rowIndex" widgetVar="datatableVar" rows="20"
+					paginator="true" filterEvent="enter"
+					emptyMessage="Nenhum item na lista !" selectionMode="single"
+					currentPageReportTemplate="{currentPage} de {totalPages} páginas"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}"
+					rowKey="#{item.itp_co_item}">
+
+					<p:ajax event="rowSelect" listener="#{pedidoMB.onRowSelect}"
+						process="@this"
+						update=":formPedido:campoCodItem :formPedido:descricao :formPedido:tipo :formPedido:unidade :formPedido:custo :formPedido:campoCodItem :formPedido:campoTipoItem"
+						oncomplete="PF('dlg').hide();" />
+
+					<p:column headerText="Código" width="60"
+						filterBy="#{item.itp_co_item}"
+						filterStyle="width:60px; margin:0px;">
+						<h:outputText value="#{item.itp_co_item }"
+							title="Clique na linha para transferir para a entrada itens." />
+					</p:column>
+					<p:column headerText="Descrição" width="340"
+						filterBy="#{item.itp_tx_descricao_item}"
+						filterStyle="width:350px; text-size: 320px; margin:0px;">
+						<h:outputText value="#{item.itp_tx_descricao_item }"
+							title="Clique na linha para transferir para a entrada itens." />
+
+					</p:column>
+					<p:column headerText="Unidade Medida" width="70"
+						styleClass="ui-datatable-header">
+						<h:outputText value="#{item.unidMedFormatada}"
+							title="Clique na linha para transferir para a entrada itens."
+							style="float: center;" />
+					</p:column>
+					<p:column headerText="Custo" width="50"
+						styleClass="ui-datatable-header-right">
+						<h:outputText value="#{item.itp_tx_valor_unitario_formatado}"
+							title="Clique na linha para transferir para a entrada itens."
+							style="float: right;" />
+					</p:column>
+					<p:column headerText="Tipo" width="25"
+						filterBy="#{item.itp_tx_tipo_item}"
+						styleClass="ui-datatable-header-right"
+						filterStyle="width:25px; margin:0px;  float: right;">
+						<h:outputText value="#{item.itp_tx_tipo_item}"
+							title="Clique na linha para transferir para a entrada itens."
+							style="float: right;" />
+					</p:column>
+				</p:dataTable>
+				<div class="fldBtns">
+					<p:commandButton value="#{msgs.cancelar}"
+						onclick="PF('dlg').hide();" />
+				</div>
+
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

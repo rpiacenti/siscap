@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true" />
+	<cc:attribute name="arvore" default="arvore" />
+	<cc:attribute name="itemSelecionado" default="itemArvoreSelecionado" />
+	<cc:attribute name="id" default="campoArvore" />
+	<cc:attribute name="acaoExpandirItens" default="expandeItensDaArvore" />
+	<cc:attribute name="acaoSelecionarItem" default="selecionaItemDaArvore" />
+	<cc:attribute name="process_expand" default="@this" />
+	<cc:attribute name="update_expand" default="@this" />
+	<cc:attribute name="process_select" default="@this" />
+	<cc:attribute name="update_select" default="@this" />
+	<cc:attribute name="style" default="max-height:200px;overflow-y:auto;" />
+</cc:interface>
+
+<cc:implementation >
+	<p:tree value="#{cc.attrs.managedBean[cc.attrs.arvore]}" var="dest" 
+			selection="#{cc.attrs.managedBean[cc.attrs.itemSelecionado]}"
+			selectionMode="single" 
+			dynamic="true"
+			id="#{cc.attrs.id}" 
+			animate="true" 
+			style="#{cc.attrs.style}"
+			styleClass="f16col" >
+		<p:treeNode>  
+        	<h:outputText value="#{dest}" />  
+    	</p:treeNode>
+		<p:ajax event="expand" listener="#{cc.attrs.managedBean[cc.attrs.acaoExpandirItens]}" process="#{cc.attrs.process_expand}" update="#{cc.attrs.update_expand}"/>
+		<p:ajax event="select" listener="#{cc.attrs.managedBean[cc.attrs.acaoSelecionarItem]}" process="#{cc.attrs.process_select}" update="#{cc.attrs.update_select}"/>
+	</p:tree>
+</cc:implementation>
+</html>
+

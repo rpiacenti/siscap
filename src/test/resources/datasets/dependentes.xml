@@ -1,0 +1,8 @@
+<dataset>
+
+
+<CAM_DEPENDENTE DEP_NU="1"  CLI_NU="1"  DEP_NO="Filho Cliente1" DEP_NU_TELEFONE="[null]"  DEP_IN_PARENTESCO="[null]" />
+<CAM_DEPENDENTE DEP_NU="2"  CLI_NU="1"  DEP_NO="Filha Cliente1" DEP_NU_TELEFONE="[null]"  DEP_IN_PARENTESCO="[null]" />
+
+
+</dataset>

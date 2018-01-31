@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.com.correios</groupId>
+	<artifactId>siscap</artifactId>
+	<version>1.5.0</version>
+	<packaging>war</packaging>
+	<name>Sistema de Captação de Pedidos</name>
+
+
+	<organization>
+		<name>Correios</name>
+		<url>http://www.correios.com.br</url>
+	</organization>
+
+	<properties>
+		<!-- PROPRIEDADES DO ARQUIVO WEB.XML -->
+		<nomeSistema>Sistema de Captação de Pedidos</nomeSistema>
+		<siglaSistema>SISCAP</siglaSistema>
+		<versaoApp>${project.version}</versaoApp>
+		<versaoPPJ>2.2.1</versaoPPJ>
+		<ambiente>desenvolvimento</ambiente>
+		<!-- 		CAS Homologação  -->
+		<casServerLoginUrl>https://jhom2.correiosnet.int/cas/login</casServerLoginUrl>
+		<casServerUrlPrefix>https://jhom2.correiosnet.int/cas</casServerUrlPrefix>
+		<!-- 		CAS Produção 
+		<casServerLoginUrl>https://apps.correios.com.br/cas/login</casServerLoginUrl>
+		<casServerUrlPrefix>https://apps.correios.com.br/cas</casServerUrlPrefix>-->
+		<serverName>http://localhost:8080</serverName>
+		<jndi-data-source>java:/jdbc/ppj</jndi-data-source>
+		<hibernate.show_sql>true</hibernate.show_sql>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+		<urlInicio>/index.jsp</urlInicio>
+		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties - Desemvolvimento 
+			<jdbcUrl>jdbc:oracle:thin:@scan-ac07.correiosnet.int:1521/ac07</jdbcUrl> 
+			<pwdOracle>siscades99</pwdOracle> <userOracle>siscap</userOracle> -->
+		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties - Homologacao  -->
+			<jdbcUrl>jdbc:oracle:thin:@scan-ac04.correiosnet.int:1521/ac04</jdbcUrl> 
+			<pwdOracle>siscades99</pwdOracle><userOracle>siscap</userOracle> 
+		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties Producao 
+		<jdbcUrl>jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</jdbcUrl>
+		<pwdOracle>catel8471prd</pwdOracle>
+		<userOracle>siscap</userOracle> -->
+		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+		<sqlServer>10.198.238.4</sqlServer>
+		<sqlServerPort>1433</sqlServerPort>
+		<sqlServerUser>SSPMANUT</sqlServerUser>
+		<sqlServerPw>sspusr@2007</sqlServerPw>
+		<sqlServerDb>DBSSP</sqlServerDb>
+
+
+		<!-- PROPRIEDADE UTILIZADAS NO POM.XML -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.javaee-api>6.0</version.javaee-api>
+		<version.cdi-api>1.1</version.cdi-api>
+		<version.commons-discovery>0.4</version.commons-discovery>
+		<version.commons-io>2.4</version.commons-io>
+		<version.commons-fileupload>1.3.1</version.commons-fileupload>
+		<version.commons-digester>2.1</version.commons-digester>
+		<version.commons-collections>3.2.1</version.commons-collections>
+		<version.commons-configuration>1.10</version.commons-configuration>
+		<version.gson>2.2.2</version.gson>
+		<version.hibernate-jpamodelgen>1.2.0.Final</version.hibernate-jpamodelgen>
+		<version.itext>2.1.7</version.itext>
+		<version.jasperreports>5.5.1</version.jasperreports>
+		<version.barbecue>1.5-beta1</version.barbecue>
+		<version.log4j>1.2.17</version.log4j>
+		<version.poi-contrib>3.5-FINAL</version.poi-contrib>
+		<version.primefaces>5.0</version.primefaces>
+		<version.omnifaces>1.8.1</version.omnifaces>
+		<version.wsdl4j>1.5.1</version.wsdl4j>
+		<version.xml-apis>1.3.02</version.xml-apis>
+		<version.junit>4.8.1</version.junit>
+		<version.hamcrest-all>1.3</version.hamcrest-all>
+		<version.poi>3.7</version.poi>
+		<version.groovy-all>2.3.4</version.groovy-all>
+		<version.mockito-all>1.9.5</version.mockito-all>
+		<version.fixture-factory>2.1.0</version.fixture-factory>
+		<version.jboss-javaee-6.0>1.0.0.Final</version.jboss-javaee-6.0>
+		<version.jboss-javaee-web-6.0>2.0.0.Final</version.jboss-javaee-web-6.0>
+		<version.cas-client>3.1.12</version.cas-client>
+		<version.hibernate-jpa-2.0-api>1.0.0.Final</version.hibernate-jpa-2.0-api>
+		<version.jsfunit-arquillian>2.0.0.Beta2</version.jsfunit-arquillian>
+		<version.jboss-jsfunit-core>2.0.0.Beta2</version.jboss-jsfunit-core>
+		<version.jboss-as-arquillian-container>7.1.1.Final</version.jboss-as-arquillian-container>
+		<version.arquillian-bom>1.1.5.Final</version.arquillian-bom>
+		<version.arquillian-persistence>1.0.0.Alpha6</version.arquillian-persistence>
+		<version.weld-core>2.1.0.Final</version.weld-core>
+		<version.weld-se-core>2.1.0.Final</version.weld-se-core>
+		<version.jxl>2.6.12</version.jxl>
+		<version.arquillian-jacoco>1.0.0.Alpha5</version.arquillian-jacoco>
+		<version.org.jacoco.core>0.6.0.201210061924</version.org.jacoco.core>
+
+		<!-- VERSOES DOS COMPONENTES ECT -->
+		<version.unidade-negocio>2.2</version.unidade-negocio>
+		<version.funcionario-service>1.0.1</version.funcionario-service>
+		<version.captacao>1.0</version.captacao>
+		<version.cep>2.0.0</version.cep>
+		<version.cliente-contrato>2.0.0</version.cliente-contrato>
+		<version.servico-postal>1.0</version.servico-postal>
+		<version.etiqueta>1.0</version.etiqueta>
+		<version.sro>1.0</version.sro>
+		<version.idcorreios>1.0.8</version.idcorreios>
+		<version.idautorizador.usuario.service>1.5</version.idautorizador.usuario.service>
+
+		<!-- VERSOES DOS PLUGINS -->
+		<version.maven-compiler-plugin>2.3.2</version.maven-compiler-plugin>
+		<version.maven-war-plugin>2.3</version.maven-war-plugin>
+		<version.jboss-as-maven-plugin>7.4.Final</version.jboss-as-maven-plugin>
+		<version.sonar-maven-plugin>2.1</version.sonar-maven-plugin>
+		<version.maven-surefire-plugin>2.16</version.maven-surefire-plugin>
+		<version.maven-assembly-plugin>2.4</version.maven-assembly-plugin>
+		<version.jacoco-maven-plugin>0.6.0.201210061924</version.jacoco-maven-plugin>
+		<version.maven-failsafe-plugin>2.16</version.maven-failsafe-plugin>
+		<version.maven-resources-plugin>2.6</version.maven-resources-plugin>
+		<version.jdk>1.7</version.jdk>
+
+		<sonar.language>java</sonar.language>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
+
+	</properties>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${version.arquillian-bom}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+
+	<dependencies>
+		<!-- DEPENDENCIAS AUXILIARES -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${version.javaee-api}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>${version.cdi-api}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<version>${version.jboss-javaee-6.0}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.faces</groupId>
+					<artifactId>jsf-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.enterprise</groupId>
+					<artifactId>cdi-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-web-6.0</artifactId>
+			<version>${version.jboss-javaee-web-6.0}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.enterprise</groupId>
+					<artifactId>cdi-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.spec.javax.faces</groupId>
+					<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+			<version>${version.weld-se-core}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.inject</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+			</exclusions>
+
+		</dependency>
+
+
+
+		<!-- DEPENDENCIAS DO PROJETO -->
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- <artifactId>slf4j-log4j12</artifactId> -->
+		<!-- <version>1.7.12</version> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>jdbc-t4</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>oracle.jdbc</groupId>
+			<artifactId>driver</artifactId>
+			<version>6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.4.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${version.gson}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${version.hibernate-jpamodelgen}</version>
+			<!-- Excluida porque eh provida pelas dependencias Java EE 6 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate.javax.persistence</groupId>
+					<artifactId>hibernate-jpa-2.0-api</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>${version.itext}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${version.jasperreports}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcprov-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcprov-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bctsp-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jfreechart</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>eclipse</groupId>
+					<artifactId>jdtcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jcommon</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.barbecue</groupId>
+			<artifactId>barbecue</artifactId>
+			<version>${version.barbecue}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${version.log4j}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${version.poi}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${version.primefaces}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>${version.omnifaces}</version> <!-- Or 2.0-SNAPSHOT -->
+		</dependency>
+
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>${version.xml-apis}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${version.groovy-all}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>${version.commons-digester}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-discovery</groupId>
+			<artifactId>commons-discovery</artifactId>
+			<version>${version.commons-discovery}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${version.commons-io}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${version.commons-fileupload}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${version.commons-collections}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${version.commons-configuration}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>${version.cas-client}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>${version.hibernate-jpa-2.0-api}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>${version.jxl}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- DEPENDENCIAS DOS COMPONENTES ECT -->
+		<dependency>
+			<groupId>br.com.correios</groupId>
+			<artifactId>funcionario-service</artifactId>
+			<version>${version.funcionario-service}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.correios</groupId>
+			<artifactId>unidade-negocio-service</artifactId>
+			<version>${version.unidade-negocio}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.correios</groupId>
+			<artifactId>cliente-contrato-service</artifactId>
+			<version>${version.cliente-contrato}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>br.com.correios</groupId>
+			<artifactId>cep-service</artifactId>
+			<version>${version.cep}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.correios</groupId>
+			<artifactId>idautorizador-usuario-service</artifactId>
+			<version>${version.idautorizador.usuario.service}</version>
+		</dependency>
+
+
+		<!-- DEPENDENCIAS PARA REALIZACAO DOS TESTES -->
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-arquillian-container-remote</artifactId>
+			<version>${version.jboss-as-arquillian-container}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>${version.hamcrest-all}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-api</artifactId>
+			<version>${version.arquillian-persistence}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-impl</artifactId>
+			<version>${version.arquillian-persistence}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${version.mockito-all}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.six2six</groupId>
+			<artifactId>fixture-factory</artifactId>
+			<version>${version.fixture-factory}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jsfunit-arquillian</artifactId>
+			<version>${version.jsfunit-arquillian}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-core</artifactId>
+			<version>${version.jboss-jsfunit-core}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-jacoco</artifactId>
+			<version>${version.arquillian-jacoco}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.core</artifactId>
+			<version>${version.org.jacoco.core}</version>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+
+
+	<profiles>
+
+
+		<!-- PROFILE PARA GERAR WAR DE DESENVOLVIMENTO -->
+		<profile>
+			<id>homologacao</id>
+			<properties>
+				<ambiente>Homologação</ambiente>
+				<serverName>jhom2.correiosnet.int</serverName>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<jdbcUrl>jdbc:oracle:thin:@scan-ac04.correiosnet.int:1521/ac04</jdbcUrl>
+				<pwdOracle>siscades99</pwdOracle>
+				<userOracle>siscap</userOracle>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServerPort>1433</sqlServerPort>
+				<sqlServerUser>SSPMANUT</sqlServerUser>
+				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerDb>DBSSP</sqlServerDb>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.weld.se</groupId>
+					<artifactId>weld-se-core</artifactId>
+					<version>${version.weld-se-core}</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+
+		<!-- PROFILE PARA GERAR WAR DE HOMOLOGACAO -->
+		<profile>
+			<id>homologacao2</id>
+			<properties>
+				<ambiente>Homologação2</ambiente>
+				<serverName>jhom2.correiosnet.int</serverName>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<jdbcUrl>jdbc:oracle:thin:@scan-ac07.correiosnet.int:1521/ac07</jdbcUrl>
+				<pwdOracle>siscaphom</pwdOracle>
+				<userOracle>sishom4285cap</userOracle>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServerPort>1433</sqlServerPort>
+				<sqlServerUser>SSPMANUT</sqlServerUser>
+				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerDb>DBSSP</sqlServerDb>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.weld.se</groupId>
+					<artifactId>weld-se-core</artifactId>
+					<version>${version.weld-se-core}</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+
+		<!-- PROFILE PARA GERAR WAR DE PRODUCAO -->
+		<profile>
+			<id>producao</id>
+			<properties>
+				<ambiente>Produção</ambiente>
+				<casServerLoginUrl>https://apps.correios.com.br/cas/login</casServerLoginUrl>
+				<casServerUrlPrefix>https://apps.correios.com.br/cas</casServerUrlPrefix>
+				<serverName>apps.correios.com.br</serverName>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<jdbcUrl>jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</jdbcUrl>
+				<pwdOracle>catel8471prd</pwdOracle>
+				<userOracle>siscap</userOracle>
+				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
+				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServerPort>1433</sqlServerPort>
+				<sqlServerUser>SSPMANUT</sqlServerUser>
+				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerDb>DBSSP</sqlServerDb>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<finalName>${project.artifactId}</finalName>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${version.jacoco-maven-plugin}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${sonar.jacoco.reportPath}</destFile>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>pre-integration-test</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${sonar.jacoco.itReportPath}</destFile>
+							<propertyName>failsafeArgLine</propertyName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${version.maven-surefire-plugin}</version>
+				<configuration>
+					<argLine>-Xmx1024m -Xms256m -XX:MaxPermSize=256m ${surefireArgLine}</argLine>
+					<classpathDependencyExcludes>
+						<!-- Configuração realizada para executar os testes via console e evitar 
+							os erros de java.lang.ClassFormatError: AbsentCode. https://community.jboss.org/wiki/WhatsTheCauseOfThisExceptionJavalangClassFormatErrorAbsentCode -->
+						<classpathDependencyExclude>javax:javaee-api</classpathDependencyExclude>
+						<classpathDependencyExclude>javax:javaee-web-api</classpathDependencyExclude>
+					</classpathDependencyExcludes>
+					<excludes>
+						<exclude>**/*TestIt.class</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${version.maven-failsafe-plugin}</version>
+				<configuration>
+					<classpathDependencyExcludes>
+						<!-- Configuração realizada para executar os testes via console e evitar 
+							os erros de java.lang.ClassFormatError: AbsentCode. https://community.jboss.org/wiki/WhatsTheCauseOfThisExceptionJavalangClassFormatErrorAbsentCode -->
+						<classpathDependencyExclude>javax:javaee-api</classpathDependencyExclude>
+						<classpathDependencyExclude>javax:javaee-web-api</classpathDependencyExclude>
+					</classpathDependencyExcludes>
+					<includes>
+						<include>**/*TestIt.class</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<argLine>-Xmx1024m -Xms256m -XX:MaxPermSize=256m
+								${failsafeArgLine}</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.maven-compiler-plugin}</version>
+				<configuration>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+					<debug>false</debug>
+					<optimize>true</optimize>
+					<source>${version.jdk}</source>
+					<target>${version.jdk}</target>
+					<!-- desabilita annotation processors durante a compilacao -->
+					<compilerArgument>-proc:none</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version.maven-war-plugin}</version>
+				<configuration>
+					<packagingExcludes>
+						WEB-INF/lib/weld*.jar,
+						WEB-INF/lib/jboss*.jar,
+						WEB-INF/lib/el-api*.jar,
+						WEB-INF/lib/bcmail-jdk14-*.jar,
+						WEB-INF/lib/bcprov-jdk14-*.jar,
+						WEB-INF/lib/bctsp-jdk14-*.jar,
+						WEB-INF/lib/javax.inject-*.jar,
+						WEB-INF/lib/jsf-*.jar,
+						WEB-INF/lib/cdi-*.jar,
+						WEB-INF/classes/war-to-tar_assembly.xml
+					</packagingExcludes>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>**/*.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${version.jboss-as-maven-plugin}</version>
+				<configuration>
+					<!-- REALIZA REDEPLOY CASO TENHA SIDO FEITO UM DEPLOY ANTERIORMENTE -->
+					<force>true</force>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${version.maven-assembly-plugin}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/resources/war-to-tar_assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${version.maven-resources-plugin}</version>
+				<configuration>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>jasper</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.0.5.v20130815</version>
+				<configuration>
+					<webApp>
+						<contextPath>/${project.name}</contextPath>
+						<jettyEnvXml>src/main/resources/jetty-ds.xml</jettyEnvXml>
+					</webApp>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+
+
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.bsc.maven</groupId>
+										<artifactId>
+											maven-processor-plugin
+										</artifactId>
+										<versionRange>
+											[2.0.5,)
+										</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jacoco</groupId>
+										<artifactId>
+											jacoco-maven-plugin
+										</artifactId>
+										<versionRange>[0.6.0.201210061924,)</versionRange>
+										<goals>
+											<goal>prepare-agent</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${version.sonar-maven-plugin}</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
+	<scm>
+		<url>http://clojars.org/repo/</url>
+	</scm>
+</project>

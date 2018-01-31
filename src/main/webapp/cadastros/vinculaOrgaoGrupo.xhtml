@@ -1,0 +1,104 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="Víncula Orgão ao Grupo de Atendimento" />
+	</ui:define>
+
+
+	<ui:define name="corpo">
+
+
+		<h:form id="formOrgaoGrupo">
+			<f:metadata>
+				<f:viewParam name="id" value="#{GrupoAtendimentoMB.idgrupo}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+			<ppj:messages />
+
+			<p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>
+
+			<fieldset class="formSearch">
+				<label>#{msgs.CD}: #{usuario.abrevCD} </label>
+			</fieldset>
+			<p:fieldset styleClass="formSearch"
+				legend="Entrada de Grupo de Atendimento">
+
+				<label>#{msgs.grupoAtendimento}:* <br />
+				<h:selectOneMenu
+						value="#{orgaoGrupoAtendimentoMB.grupoAtendimento.numGrupo}"
+						styleClass="#{component.valid ? '': 'error' } f6col" id="campoGRP"
+						required="true" imedidate="true" label="#{msgs.grupoatendimento}"
+						disabled="#{orgaoGrupoAtendimentoMB.disabledGrp}">
+						<f:selectItem itemValue="0" itemLabel="" />
+						<f:selectItems
+							value="#{orgaoGrupoAtendimentoMB.gruposDeAtendimento}" var="grp"
+							itemLabel="#{grp.descricao}" itemValue="#{grp.numGrupo}" />
+						<p:ajax render="@this"
+							listener="#{orgaoGrupoAtendimentoMB.actionAtribuiGRPs}" />
+
+					</h:selectOneMenu>
+				</label>
+			</p:fieldset>
+
+			<fieldset>
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1">
+
+					<p:dataTable value="#{orgaoGrupoAtendimentoMB.orgaoDataModel}"
+						var="org" id="orgList" widgetVar="orgListW" rowIndexVar="rowIndex"
+						rowKey="#{org.mcu}"
+						selection="#{orgaoGrupoAtendimentoMB.selectedOrgao}"
+						selectionMode="single"
+						filteredValue="#{orgaoGrupoAtendimentoMB.filteredOrgao}"
+						emptyMessage="Nenhum item na lista !" paginator="true" rows="20"
+						lazy="true"
+						currentPageReportTemplate="{currentPage} de {totalPages} pág., {totalRecords} reg."
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}  ">
+						<p:ajax event="rowSelect"
+							listener="#{orgaoGrupoAtendimentoMB.onRowSelect}"
+							update=":formOrgaoGrupo:messages :formOrgaoGrupo:orgList" />
+
+						<f:facet name="header"><div style="font:caption;">Lista de Órgãos</div></f:facet>
+
+						<p:column style="padding: 2px; width: 23px">
+							<h:selectBooleanCheckbox value="#{org.marcado}" disabled="true" />
+						</p:column>
+
+						<p:column headerText="#{msgs.mcu}"
+							style="padding: 2px; width: 79px" filterBy="#{org.mcu}"
+							filterMatchMode="contains" filterStyle="width:60px; margin:0px;"
+							sortBy="#{org.mcu}">
+							<h:outputText value="#{org.mcu }" />
+						</p:column>
+
+						<p:column headerText="#{msgs.nome}"
+							style="padding: 2px; width: 474px; align :center"
+							filterBy="#{org.nome}" filterStyle="width:300px; margin:0px;">
+							<h:outputText value="#{org.nome}" />
+						</p:column>
+
+						<p:column headerText="#{msgs.dr}"
+							style="padding: 2px; text-align: center; width: 79px"
+							filterBy="#{org.dr}" filterStyle="width:25px; margin:0px;">
+							<h:outputText value="#{org.dr}" />
+						</p:column>
+
+
+					</p:dataTable>
+
+				</p:panel>
+
+
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

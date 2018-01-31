@@ -1,0 +1,293 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="Validação de Pedidos" />
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:ajaxStatus id="ajaxStatusPanel" styleClass="ajaxStatus">
+			<f:facet name="start">
+				<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+					width="22px" height="22px" styleClass="aguarde" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+		<h:form id="formValida" frame="none">
+
+			<p:growl id="messages" showDetail="true" />
+			<fieldset>
+
+				<h:inputHidden id="statusPedido" name="statusPedido"
+					value="#{validadorMB.statusPedido}" />
+
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1">
+
+					<p:dataTable value="#{validadorMB.validalist}" var="val"
+						id="valList" editable="false"
+						emptyMessage="Nenhum item na lista !" rowIndexVar="rowIndex"
+						rowKey="#{val.EAAA25}" selectionMode="single"
+						widgetVar="datatableVar" rows="15" paginator="true"
+						filterEvent="enter"
+						currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport} ">
+
+						<p:ajax event="rowSelect"
+							listener="#{validadorMB.onRowSelectPedido}" process="@this"
+							update=":formValida:messages " />
+
+						<f:facet name="header">
+							<div style="font: caption;">Lista de Pedidos</div>
+						</f:facet>
+
+
+						<p:column headerText="MCU Orgão" style="width:10%"
+							filterBy="#{val.EAMCU1}" filterStyle="width: 100%; margin = 0px;">
+							<h:outputText value="#{val.EAMCU1}" />
+						</p:column>
+
+						<p:column headerText="Nome Orgão" style="width:40%"
+							filterBy="#{val.MCDSC1}" filterStyle="width: 100%; margin = 0px;">
+
+							<h:outputText value="#{val.MCDSC1}" style="text-align: center;" />
+
+						</p:column>
+						<p:column headerText="DR" style="width:5%"
+							filterBy="#{val.MCRP01}" filterStyle="width: 100%; margin = 0px;">
+							<div align="center">
+								<h:outputText value="#{val.MCRP01}" style="text-align: center;" />
+							</div>
+						</p:column>
+						<p:column headerText="Nº Pedido" style="width:15%"
+							filterBy="#{val.EAAA25}" filterStyle="width: 100%; margin = 0px;">
+							<div align="center">
+								<h:outputText value="#{val.EAAA25}" />
+							</div>
+						</p:column>
+
+						<p:column headerText="Tipo Pedido" style="width:5%"
+							filterBy="#{val.EAT002}" filterStyle="width: 100%; margin = 0px;">
+							<div align="center">
+								<h:outputText value="#{val.EAT002}" />
+							</div>
+						</p:column>
+
+						<p:column headerText="Data do Pedido" style="width:10%"
+							filterBy="#{val.EATRDJ}" filterStyle="width: 100%; margin = 0px;">
+							<h:outputText value="#{val.EATRDJ}" style="text-align: center;" />
+
+						</p:column>
+						<p:column headerText="Status Pedido" style="width:12%"
+							filterBy="#{val.descricaoEAEDSP}"
+							filterStyle="width: 100%; margin = 0px;">
+
+							<h:outputText value="#{val.descricaoEAEDSP}" />
+
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</fieldset>
+
+			<hr />
+			<div class="separator"></div>
+
+			<fieldset>
+				<p:dataTable value="#{validadorMB.itensDoPedido}" var="item"
+					id="itemList" widgetVar="itemList" editMode="cell" editable="true"
+					emptyMessage="Nenhum item na lista !" paginator="true" rows="25"
+					currentPageReportTemplate="{currentPage} de {totalPages} páginas, {totalRecords} registros"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}  ">
+
+					<p:ajax event="cellEdit" listener="#{validadorMB.onEditValidador}"
+						update="@this" />
+
+					<f:facet name="header">
+						<div style="font: caption;">
+							Pedido:
+							<h:outputText value="#{validadorMB.numeroPedido} " />
+						</div>
+
+					</f:facet>
+
+					<p:column headerText="Opções" style="width:6%">
+						<p:commandLink
+							onclick="PF('confirmaExclusao#{item.EALITM}').show(); return false;">
+							<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+								styleClass="excl" title="Exclui Item da Lista." />
+						</p:commandLink>
+						<p:confirmDialog
+							message="Deseja realmente excluir o o item do pedido ?"
+							widgetVar="confirmaExclusao#{item.EALITM}" severity="info">
+							<div class="fldBtns">
+								<h:commandButton value="Sim"
+									action="#{validadorMB.onExcluiItem(item)}" process="@this"
+									update=":formValida:itemList"
+									onclick="PF('confirmaExclusao#{item.EALITM}').hide();" />
+								<h:commandButton
+									onclick="PF('confirmaExclusao#{item.EALITM}').hide();return false;"
+									value="Não" styleClass="cancelar" />
+							</div>
+						</p:confirmDialog>
+
+					</p:column>
+					<p:column headerText="Cód. Item" style="width:8%">
+
+						<h:outputText value="#{item.EALITM}" />
+
+					</p:column>
+
+					<p:column headerText="Descrição" style="width:37%">
+						<h:outputText value="#{item.IMDSC1}" />
+					</p:column>
+
+					<p:column headerText="Tipo" style="width:4%">
+						<div align="center">
+							<h:outputText value="#{item.EAT002}" style="float: center;" />
+						</div>
+					</p:column>
+
+					<p:column headerText="Categoria" style="width:8%">
+						<div align="center">
+							<h:outputText value="#{item.EAT001}" />
+						</div>
+					</p:column>
+
+					<p:column headerText="Unidade" style="width:15%; text_align:center;">
+						<div align="center">
+							<h:outputText value="#{item.unidMedFormatada}"
+								style="text-align: center;" />
+						</div>
+
+					</p:column>
+
+					<p:column classStyle="texto_direita" headerText="Custo"
+						style="width:6%">
+						<div style="horizontal-align: right;">
+							<h:outputText value="#{item.valorUnitarioFormatado}"
+								style="float: right;" />
+
+						</div>
+					</p:column>
+
+					<p:column headerText="Quantidade" style="width:9%">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{item.EAUORG}" style="float: right;" />
+							</f:facet>
+
+							<f:facet name="input">
+								<h:inputText value="#{item.EAUORG}" size="12"
+									style="width:85%; float: right;" />
+
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:4%">
+						<h:graphicImage rendered="#{item.justificativa ne null}" id="imgJustifica" style="width:50%; float: right;" value="#{resource['img:layout/info-16.png']}"/>
+						<p:tooltip id="toolTipFade" for="imgJustifica" value="#{item.justificativa}" position="left"/>
+					</p:column>
+					
+				</p:dataTable>
+
+
+			</fieldset>
+
+			<div class="fldBtns">
+				<p:commandButton value="Liberar o Pedido"
+					actionListener="#{validadorMB.onSairPedido}" id="btnSair"
+					disabled="#{validadorMB.disabledLibera}" />
+
+				<p:commandButton value="#{msgs.cancelar} Pedido"
+					action="#{validadorMB.onCancelPedido}" id="btnCancelar"
+					disabled="#{validadorMB.disabledCancel}" />
+
+				<p:commandButton value="Validar Pedido" process="@this"
+					disabled="#{validadorMB.disabledValida}"
+					action="#{validadorMB.onValidarPedido}" id="btnValidar"
+					update=":formValida:messages" />
+
+			</div>
+
+
+
+		</h:form>
+
+		<p:confirmDialog id="dlgExc"
+			message="Deseja realmente excluir o item Selecionado ?"
+			widgetVar="dlgExc" severity="info">
+
+			<div class="fldBtns">
+				<h:form id="buttonForm">
+					<h:commandButton value="Sim" type="submit"
+						action="#{validadorMB.onExcluiItem}" update=":formValida:itemList"
+						process="@this" onclick="PF('dlgExc').hide();" />
+					<h:commandButton onclick="PF('dlgExc').hide();return false;"
+						value="Não" styleClass="cancelar" />
+				</h:form>
+			</div>
+
+
+		</p:confirmDialog>
+
+		<p:confirmDialog id="dlgCanc" widgetVar="dlgCanc" visible="false"
+			width="70%">
+
+			<p:dataTable value="#{validadorMB.canceladosList}" var="val"
+				id="cancelaList" editable="false"
+				emptyMessage="Nenhum item na lista !" widgetVar="datbleVar"
+				rows="15" paginator="true"
+				currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport} ">
+
+				<f:facet name="header" style="width:10%">Pedidos Cancelados Por Problema no Cadastro do Órgão</f:facet>
+
+
+				<p:column headerText="MCU Orgão" style="width:10%"
+					filterBy="#{val.EAMCU1}" filterStyle="width: 100%; margin = 0px;">
+					<h:outputText value="#{val.EAMCU1}" />
+				</p:column>
+
+				<p:column headerText="Nome Orgão" style="width:40%"
+					filterBy="#{val.MCDSC1}" filterStyle="width: 100%; margin = 0px;">
+
+					<h:outputText value="#{val.MCDSC1}" style="text-align: center;" />
+
+				</p:column>
+				<p:column headerText="Nº Pedido" style="width:15%"
+					filterBy="#{val.EAAA25}" filterStyle="width: 100%; margin = 0px;">
+					<div align="center">
+						<h:outputText value="#{val.EAAA25}" />
+					</div>
+				</p:column>
+
+				<p:column headerText="Data do Pedido" style="width:10%"
+					filterBy="#{val.EATRDJ}" filterStyle="width: 100%; margin = 0px;">
+					<h:outputText value="#{val.EATRDJ}" style="text-align: center;" />
+
+				</p:column>
+			</p:dataTable>
+			<div class="fldBtns">
+				<h:form id="buttonCanc">
+
+					<h:commandButton onclick="PF('dlgCanc').hide();return false;"
+						value="Fechar" styleClass="cancelar" />
+				</h:form>
+			</div>
+
+
+
+		</p:confirmDialog>
+
+
+	</ui:define>
+</ui:composition>

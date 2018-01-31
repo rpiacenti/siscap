@@ -1,0 +1,65 @@
+<ui:composition template="/template/template_inicio.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<ui:define name="SISTEMA DE CAPITAÇÂO DE PEDIDOS - SISCAP">
+		<h:outputText value="#{msgs.paginaInicial}" />
+	</ui:define>
+	<ui:define name="corpo">
+		<div class="login">
+			<h4>LOGIN</h4>
+
+			<h:form id="formLogin">
+				<f:metadata>
+
+				</f:metadata>
+
+				<fieldset>
+					<p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>
+
+
+					<div class="separator"></div>
+
+					<label> #{msgs.login}: * <br /> <h:inputText
+							value="#{loginbean.login}" id="campoUsuario"
+							styleClass="#{component.valid ? '': 'error' } f5col"
+							label="#{msgs.ususario}" required="true">
+
+						</h:inputText><br /> <span class="errorMsg"><h:message
+								for="campoUsuario" errorClass="errorMsg" /></span>
+					</label>
+					<div class="separator"></div>
+					<label> #{msgs.senha}: *<br /> <h:inputSecret
+							value="#{loginbean.senha}" id="campoSenha"
+							styleClass="#{component.valid ? '':'error'} f83col"
+							label="#{msgs.senha}" required="true">
+						</h:inputSecret>
+
+					</label>
+					<div class="separator"></div>
+					<h:outputText value="#{msgs['esqueceuSenha']}" />
+					<h:commandLink>
+						<h:outputText value="clique aqui." />
+					</h:commandLink>
+					<div class="separator"></div>
+
+
+
+					<h:commandButton value="#{msgs.entrar}" action="#{loginbean.logar}"
+						id="btnEntrar" />
+
+					<!-- 	<h:commandButton value="#{msgs.sair}" action="#{loginbean.sair}"
+						id="btnSair" rendered="#{loginbean.isloged}" />
+ -->
+
+
+				</fieldset>
+
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>

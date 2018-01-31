@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<div class="acessibilidade">
+		<div class="wrap">
+			<ul>
+				<li class="tocontent"><span class="separator-bar"></span><a href="#conteudo" title="Ir para o conteúdo principal da página">#{msgs.pularConteudo}</a></li>
+				<li class="font-plus" ><a id="biggerFont" href="#" title="#{msgs.aumentarTamanhoFonte}">A</a></li>
+				<li ><span class="separator-dot"></span><a id="defaultFont" href="#" title="#{msgs.retornarTamanhoFonte}">#{msgs.textoTamanhoPadrao}</a><span class="separator-dot"></span></li>
+				<li class="font-minus" ><a href="#" title="#{diminuirTamanhoFonte}" id="smallerFont" >A</a></li>
+				<li class="contrast"><a id="contrast" href="#" title="Modificar para o modo de alto contraste">#{msgs.contraste}</a><span class="separator-bar"></span></li>
+			</ul>
+		</div>
+	</div><!-- acessibilidade -->
+	
+</ui:composition>

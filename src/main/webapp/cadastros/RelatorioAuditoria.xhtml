@@ -1,0 +1,120 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.relatorio}s" />
+	</ui:define>
+
+
+	<ui:define name="corpo">
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
+
+		
+
+		<h:form id="formRelatorio" target="_blank">
+			<f:metadata>
+				<f:viewParam name="id" value="#{relatorioMB.idrelat}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="true" autoUpdate="true" redisplay="false" />
+			<fieldset>
+				
+				<p:panel header="Período - (Informe no máximo um período de 31 dias para consulta.)">
+					<table width="800px" rules="none" border="0" style="text-align: left">
+						<tr>
+							<td width="100%"><label styleClass="f0col">
+									Data Inicial: * </label><p:calendar id="campoDtInicial"
+									value="#{relatorioMB.dt_inicial2}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="true"
+									requiredMessage="Informe a data final !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax event="dateSelect"  />
+									<p:ajax process="@this" event="change" />
+									
+								</p:calendar></td>
+							<td><h:message for="campoDtInicial"
+									errorClass="errorMsg f5col" /></td>
+						</tr>
+						<tr>
+							<td width="100%"><label styleClass="f0col">
+									Data Final: * </label><p:calendar id="campoDtFinal"
+									value="#{relatorioMB.dt_final2}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="true"
+									requiredMessage="Informe a data final !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax event="dateSelect"  />
+									<p:ajax process="@this" event="change" />
+									
+								</p:calendar></td>
+							<td><h:message for="campoDtFinal"
+									errorClass="errorMsg f5col" /></td>
+						</tr>
+					</table>
+				</p:panel>
+				<p:panel header="Usuário">
+
+					<table width="800" rules="none" border="0" style="text-align: left">
+						<tr>
+
+							<td style="text-align: left" width="50%"><h:outputLabel
+									value="Matricula do Usuário:" /> 
+									<h:inputText value="#{relatorioMB.matricula}">
+									<p:ajax process="@this" event="change" />
+									</h:inputText>
+									</td>
+
+						</tr>
+					</table>
+				</p:panel>
+				
+				<p:panel header="Pedido">
+
+					<table width="800" rules="none" border="0" style="text-align: left">
+						<tr>
+
+							<td style="text-align: left" width="50%"><h:outputLabel
+									value="Código Pedido:" /> 
+									<h:inputText value="#{relatorioMB.pedido}">
+									<p:ajax process="@this" event="change" />
+									</h:inputText>
+									</td>
+
+						</tr>
+					</table>
+				</p:panel>
+						<div class="fldBtns">
+					<!-- 	<h:commandButton value=" Cancelar " id="btnCancelar6" />	 -->
+						<h:commandButton value="Gerar Relatório" target="_blank" 
+								action="#{relatorioMB.onGerarRaletorioGestor(7)}" id="btnImprime7" />
+							
+						</div>
+
+			</fieldset>
+		</h:form>
+
+	<!-- 	<h:form id="formCallRelatorio" target="_blank"
+			disabled="#{relatorioMB.linkDisabled}">
+			<div class="fldBtns">
+				<h:commandButton value="#{msgs.gerar} Relatório" target="_blank" 
+					action="relatorioMB.onGerarRaletorioGestor(7)}" id="btnImprime7" />
+			</div>
+
+
+		</h:form> -->
+
+
+
+	</ui:define>
+
+</ui:composition>

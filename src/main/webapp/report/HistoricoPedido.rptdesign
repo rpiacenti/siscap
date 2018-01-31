@@ -1,0 +1,1633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">Ronald Piacenti Júnor</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.5.0.v201506092134 Build &lt;@BUILD@></property>
+    <text-property name="title">Relatório Histórico de Pedido</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="pMCU" id="41">
+            <text-property name="promptText">Informe o código do MCU:</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">%</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="pDataPedIni" id="42">
+            <text-property name="promptText">Data Incial Pedido</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="pDataPedFim" id="661">
+            <text-property name="promptText">Data Final Pedido</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</property>
+            <property name="odaUser">SISCAP</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2F0ZWw4NDcxcHJk</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="pedidos" id="8">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">data_ped</property>
+                    <expression name="expression">ldata = row["SDDRQJ"];&#13;
+ldata = ldata + "";&#13;
+data_ped  = ldata;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">data_nota</property>
+                    <expression name="expression">ldata = row["SDIVD"];&#13;
+ldata = ldata + "";&#13;
+data_nota  =ldata;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">data_reg</property>
+                    <expression name="expression">ldata = row["REDATE01"];&#13;
+ldata = ldata + "";&#13;
+data_reg  = ldata;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">MCMCU</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MCMCU</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">MCMCU</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDDOCO</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDDOCO</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDDOCO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VIN_CO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">VIN_CO</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">VIN_CO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDLITM</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDLITM</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDLITM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDDSC1</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDDSC1</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDDSC1</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDUOM</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDUOM</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDUOM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDUORG</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDUORG</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDUORG</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDDRQJ</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDDRQJ</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDDRQJ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDIVD</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDIVD</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDIVD</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDMCU</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDMCU</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDMCU</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDAN8</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDAN8</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDAN8</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDLNTY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDLNTY</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDLNTY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDNXTR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDNXTR</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDNXTR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDLTTR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDLTTR</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDLTTR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDSRP2</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDSRP2</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDSRP2</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDPRP3</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDPRP3</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDPRP3</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDPRP4</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDPRP4</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDPRP4</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDQTYT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDQTYT</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDQTYT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDCOMM</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">SDCOMM</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDCOMM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDTRDJ</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDTRDJ</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDTRDJ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SDDGL</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SDDGL</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">SDDGL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REAA15</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">REAA15</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">REAA15</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REDATE01</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">REDATE01</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">REDATE01</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MCDL01</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MCDL01</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">MCDL01</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MCRP01</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MCRP01</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">MCRP01</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MCRP12</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MCRP12</text-property>
+                    <property name="onColumnLayout">false</property>
+                    <text-property name="heading">MCRP12</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">NumeroMCU</property>
+                    <property name="paramName">pMCU</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DataPedIni</property>
+                    <property name="paramName">pDataPedIni</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">2</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DataPedFim</property>
+                    <property name="paramName">pDataPedFim</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">MCMCU</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">SDDOCO</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">VIN_CO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">SDLITM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">SDDSC1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">SDUOM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">SDUORG</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">SDDRQJ</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">SDIVD</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">SDMCU</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">SDAN8</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SDLNTY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">SDNXTR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">SDLTTR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">SDSRP2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">SDPRP3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">SDPRP4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">SDQTYT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">SDCOMM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">SDTRDJ</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">SDDGL</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">REAA15</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">REDATE01</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">MCDL01</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">MCRP01</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">MCRP12</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">data_ped</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">data_nota</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">data_reg</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">MCMCU</property>
+                    <property name="nativeName">MCMCU</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">SDDOCO</property>
+                    <property name="nativeName">SDDOCO</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">VIN_CO</property>
+                    <property name="nativeName">VIN_CO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">SDLITM</property>
+                    <property name="nativeName">SDLITM</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">SDDSC1</property>
+                    <property name="nativeName">SDDSC1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">SDUOM</property>
+                    <property name="nativeName">SDUOM</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">SDUORG</property>
+                    <property name="nativeName">SDUORG</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">SDDRQJ</property>
+                    <property name="nativeName">SDDRQJ</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">SDIVD</property>
+                    <property name="nativeName">SDIVD</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">SDMCU</property>
+                    <property name="nativeName">SDMCU</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">SDAN8</property>
+                    <property name="nativeName">SDAN8</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SDLNTY</property>
+                    <property name="nativeName">SDLNTY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">SDNXTR</property>
+                    <property name="nativeName">SDNXTR</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">SDLTTR</property>
+                    <property name="nativeName">SDLTTR</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">SDSRP2</property>
+                    <property name="nativeName">SDSRP2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">SDPRP3</property>
+                    <property name="nativeName">SDPRP3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">SDPRP4</property>
+                    <property name="nativeName">SDPRP4</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">SDQTYT</property>
+                    <property name="nativeName">SDQTYT</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">SDCOMM</property>
+                    <property name="nativeName">SDCOMM</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">SDTRDJ</property>
+                    <property name="nativeName">SDTRDJ</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">SDDGL</property>
+                    <property name="nativeName">SDDGL</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">REAA15</property>
+                    <property name="nativeName">REAA15</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">REDATE01</property>
+                    <property name="nativeName">REDATE01</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">MCDL01</property>
+                    <property name="nativeName">MCDL01</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">MCRP01</property>
+                    <property name="nativeName">MCRP01</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">MCRP12</property>
+                    <property name="nativeName">MCRP12</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select  
+C.MCMCU,
+A.SDDOCO, 
+D.VIN_CO, 
+A.SDLITM,  
+A.SDDSC1, 
+A.SDUOM,  
+A.SDUORG, 
+A.SDDRQJ,
+A.SDIVD,
+A.SDMCU,
+A.SDAN8,
+A.SDLNTY,
+A.SDNXTR,
+A.SDLTTR,
+A.SDSRP2,
+A.SDPRP3,
+A.SDPRP4,
+A.SDQTYT,
+A.SDCOMM,
+A.SDTRDJ,
+A.SDDGL,
+B.REAA15, 
+B.REDATE01, 
+C.MCDL01,
+C.MCRP01,
+C.MCRP12
+from vw_f42119 A, vw_f5546209 B, vw_f0006 C, vincula_pedido_erp D 
+where C.MCMCU like ? 
+and A.SDDOCO = D.SDDOCO 
+and A.SDDRQJ BETWEEN ? and ? 
+and D.MCMCU_ORGAO_SOLICITANTE = C.mcmcu 
+and A.SDAN8 = C.MCAN8  
+and A.SDAN8 = B.REAN8 
+and A.SDDOCO = B.REDOCO ]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>VIN_CO</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>VIN_CO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>VIN_CO</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SDDOCO</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>38</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>SDDOCO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SDDOCO</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MCMCU_ORGAO_SOLICITANTE</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>12</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MCMCU_ORGAO_SOLICITANTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MCMCU_ORGAO_SOLICITANTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>12</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>VIN_DT_PEDIDO</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>VIN_DT_PEDIDO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>VIN_DT_PEDIDO</design:label>
+            <design:formattingHints>
+              <design:displaySize>7</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="backgroundColor">#488DE1</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <page-header>
+                <grid id="547">
+                    <property name="dataSet">pedidos</property>
+                    <column id="548">
+                        <property name="width">2.2291666666666665in</property>
+                    </column>
+                    <column id="549">
+                        <property name="width">8.802083333333334in</property>
+                    </column>
+                    <row id="550">
+                        <cell id="551">
+                            <image id="665">
+                                <property name="height">49px</property>
+                                <property name="width">201px</property>
+                                <property name="source">embed</property>
+                                <property name="imageName">logo.png</property>
+                            </image>
+                        </cell>
+                        <cell id="552">
+                            <text id="554">
+                                <property name="fontSize">9pt</property>
+                                <property name="textAlign">center</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<CENTER>
+<H3>
+EMPRESA BRASILEIRA DE CORREIOS E TELÉGRAFOS
+</H3>
+<p>
+<H5>
+Sistema de Captação de Pedido - SISCAP
+</H5>
+<p>
+<H5>
+Relatório de Histórico de Pedidos
+</H5>
+</CENTER>
+]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="555">
+                    <property name="width">11.03125in</property>
+                    <column id="556">
+                        <property name="width">9.3125in</property>
+                    </column>
+                    <column id="557">
+                        <property name="width">1.71875in</property>
+                    </column>
+                    <row id="558">
+                        <cell id="559">
+                            <text id="561">
+                                <property name="fontSize">9pt</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="560">
+                            <grid id="563">
+                                <property name="textAlign">right</property>
+                                <property name="width">1.65625in</property>
+                                <column id="577">
+                                    <property name="width">0.40625in</property>
+                                </column>
+                                <column id="564">
+                                    <property name="width">0.6041666666666666in</property>
+                                </column>
+                                <column id="565">
+                                    <property name="width">0.20833333333333334in</property>
+                                </column>
+                                <column id="566">
+                                    <property name="width">0.4375in</property>
+                                </column>
+                                <row id="567">
+                                    <cell id="576">
+                                        <text id="578">
+                                            <property name="fontSize">9pt</property>
+                                            <property name="contentType">auto</property>
+                                            <text-property name="content"><![CDATA[Pag.:]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="568">
+                                        <auto-text id="569">
+                                            <property name="fontSize">9pt</property>
+                                            <property name="type">page-number</property>
+                                        </auto-text>
+                                    </cell>
+                                    <cell id="570">
+                                        <text id="571">
+                                            <property name="fontSize">9pt</property>
+                                            <property name="textAlign">center</property>
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="572">
+                                        <auto-text id="573">
+                                            <property name="fontSize">9pt</property>
+                                            <property name="textAlign">left</property>
+                                            <property name="type">total-page</property>
+                                        </auto-text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="129">
+            <property name="fontSize">xx-small</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="width">12.166666666666666in</property>
+            <property name="dataSet">pedidos</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">SDDOCO</property>
+                    <text-property name="displayName">SDDOCO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDDOCO"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">VIN_CO</property>
+                    <text-property name="displayName">VIN_CO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["VIN_CO"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SDLITM</property>
+                    <text-property name="displayName">SDLITM</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDLITM"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SDDSC1</property>
+                    <text-property name="displayName">SDDSC1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDDSC1"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SDUOM</property>
+                    <text-property name="displayName">SDUOM</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDUOM"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SDUORG</property>
+                    <text-property name="displayName">SDUORG</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDUORG"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">REAA15</property>
+                    <text-property name="displayName">REAA15</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REAA15"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REDATE01</property>
+                    <text-property name="displayName">REDATE01</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REDATE01"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">SDDRQJ</property>
+                    <text-property name="displayName">SDDRQJ</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDDRQJ"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">SDIVD</property>
+                    <text-property name="displayName">SDIVD</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDIVD"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">MCDL01</property>
+                    <text-property name="displayName">MCDL01</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MCDL01"]
+					</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SDQTYT</property>
+                    <text-property name="displayName">SDQTYT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SDQTYT"]
+					</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">data_ped</property>
+                    <text-property name="displayName">data_ped</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["data_ped"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">data_nota</property>
+                    <text-property name="displayName">data_nota</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["data_nota"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">data_reg</property>
+                    <text-property name="displayName">data_reg</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["data_reg"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MCMCU</property>
+                    <text-property name="displayName">MCMCU</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MCMCU"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MCRP12</property>
+                    <text-property name="displayName">MCRP12</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MCRP12"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">VIN_CO_1</property>
+                    <text-property name="displayName">VIN_CO</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["VIN_CO"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="675">
+                <property name="width">0.875in</property>
+            </column>
+            <column id="670">
+                <property name="width">0.6979166666666666in</property>
+            </column>
+            <column id="483">
+                <property name="width">1.0729166666666667in</property>
+            </column>
+            <column id="484">
+                <property name="width">1.1666666666666667in</property>
+            </column>
+            <column id="485">
+                <property name="width">3.09375in</property>
+            </column>
+            <column id="486">
+                <property name="width">0.6666666666666666in</property>
+            </column>
+            <column id="487">
+                <property name="width">0.625in</property>
+            </column>
+            <column id="517">
+                <property name="width">0.625in</property>
+            </column>
+            <column id="490">
+                <property name="width">0.6666666666666666in</property>
+            </column>
+            <column id="523">
+                <property name="repeat">1</property>
+                <property name="width">0.84375in</property>
+            </column>
+            <column id="491">
+                <property name="width">0.7083333333333334in</property>
+            </column>
+            <column id="488">
+                <property name="repeat">1</property>
+                <property name="width">0.9166666666666666in</property>
+            </column>
+            <column id="489">
+                <property name="repeat">1</property>
+                <property name="width">0.20833333333333334in</property>
+            </column>
+            <header>
+                <row id="130">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="height">0.25in</property>
+                    <cell id="671">
+                        <label id="678">
+                            <property name="backgroundAttachment">scroll</property>
+                            <property name="backgroundPositionX">0%</property>
+                            <property name="backgroundPositionY">0%</property>
+                            <property name="backgroundRepeat">repeat</property>
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="color">black</property>
+                            <property name="textLineThrough">none</property>
+                            <property name="textOverline">none</property>
+                            <property name="textUnderline">none</property>
+                            <property name="borderBottomColor">black</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderBottomWidth">medium</property>
+                            <property name="borderLeftColor">black</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderLeftWidth">medium</property>
+                            <property name="borderRightColor">black</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderRightWidth">medium</property>
+                            <property name="borderTopColor">black</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="borderTopWidth">medium</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="marginBottom">0pt</property>
+                            <property name="marginRight">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">1pt</property>
+                            <property name="paddingBottom">1pt</property>
+                            <property name="paddingRight">1pt</property>
+                            <property name="textAlign">center</property>
+                            <property name="letterSpacing">normal</property>
+                            <property name="lineHeight">normal</property>
+                            <property name="orphans">2</property>
+                            <property name="textTransform">none</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="widows">2</property>
+                            <property name="wordSpacing">normal</property>
+                            <property name="display">block</property>
+                            <property name="pageBreakAfter">auto</property>
+                            <property name="pageBreakBefore">auto</property>
+                            <property name="pageBreakInside">auto</property>
+                            <property name="showIfBlank">false</property>
+                            <property name="canShrink">false</property>
+                            <property name="overflow">hidden</property>
+                            <text-property name="text">MCU</text-property>
+                        </label>
+                    </cell>
+                    <cell id="666">
+                        <label id="676">
+                            <property name="backgroundAttachment">scroll</property>
+                            <property name="backgroundPositionX">0%</property>
+                            <property name="backgroundPositionY">0%</property>
+                            <property name="backgroundRepeat">repeat</property>
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="color">black</property>
+                            <property name="textLineThrough">none</property>
+                            <property name="textOverline">none</property>
+                            <property name="textUnderline">none</property>
+                            <property name="borderBottomColor">black</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderBottomWidth">medium</property>
+                            <property name="borderLeftColor">black</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderLeftWidth">medium</property>
+                            <property name="borderRightColor">black</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderRightWidth">medium</property>
+                            <property name="borderTopColor">black</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="borderTopWidth">medium</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="marginBottom">0pt</property>
+                            <property name="marginRight">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">1pt</property>
+                            <property name="paddingBottom">1pt</property>
+                            <property name="paddingRight">1pt</property>
+                            <property name="textAlign">center</property>
+                            <property name="letterSpacing">normal</property>
+                            <property name="lineHeight">normal</property>
+                            <property name="orphans">2</property>
+                            <property name="textTransform">none</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="widows">2</property>
+                            <property name="wordSpacing">normal</property>
+                            <property name="display">block</property>
+                            <property name="pageBreakAfter">auto</property>
+                            <property name="pageBreakBefore">auto</property>
+                            <property name="pageBreakInside">auto</property>
+                            <property name="showIfBlank">false</property>
+                            <property name="canShrink">false</property>
+                            <property name="overflow">hidden</property>
+                            <text-property name="text">DR</text-property>
+                        </label>
+                    </cell>
+                    <cell id="132">
+                        <label id="499">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Número do Pedido</text-property>
+                        </label>
+                    </cell>
+                    <cell id="133">
+                        <label id="500">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Código Item</text-property>
+                        </label>
+                    </cell>
+                    <cell id="134">
+                        <label id="501">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Descrição do Item
+							</text-property>
+                        </label>
+                    </cell>
+                    <cell id="135">
+                        <label id="502">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Unidade Medida</text-property>
+                        </label>
+                    </cell>
+                    <cell id="136">
+                        <label id="503">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Quant. Solicitada</text-property>
+                        </label>
+                    </cell>
+                    <cell id="514">
+                        <label id="518">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Quant. Atendida</text-property>
+                        </label>
+                    </cell>
+                    <cell id="139">
+                        <label id="506">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Data Pedido</text-property>
+                        </label>
+                    </cell>
+                    <cell id="520">
+                        <label id="524">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Nº Nota Fiscal</text-property>
+                        </label>
+                    </cell>
+                    <cell id="140">
+                        <label id="507">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Data Nota Fiscal	</text-property>
+                        </label>
+                    </cell>
+                    <cell id="137">
+                        <label id="504">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Registrado</text-property>
+                        </label>
+                    </cell>
+                    <cell id="138"/>
+                </row>
+            </header>
+            <group id="630">
+                <property name="groupName">grupo_mcu</property>
+                <expression name="keyExpr" type="javascript">row["MCMCU"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["MCMCU"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <header>
+                    <row id="631">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">medium</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">medium</property>
+                        <cell id="672">
+                            <property name="colSpan">4</property>
+                            <property name="rowSpan">1</property>
+                            <label id="628">
+                                <property name="fontFamily">"Arial"</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">left</property>
+                                <property name="whiteSpace">nowrap</property>
+                                <property name="display">block</property>
+                                <text-property name="text">Orgão:</text-property>
+                            </label>
+                            <data id="513">
+                                <property name="fontWeight">bold</property>
+                                <property name="display">inline</property>
+                                <property name="resultSetColumn">MCDL01</property>
+                            </data>
+                        </cell>
+                        <cell id="636"/>
+                        <cell id="637"/>
+                        <cell id="638"/>
+                        <cell id="639"/>
+                        <cell id="640"/>
+                        <cell id="641"/>
+                        <cell id="642"/>
+                        <cell id="643"/>
+                        <cell id="644"/>
+                    </row>
+                    <row id="679">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">medium</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">medium</property>
+                        <cell id="680">
+                            <data id="693">
+                                <property name="resultSetColumn">VIN_CO</property>
+                            </data>
+                        </cell>
+                        <cell id="681"/>
+                        <cell id="682"/>
+                        <cell id="683"/>
+                        <cell id="684"/>
+                        <cell id="685"/>
+                        <cell id="686"/>
+                        <cell id="687"/>
+                        <cell id="688"/>
+                        <cell id="689"/>
+                        <cell id="690"/>
+                        <cell id="691"/>
+                        <cell id="692"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="645">
+                        <cell id="674"/>
+                        <cell id="669"/>
+                        <cell id="648"/>
+                        <cell id="649"/>
+                        <cell id="650"/>
+                        <cell id="651"/>
+                        <cell id="652"/>
+                        <cell id="653"/>
+                        <cell id="654"/>
+                        <cell id="655"/>
+                        <cell id="656"/>
+                        <cell id="657"/>
+                        <cell id="658"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="460">
+                    <list-property name="highlightRules">
+                        <structure>
+                            <property name="operator">ne</property>
+                            <property name="backgroundColor">#F9EEE3</property>
+                            <expression name="testExpr" type="javascript">row.__rownum % 2
+							</expression>
+                            <simple-property-list name="value1">
+                                <value type="javascript">0</value>
+                            </simple-property-list>
+                        </structure>
+                    </list-property>
+                    <cell id="673">
+                        <data id="659">
+                            <property name="backgroundAttachment">scroll</property>
+                            <property name="backgroundPositionX">0%</property>
+                            <property name="backgroundPositionY">0%</property>
+                            <property name="backgroundRepeat">repeat</property>
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">normal</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="color">black</property>
+                            <property name="textLineThrough">none</property>
+                            <property name="textOverline">none</property>
+                            <property name="textUnderline">none</property>
+                            <property name="borderBottomColor">black</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderBottomWidth">medium</property>
+                            <property name="borderLeftColor">black</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderLeftWidth">medium</property>
+                            <property name="borderRightColor">black</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderRightWidth">medium</property>
+                            <property name="borderTopColor">black</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="borderTopWidth">medium</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="marginBottom">0pt</property>
+                            <property name="marginRight">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">1pt</property>
+                            <property name="paddingBottom">1pt</property>
+                            <property name="paddingRight">1pt</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
+                            <property name="textAlign">left</property>
+                            <property name="letterSpacing">normal</property>
+                            <property name="lineHeight">normal</property>
+                            <property name="orphans">2</property>
+                            <property name="textTransform">none</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="widows">2</property>
+                            <property name="wordSpacing">normal</property>
+                            <property name="display">block</property>
+                            <property name="pageBreakAfter">auto</property>
+                            <property name="pageBreakBefore">auto</property>
+                            <property name="pageBreakInside">auto</property>
+                            <property name="showIfBlank">false</property>
+                            <property name="canShrink">false</property>
+                            <property name="overflow">hidden</property>
+                            <property name="resultSetColumn">MCMCU</property>
+                        </data>
+                    </cell>
+                    <cell id="668">
+                        <data id="677">
+                            <property name="backgroundAttachment">scroll</property>
+                            <property name="backgroundPositionX">0%</property>
+                            <property name="backgroundPositionY">0%</property>
+                            <property name="backgroundRepeat">repeat</property>
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontSize">xx-small</property>
+                            <property name="fontWeight">normal</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="color">black</property>
+                            <property name="textLineThrough">none</property>
+                            <property name="textOverline">none</property>
+                            <property name="textUnderline">none</property>
+                            <property name="borderBottomColor">black</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderBottomWidth">medium</property>
+                            <property name="borderLeftColor">black</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderLeftWidth">medium</property>
+                            <property name="borderRightColor">black</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderRightWidth">medium</property>
+                            <property name="borderTopColor">black</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="borderTopWidth">medium</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">0pt</property>
+                            <property name="marginBottom">0pt</property>
+                            <property name="marginRight">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">1pt</property>
+                            <property name="paddingBottom">1pt</property>
+                            <property name="paddingRight">1pt</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
+                            <property name="textAlign">center</property>
+                            <property name="letterSpacing">normal</property>
+                            <property name="lineHeight">normal</property>
+                            <property name="orphans">2</property>
+                            <property name="textTransform">none</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="widows">2</property>
+                            <property name="wordSpacing">normal</property>
+                            <property name="display">block</property>
+                            <property name="pageBreakAfter">auto</property>
+                            <property name="pageBreakBefore">auto</property>
+                            <property name="pageBreakInside">auto</property>
+                            <property name="showIfBlank">false</property>
+                            <property name="canShrink">false</property>
+                            <property name="overflow">hidden</property>
+                            <property name="resultSetColumn">MCRP12</property>
+                        </data>
+                    </cell>
+                    <cell id="462">
+                        <data id="97">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">VIN_CO</property>
+                        </data>
+                    </cell>
+                    <cell id="463">
+                        <data id="98">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">SDLITM</property>
+                        </data>
+                    </cell>
+                    <cell id="464">
+                        <data id="99">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">SDDSC1</property>
+                        </data>
+                    </cell>
+                    <cell id="465">
+                        <data id="100">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">SDUOM</property>
+                        </data>
+                    </cell>
+                    <cell id="466">
+                        <data id="101">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">SDUORG</property>
+                        </data>
+                    </cell>
+                    <cell id="515">
+                        <data id="519">
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">SDQTYT</property>
+                        </data>
+                    </cell>
+                    <cell id="469">
+                        <data id="579">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">data_ped</property>
+                        </data>
+                    </cell>
+                    <cell id="521"/>
+                    <cell id="470">
+                        <data id="580">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">data_nota</property>
+                        </data>
+                    </cell>
+                    <cell id="467">
+                        <data id="102">
+                            <property name="fontSize">xx-small</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">REAA15</property>
+                        </data>
+                    </cell>
+                    <cell id="468"/>
+                </row>
+            </detail>
+        </table>
+    </body>
+    <property name="pageVariables">
+        <variable-element name="dtDataCenture">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="dtDataFisrt">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="dtDataMes">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="dtDataAno">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="dtDataDia">
+            <property name="type">report</property>
+        </variable-element>
+    </property>
+    <list-property name="images">
+        <structure>
+            <property name="name">logo.png</property>
+            <property name="type">image/png</property>
+            <property name="data">
+                iVBORw0KGgoAAAANSUhEUgAAAMkAAAAxCAMAAABH2X1DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
+                ZVJlYWR5ccllPAAAAYBQTFRFAJXKW8foAKHZ0pwPAC9VwNDaAGiXze347MEGAKrj88sE/O6p1alNwNrm
+                xYkShdHt6b0Hx5VOAI/D/fTA1aENADli/OVp58hw99ICAFmHAJvRpdXru3wT6dCS3q0LAHKjrWgWAHus
+                //zw7Ner/vbQMKfOQGiG4LEKQKrY5rgIAIK0AIq+ZbXYtHIV2KUNpeP1AJva78YF8Pn9AJPV4PP6/Nkx
+                EE10+dYRypQo89JDJZzSAIW52qgM4rUZ9uzT0JkPMGWHALPo4rQJ5LYJAEt1AKbfgKC1QGF9oLjIAH6w
+                kKy/57oHAIzQ+u/CUH2Z3KsLypAQ/+6Q4KsIcJSs/uRQAK7nAFJ+AEZvAHekAGGPAHeoQHGQ8PT2YImj
+                0NzkIFl+4OjtsMTRuHcUwIISsG0W26oM368KqGEX8Pf69u/i/Pjx1a5sQG6M//vgOL7oAHOeUJOx4blC
+                EKzf/d8w4L1q9swTELbm1Kc+AG6eEI26EJ7MEI/PEI/QEJDRAEFr////VjJZCwAAAIB0Uk5T////////
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+                /wA4BUtnAAAGUElEQVR42uyY+1fURhTHERvZXVBWRQSKi6+WV0UWNEgVCeimIdCoXZeKk2QTqNhSSmvp
+                g76Sf73zzswkC9FzemB7uD9Bkp3MJ/d+72M64v+LdZySnJIcB4m5u7v7KbYvsO2O7Y31zrQjSaBHV5B9
+                xG2yOPtPVztGlxYRFM7ydGl67fOZdtSJqZAcLNWm18baUvGOhBItNRoQpbcdSVxDQLlSKxYbxc7ZtY/b
+                MQv7eoIyVKwVG43i9Ozf99qxnlgRS2Cvip01hFKbnj2Rqj+yMtapUzaWhjoZytpnbVnjiVS+bnQMIRQo
+                lUbn9EmUytEkLpJK1NnRwVGQ6rvakAQXyMmOS5SEqv6vmTYkie3o1dDkJRHlJBZImeRLZpcTuxnHP9Ue
+                PkyhnFddh+yEkHQvjI+vlsuFQrVaLZVKA9hexvHMbysTDycTFKz6WbGouLYREXOsE0DSvb38BJFIKPvQ
+                JXsrKxMYhai+hlUv9iymHiXWDI+b5PHC6DJBKSCUEkaZux3HvROvb0CnEBQWX2eEPsCIZNOOl2Tn3fZ2
+                gsKc0h3Hdy+NvKIoiVT2ZsSGRjbvmH1y9U2lglAkqfTHcdefBwcjr2/ckKTyc5c4j5Ggqtua6cF/DDeB
+                tEwz9HPv5fCMEaRvu/CSr5Jce/TmWaUyOgqdkqDch2rfO3fuYGQEOUVAuZusBggHe4kF2NJBnTGarrAf
+                ExiRAWz8rAd0HXi+mDMM/rBrQgvYN/HIYoaVrGWRX+iOJpI8nppCKDy+MMocVPuZc5BEREEkvVKHiQLK
+                TRchIej0MOnieARyeQXy07rJCzKTnOuk13JBcg0EnGRnqk9BgaovIbX/uLGBUUSpiEWxiVNvOhY8WTum
+                fFV3E3nV4a7kp4Erk/hN6XadDoHK8oTkXV8fRqkIKNUXUCSvBzcoCpEKQhF7+hCHj3sUSBRZ/Gn6ZpBA
+                pZ42JJJATSkIxZfQeXRdPXu2jzqFS6UA1X7vj8FBijKSqL5L3XG6GNItA1vTWM30cVuN9wkcthMdgBAd
+                F5CIszSLyqEuktAFPCgb6hz2G93WQqhG8iURya3FxQRlG6Oslu9DkXyyvo5RJKlIDT1eOu0SfFnXRMWg
+                74YdGNDDDp6vA8IXiJLwExKiRIe8JMRrNalLA5IrfKb42wtnMYkklV+hSM6sPxVRsFQm5CGL+1YdNCGI
+                LzTTeHOaoBgn+QR1eRGPMjKSplSjiLwsQuIq9WR+/NFigkKkUkUlcfApJFFQlGkxUaB8JAPNFk+b8GMi
+                Cd4J+VOnamHZt0luURKNOkH6SoDgNy1fIpmrLk/x+CIoqwvfQXzc3WrnRfs2TpOYKRK8N7GCkbdnk/ik
+                jCQGBASNfAVLjVzqZ1RN7ICTdA8URvtEqVTGVzcv7uQqy9k5OHXVSN6eItGiLLMZiaeGUZ2EqqOmeKT4
+                /lK5gqTCULYLm5vD3+ci0WXXt/IUOITEziQxGYkQhkKoalJl9HgW3i+tvhFUX926szk8fCsPCcjsfVN9
+                5GEk4YeR8G6FRR8m+WGu+mSKq778/A4i2XqcazDOSl6KSIlOjA+LLpMVIymd0CbO9kiFafIaf3mgsMyk
+                svzVN4TkQQ6puJGSpjI9ZRMnZZO42ZmckViKgwPlM2k6RaUd5IuBwjZBeVa+Tkm2enI4xYsyqrwt9zCk
+                BoStsrCT9TE4iasMb0BN/Da9z7r6l6XyMyyVwh1OcuFaDqfQ9oJtO7D4RVq1aQPYjFuRaFFmy8Mqoyf2
+                C7TXDPBM4GaS3Nwv4QJZHb6ekFzIoXoqWL0OF3NDj0SCSftz1HR4vFdqQUKbScfHkd/UA5mENpBeiO/y
+                tixEhdFl/UsgzIy3cYFcXXwrkjzIoXorq+0FUcZI3IqEN7tA552w0EGmXoCmUnnmbkonEqhAPiq/lUie
+                /77z/iio4XKNjNm+FYl6FFBXJi0rDaIMAqF8StQ/UB7vU0ie/5JD9crhCm5bXafF3rJIlBUMdWa09NQc
+                JhZGoTIylFK5dF0hWbyWp0AKRcphaUbj7wJafAQJXIHPhU0rNf3GgcdYDCv1C91On6Ze7p+f77lIrYda
+                vgYssEwHeGYodkiBXQfAtILkNAIaLXIW+lv2rImeNnkRdB0AAP+tG5oeMG1f/oUHHDN8jxPu9rBTklOS
+                /87+FWAAsjTrWp2H/XsAAAAASUVORK5CYII=
+</property>
+        </structure>
+    </list-property>
+</report>

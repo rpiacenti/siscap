@@ -1,0 +1,120 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.grupoAtendimento}" />
+	</ui:define>
+
+
+	<ui:define name="corpo">	
+
+		<h:form id="formGrupoAtendimento">
+			
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+			<ppj:messages id="mensagem"/>	
+				   
+		    <p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>	
+			<fieldset class="formSearch">	
+				<label>#{msgs.CD}:  
+						#{usuario.abrevCD}
+				</label>
+			</fieldset>	
+			
+			<p:fieldset styleClass="formSearch" legend="Entrada de Grupo de Atendimento">
+			
+				<label>Nº Grupo *: <br /> 
+					<h:inputText id="numeroGrupo" 
+						label="Nº Grupo" 
+						value="#{grupoAtendimentoMB.grupoAtendimento.numGrupo}" 
+						styleClass="#{component.valid ? '':'error'} f4col" 
+						maxlength="2"  required="true" requiredMessage="O Nº Grupo é obrigatório" /> 
+					<br />
+					<h:message for="numeroGrupo" errorClass="errorMsg"  infoClass="errorMsg"/>
+				</label>
+				
+				<label>Descrição *: <br /> 
+					<h:inputText id="descricaoGrupo" 
+						label="Descrição" 
+						value="#{grupoAtendimentoMB.grupoAtendimento.descricao}" 
+						styleClass="#{component.valid ? '':'error'} f6col" 
+						maxlength="50"  required="true"  requiredMessage="Descrição é obrigatório"/> 
+					<br />
+					<h:message for="descricaoGrupo" errorClass="errorMsg"  infoClass="errorMsg"/>
+				</label>
+				
+				<label>Categoria *: <br /> 
+					<h:selectOneMenu id="categoriaGrupo" label="Categoria" value="#{grupoAtendimentoMB.grupoAtendimento.catgrupo}" styleClass="#{component.valid ? '': 'error' } f4col" required="true" requiredMessage="Categoria é Obrigatório">
+						<f:selectItem itemValue="" itemLabel="Selecione um Item." />
+						<f:selectItems	value="#{grupoAtendimentoMB.categoriasDeGrupoAtendimeto()}"  />
+					</h:selectOneMenu>
+					<br />
+					<h:message for="categoriaGrupo" errorClass="errorMsg"  infoClass="errorMsg"/>
+				</label>
+				
+				<div class="fldBtns">
+					<p:commandButton value="#{msgs.incluir}" id="btnAdd" action="#{grupoAtendimentoMB.adicionaGrupoAtendimento()}"	process="@form" update="@form"/>
+				</div>
+			
+			</p:fieldset>
+
+
+			<p:dataTable value="#{grupoAtendimentoMB.grupoAtendimentoDataModel}" var="grp"	id="grupoAtendimentoTbl" widgetVar="tabelaGrupoAtendimento"  lazy="true" editMode="cell" editable="true" emptyMessage="Nenhum item na lista !"
+				paginator="true" rows="20" currentPageReportTemplate="{currentPage} de {totalPages} páginas, {totalRecords} registros"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}  ">
+				
+				<f:facet name="header"><div style="font:caption;">Grupos de Atendimento</div></f:facet>
+				
+				<p:ajax event="cellEdit" listener="#{grupoAtendimentoMB.editaDescricao}" update="@this" />
+				
+				
+				<p:column headerText="Opções" style="width:50px">
+					<p:commandLink onclick="PF('confirmaExclusao#{grp.numGrupo}').show(); return false;">
+						<h:graphicImage value="#{resource['img:layout/trans.gif']}" styleClass="excl" title="Exclui o Grupo de Atendimento" />
+					</p:commandLink>
+					<p:confirmDialog message="Deseja realmente excluir o Grupo de Atendimento Selecionado ?" widgetVar="confirmaExclusao#{grp.numGrupo}" severity="info">
+						<div class="fldBtns">
+							<p:commandButton value="Sim" action="#{grupoAtendimentoMB.deleteGrupoAtendimento(grp)}" process="@this" update="@form" />
+							<p:commandButton onclick="PF('confirmaExclusao#{grp.numGrupo}').hide();return false;" value="Não" styleClass="cancelar" />
+						</div>
+					</p:confirmDialog>
+				</p:column>
+
+				<p:column headerText="Nº Grupo" style="width:50px">
+
+					<h:outputText id="numGrpLabel" value="#{grp.numGrupo}" />
+
+				</p:column>
+
+				<p:column headerText="Descrição" style="width:450px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText  value="#{grp.descricao}" style="text-align: center;" title="Clique para editar"/>
+						</f:facet>
+						<f:facet name="input" >
+							<h:inputText  value="#{grp.descricao}" styleClass="#{component.valid ? '':'error'} f9col"	/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Categoria" style="width:50px">
+					<h:outputText id="categoriaLabel" value="#{grp.catgrupo}" style="text-align: center;" />
+				</p:column>
+			</p:dataTable>
+			
+			<p:contextMenu for="grupoAtendimentoTbl" widgetVar="cMenu">
+				<p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('tabelaGrupoAtendimento').showCellEditor(); return false;"></p:menuitem>
+				<p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide();"></p:menuitem>
+			</p:contextMenu>
+					
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

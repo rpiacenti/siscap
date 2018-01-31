@@ -1,0 +1,25 @@
+<ui:composition template="/template/templatePaginaErro.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+	<ui:define name="tituloPagina">
+		#{msgs['sem.autorizacao']}
+	</ui:define>
+	
+	<ui:define name="subtituloPagina">
+		#{msgs.aviso}!
+	</ui:define>
+	
+	<ui:define name="corpo">	
+		<h:form id="form-erro" style="color:red">		
+			<p>
+				#{msgs['voce.n.possui.acesso']}
+			</p>				
+		</h:form>
+	</ui:define>
+</ui:composition>

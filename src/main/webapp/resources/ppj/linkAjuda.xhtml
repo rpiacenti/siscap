@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<cc:interface>
+	<cc:attribute name="nomeArquivo" required="true" />
+	<cc:attribute name="acessoEdicao" />
+</cc:interface>
+
+<cc:implementation >
+
+	<h:form id="form-ajuda">
+		<p:commandLink id="linkAjuda" actionListener="#{ajudaMB.exibirAjudaModal}" update="form-ajuda" oncomplete="PF('modalAjuda').show(); return false;" styleClass="ajuda">
+			<img src="#{resource['img:layout/trans.gif']}" width="22px" height="22px" class="ajuda" />#{msgs.ajuda}
+			<f:attribute name="nomeArquivo" value="#{cc.attrs.nomeArquivo}"/>
+		</p:commandLink>
+		
+		<p:dialog id="modalAjuda" header="Ajuda" widgetVar="modalAjuda" modal="true" styleClass="ui-dialog-title2" resizable="false" maximizable="true">
+			<p:panel id="panelModalAjuda">  
+				<div class="fldBtns">
+					<h:inputHidden id="campoNomeArquivo" value="#{ajudaMB.ajuda.nomeArquivo}" />
+					<h5>#{msgs.objetivo}</h5>
+					<h:inputTextarea id="campoObjetivo" value="#{ajudaMB.ajuda.objetivo}" rows="5" cols="100" disabled="#{ajudaMB.mostrarBotaoEditarModal}" />
+					<br />
+					<h5>#{msgs.informacoes}</h5>
+					<h:inputTextarea id="campoInformacao" value="#{ajudaMB.ajuda.informacao}" rows="5" cols="100" disabled="#{ajudaMB.mostrarBotaoEditarModal}" />
+					<br />
+					<h5>#{msgs.condicoesDeUso}</h5>
+					<h:inputTextarea id="campoCondicao" value="#{ajudaMB.ajuda.condicao}" rows="5" cols="100" disabled="#{ajudaMB.mostrarBotaoEditarModal}" />
+					<br />
+					<h5>#{msgs.observacoes}</h5>
+					<h:inputTextarea id="campoObservacao" value="#{ajudaMB.ajuda.observacao}" rows="5" cols="100" disabled="#{ajudaMB.mostrarBotaoEditarModal}" />
+				</div>	
+				<div class="separator"></div>
+				<div class="fldBtns">
+					<p:panel rendered="#{cc.attrs.acessoEdicao}">
+						<h:commandButton value="#{msgs.alterar}" id="botaoEditarModal" actionListener="#{ajudaMB.editarAjudaModal}" rendered="#{ajudaMB.mostrarBotaoEditarModal}">
+							<f:ajax execute="@this" render="panelModalAjuda"/>
+						</h:commandButton>
+						<h:commandButton value="#{msgs.salvar}" id="botaoSalvarModal" actionListener="#{ajudaMB.salvarAjudaModal}" rendered="#{not ajudaMB.mostrarBotaoEditarModal}">
+							<f:ajax execute="@form" render="panelModalAjuda"/>
+						</h:commandButton>
+						<h:commandButton value="#{msgs.fechar}" actionListener="#{ajudaMB.fecharAjudaModal}" onclick="modalAjuda.hide();">
+							<f:ajax execute="@this" />
+						</h:commandButton>
+					</p:panel>
+					<p:panel rendered="#{not cc.attrs.acessoEdicao}">
+						<h:commandButton value="#{msgs.fechar}" actionListener="#{ajudaMB.fecharAjudaModal}" onclick="modalAjuda.hide();">
+							<f:ajax execute="@this" />
+						</h:commandButton>
+					</p:panel>
+				</div>
+			</p:panel>
+		</p:dialog>
+	</h:form>
+		
+</cc:implementation>
+
+</html>

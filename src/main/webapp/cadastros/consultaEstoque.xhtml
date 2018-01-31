@@ -1,0 +1,58 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	
+	<ui:define name="tituloPagina">
+		<h:outputText value="Consulta Itens em Estoque"></h:outputText>
+		<p>
+		<div style="font:caption;">Catálogo de Itens Ilustrado. <a href="http://intranet/ac/cesup/sac1206/catalogo/catalogo" target="_blanck">(clique aqui!)</a></div>
+		</p>
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="form2">
+				<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="true" autoUpdate="true" redisplay="false" />
+
+				<p:dataTable value="#{itemEstoqueMB.itemDisponivelEstoque}" var="item"
+					id="listaDeItemDisponivel" rendered="true"
+					rowIndexVar="rowIndex" widgetVar="datatableVar" rows="20"
+					paginator="true" filterEvent="enter"
+					emptyMessage="Nenhum item na lista !" selectionMode="single"
+					currentPageReportTemplate="{currentPage} de {totalPages} páginas, {totalRecords} registros"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}"
+					rowKey="#{item.itp_co_item}">
+
+
+					<p:column headerText="Código" width="60" filterBy="#{item.itp_co_item}" filterStyle="width:60px; margin:0px;">
+						<h:outputText value="#{item.itp_co_item }"
+							title="Clique na linha para transferir para a entrada itens." />
+					</p:column>
+					<p:column headerText="Descrição" width="350" filterBy="#{item.itp_tx_descricao_item}" filterStyle="width:350px; text-size: 320px; margin:0px;">
+						<h:outputText value="#{item.itp_tx_descricao_item }"
+							title="Clique na linha para transferir para a entrada itens." />
+
+					</p:column>
+					<p:column headerText="Unidade de Medida" style="padding: 2px; text-align: center; width: 80px">
+						<h:outputText value="#{item.unidMedFormatada }"
+							title="Clique na linha para transferir para a entrada itens." />
+					</p:column>
+				
+					<p:column headerText="Tipo" width="35"  styleClass="ui-datatable-header-right"
+					style="padding: 2px; text-align: center; width: 100px"
+					filterBy="#{item.itp_tx_tipo_item}" filterStyle="width:25px; margin:0px;  float : right;">
+						<h:outputText value="#{item.itp_tx_tipo_item}"
+							title="Clique na linha para transferir para a entrada itens." />
+					</p:column>
+				</p:dataTable>
+				
+
+			</h:form>
+	</ui:define>
+</ui:composition>

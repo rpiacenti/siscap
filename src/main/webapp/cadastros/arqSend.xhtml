@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:mj="http://mojarra.dev.java.net/mojarra_ext"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<h:head>
+		<h:outputStylesheet name="layout.css" library="css" />
+		<h:outputStylesheet name="primefaces-custom.css" library="css" />
+		<h:outputStylesheet name="jquery-ui-1.9.2.custom.css" library="css" />
+		<h:outputStylesheet name="ui-theme.css" library="css" />
+
+		<!-- geral/diversos -->
+
+
+		<h:outputScript library="js" name="siscap.js" />
+		<h:outputScript library="js" name="jquery-ui-1.9.2.custom.js" />
+
+
+
+
+	</h:head>
+	<h:body>
+
+		<p:panel header="Importação de Planilhas"
+			style="width: 99%; height: 99%;">
+				<h:form id="formUpload" enctype="multipart/form-data">
+				<p:growl id="messages" showDetail="true" />
+				<h:panelGrid width="100%" rules="none" columns="6">
+
+
+					<h:outputLabel style="float: right" value="#{msgs.tipopedido}: *" />
+
+					<h:selectOneMenu value="#{fileUploadView.tipo}"
+						id="campoTipoPedido" required="true" label="#{msgs.tipopedido}"
+						style="align: left">
+						<f:selectItem itemValue="" itemLabel="" />
+						<f:selectItems value="#{fileUploadView.listatipopedido }" />
+						<f:ajax execute="@this" render="messages" />
+					</h:selectOneMenu>
+
+					<h:message for="campoTipoPedido" errorClass="errorMsg" />
+
+					<h:outputLabel style="float: right"
+						value="#{msgs.categoriapedido}: *" />
+					<h:selectOneMenu value="#{fileUploadView.categoria}"
+						id="campoCategoria" required="true"
+						label="#{msgs.categoriapedido}">
+						<f:selectItem itemValue="" itemLabel="" />
+						<f:selectItems value="#{fileUploadView.listacategoria }" />
+						<f:ajax execute="@this" render="messages" />
+					</h:selectOneMenu>
+
+					<h:message for="campoCategoria" errorClass="errorMsg" />
+
+
+				</h:panelGrid>
+			
+			<br />
+
+
+				<p:growl id="msg" showDetail="true" />
+				
+				<p:fileUpload id="arqUpload"
+					fileUploadListener="#{fileUploadView.upload}" mode="advanced"
+					requered=" true" auto="true"
+					update="msg"
+					style="background: #29abe4; width: 490px;height: 58px;"
+					label="Clique aqui para selecionar arquivo..."
+					allowTypes="/(\.|\/)(csv)$/" />
+					
+				<f:ajax event="mouseup" update="formPedido:msg" />
+				<h:message for="formUpload:arqUpload" errorClass="errorMsg f8col" />
+			</h:form>
+
+
+
+
+		</p:panel>
+	</h:body>
+</ui:composition>

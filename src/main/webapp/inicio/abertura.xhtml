@@ -1,0 +1,86 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<h:outputStylesheet name="primefaces-custom.css" />
+
+
+	<!--  Interface --> ${pageContext.request.contextPath}
+
+
+
+	<ui:define name="corpo">
+
+		<div class="texto_direita_azul_claro  ">
+
+			<h4>
+				Informações do Usuário<br />
+			</h4>
+			<h6 align="justify">
+				#{usuario.setDialogGestor()} 
+				<label class="inline">NOME DO USUÁRIO: <B>#{usuario.nome}</B><br /> 
+				ORGÃO DE LOTAÇÃO: <B>#{usuario.nomeOrgao}/#{usuario.siglaLotacao}</B> <br /> 
+				E-MAIL do Órgão de Lotação:<B> #{usuario.emailOrgao} </B><br />
+				UF: <B>#{usuario.siglaUF}</B><br />
+				<br /> DADOS DE SUPRIMENTO<br /> 
+				DR: <B>#{usuario.descricaoDR}</B><br /> 
+				CD: <B>#{usuario.descricaoCD}</B><br /> 
+				GRUPO(S) DE ATENDIMENTO:
+				<ui:repeat value="#{usuario.grupoAtendimento}" var="grp">
+					<ol style="list-style-type:none">
+						<li ><B> <h:outputText id="it" style="color:#000000; text-transform: uppercase; text-decoration: underline " value="#{grp.descricao}"/></B>
+						<p:tooltip id="toolTipFade" for="it" value="#{grp.stringCronograma}" position="right" style="font-weight: bold; text-transform: uppercase; "/>
+ 
+               			</li>
+					</ol>
+				</ui:repeat>
+				<br /> DADOS DO SISTEMA<br /> Grupo de Usuário: <b>#{usuario.grupos.get(0).nome}</b>
+				<br /> <br />
+				</label>
+			</h6>
+			<h5><span style="color: red;">ÚLTIMAS NOTÍCIAS DO SISCAP</span> <a href="http://intranet/ac/degss/sistemas/siscap/noticias-siscap" target="_blank">(Clique Aqui)</a></h5>
+			<br /> <br /> <br />
+		</div>
+		<h:form id="formAbertura">
+			<p:confirmDialog message="USUÁRIO GESTOR - SELEÇÂO DE FILIAL"
+				id="dlgGestor" showEffect="bounce" hideEffect="fade"
+				widgetVar="dlgGestor">
+				<fieldset>
+					<p>
+						Você logou no sistema como um usuário
+						#{usuario.grupos.get(0).nome}.<br /> Para viabilizar a operação
+						do sistema informe a filial em que deseja trabalhar.
+					</p>
+					<label>Centro de Distribuição: * <h:selectOneMenu
+							id="campoCD" label="#{msgs.CD}" value="#{usuario.campoCD}"
+							styleClass="#{component.valid ? '': 'error' } f4col"
+							required="true" requiredMessage="#{msgs.CD} é Obrigatório">
+							<f:selectItem itemValue="" itemLabel="Selecione um Item." />
+							<f:selectItem itemValue="    00049748" itemLabel="CD Leste" />
+							<f:selectItem itemValue="    00004010" itemLabel="CD Oeste" />
+							<p:ajax execute="@this" update="@form" process="@this" />
+						</h:selectOneMenu> <br /> <h:message for="campoCD" errorClass="errorMsg"
+							infoClass="errorMsg" />
+					</label>
+				</fieldset>
+				<div class="fldBtns">
+					<p:commandButton value="    OK    "
+						onclick="PF('dlgGestor').hide(); return false;" />
+				</div>
+			</p:confirmDialog>
+			<p:dialog header="Cronograma Validação - Grupo de Atendimento" widgetVar="dlgGrp"
+			id="pesquisaCrono" resizable="false" width="400" showEffect="fade" hideEffect="fade">
+				<label>Grupo de Atendimento: </label> 
+				<div class="fldBtns">
+					<p:commandButton value="    OK    "	onclick="PF('dlgGrp').hide(); return false;" />
+				</div>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

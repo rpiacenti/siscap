@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:cc="http://java.sun.com/jsf/composite">
+	
+	<cc:interface componentType="br.com.correios.ppjsistema.components.Mensagens">
+		<cc:attribute name="id" default="#{cc.clientId}"></cc:attribute>
+	</cc:interface>
+	
+	<cc:implementation>
+		<div class="msg" id="#{cc.attrs.id}">
+			<ui:repeat var="mensagem" value="#{cc.attrs.mensagensGlobais}">
+				<ui:fragment  rendered="#{mensagem.severity eq 'INFO 0'}">
+					<div class="info information">
+						<img src="#{resource['img:layout/trans.gif']}" width="25px" height="25px"  />
+						<h:outputText value="#{mensagem.summary}" escape="false" /> 
+					</div>
+				</ui:fragment>
+				<ui:fragment  rendered="#{mensagem.severity eq 'WARN 1'}">
+					<div class="info alert">
+						<img src="#{resource['img:layout/trans.gif']}" width="25px" height="25px"  />
+						<h:outputText value="#{mensagem.summary}" escape="false" />
+					</div>
+				</ui:fragment>
+				<ui:fragment  rendered="#{mensagem.severity eq 'ERROR 2'}">
+					<div class="info error">
+						<img src="#{resource['img:layout/trans.gif']}" width="25px" height="25px"  />
+						<h:outputText value="#{mensagem.summary}" escape="false" />
+					</div>
+				</ui:fragment>
+				<ui:fragment  rendered="#{mensagem.severity eq 'FATAL 3'}">
+					<div class="info success">
+						<img src="#{resource['img:layout/trans.gif']}" width="25px" height="25px"  />
+						<h:outputText value="#{mensagem.summary}" escape="false" />
+					</div>
+				</ui:fragment>
+			</ui:repeat>
+		</div>
+	</cc:implementation>
+</html>	

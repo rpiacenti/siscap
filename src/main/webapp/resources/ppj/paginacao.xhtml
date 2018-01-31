@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true"  shortDescription="ManagedBean com o método para fazer a paginação"/>
+	<cc:attribute name="paginador" required="true" type="br.com.correios.ppjsiscap.paginador.Paginador" />
+	<cc:attribute name="acaoProximaPagina" required="true" shortDescription="Método do bean que faz a ação para buscar os registros."/>
+	<cc:attribute name="exibirTotalRegistros" default="false" shortDescription="Exibir ou não o label contendo o total de registros."/>
+	<cc:attribute name="estiloTotalRegistros" default="totalRegistros" shortDescription="Css da Div que contém o label com a descrição do total de registros" />
+</cc:interface>				
+
+<cc:implementation >
+	<ui:fragment rendered="#{cc.attrs.exibirTotalRegistros}">
+		<div class="#{cc.attrs.estiloTotalRegistros}" >#{msgs.total} #{msgs.de} #{msgs.registros}: #{cc.attrs.paginador.totalDeRegistros}</div>
+	</ui:fragment>
+	<span class="pagination" >
+		<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual le 1}">
+	   		<h:graphicImage value="#{resource['img:layout/arrowLIna.png']}" title="#{msgs['pagina.anterior.registros']}" />
+		</ui:fragment>
+		<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual > 1}">
+			<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual le cc.attrs.paginador.quantidadeDePaginas}">
+				<h:commandLink >
+					<h:graphicImage value="#{resource['img:layout/arrowLAct.png']}" title="#{msgs['pagina.anterior.registros']}" />
+					<f:ajax execute="@this"  render="@form" listener="#{cc.attrs.managedBean[cc.attrs.acaoProximaPagina](cc.attrs.paginador.paginaAtual-1)}" />					
+				</h:commandLink>
+			</ui:fragment>
+			<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual > cc.attrs.paginador.quantidadeDePaginas}">
+				<h:graphicImage value="#{resource['img:layout/arrowLIna.png']}" title="#{msgs['pagina.anterior.registros']}" />
+			</ui:fragment>
+		</ui:fragment>	   
+		<h:inputText value="#{cc.attrs.paginador.paginaAtual}" styleClass="f1col"> 
+			<f:ajax event="keyup" execute="@this" render="@form" listener="#{cc.attrs.managedBean[cc.attrs.acaoProximaPagina](cc.attrs.paginador.paginaAtual)}"/>
+		</h:inputText>
+		#{msgs.de}	#{cc.attrs.paginador.quantidadeDePaginas}
+		<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual ge cc.attrs.paginador.quantidadeDePaginas}">
+			<h:graphicImage value="#{resource['img:layout/arrowRIna.png']}" title="#{msgs['proxima.pagina.registros']}" />							
+		</ui:fragment>
+		<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual le 0}">
+			<h:graphicImage value="#{resource['img:layout/arrowRIna.png']}" title="#{msgs['proxima.pagina.registros']}" />							
+		</ui:fragment>
+		<ui:fragment rendered="#{cc.attrs.paginador.paginaAtual lt cc.attrs.paginador.quantidadeDePaginas}">			
+	        <h:commandLink>
+				<h:graphicImage value="#{resource['img:layout/arrowRAct.png']}" title="#{msgs['proxima.pagina.registros']}"  />
+				<f:ajax render="@form" event="click"  execute="@this"  listener="#{cc.attrs.managedBean[cc.attrs.acaoProximaPagina](cc.attrs.paginador.paginaAtual+1)}" />									
+			</h:commandLink>			
+	    </ui:fragment>
+	</span>
+</cc:implementation>
+
+</html>

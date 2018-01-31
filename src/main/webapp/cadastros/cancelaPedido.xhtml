@@ -1,0 +1,137 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<h:outputStylesheet name="primefaces-custom.css" />
+
+	<!-- datatable -->
+	<h:outputScript library="js" name="datatable.js" />
+
+	<!-- 	<ui:define name="ajuda">
+		<ppj:linkAjuda nomeArquivo="cadastrarorgaogrupo"></ppj:linkAjuda>
+	</ui:define>
+ -->
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.cancelar} #{msgs.pedido}" />
+	</ui:define>
+
+	<ui:define name="trilha">
+		#{msgs.cancelar} #{msgs.pedido}
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
+		<h:outputScript library="js" name="jquery.maskedinput.min.js"
+			target="head" />
+
+
+		<ppj:messages />
+
+		<h:form id="formPedido" frame="none">
+			<f:metadata>
+				<f:viewParam name="id" value="" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" />
+			<fieldset>
+				<!-- register a PostValidateEvent -->
+
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1">
+				
+
+						<label style="foat: rigth">#{msgs.numeropedido}:</label>
+
+						<h:inputText style="foat: left" value="#{PedidoMB.numeropedido}" id="campoNumPedido"
+							label="#{msgs.numeropedido}" readonly="false" />
+
+						
+						<h:message for="campoNumPedido" errorClass="errorMsg" />
+
+
+
+
+				</p:panel>
+				<br />
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1">
+
+					<p:dataTable value="#{PedidoMB.pedidolist}" var="ped" id="pedList"
+						editable="true" emptyMessage="Nenhum item na lista !">
+
+						<p:ajax event="rowEdit" listener="#{PedidoMB.onEdit}"
+							update=":formPedido:messages" />
+						<p:ajax event="rowEditCancel" listener="#{PedidoMB.onCancel}"
+							update=":formPedido:messages :formPedido:pedList" />
+
+						<f:facet name="header">Detalhes do Pedido</f:facet>
+
+						<p:column headerText="Código Item" style="width:50px">
+
+							<h:outputText value="#{ped.codigoItem}" />
+
+						</p:column>
+
+						<p:column headerText="Descrição" style="width:250px">
+							<h:outputText value="#{ped.descricaoItem}" />
+						</p:column>
+
+						<p:column headerText="Unidade Medida" style="width:100px">
+							<h:outputText value="#{ped.unidadeMedida}"
+								style="text-align: center;" />
+							<f:facet name="footer" style="float: right;">  Custo Total Pedido: </f:facet>
+						</p:column>
+
+						<p:column classStyle="texto_direita" headerText="Custo"
+							style="width:50px">
+							<div style="horizontal-align: right;">
+								<h:outputText value="#{ped.valorUnitario}" style="float: right;" />
+								<f:facet name="footer" style="float: right;">#{PedidoMB.custototal} </f:facet>
+							</div>
+						</p:column>
+
+						<p:column headerText="Quantidade" style="width:50px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{ped.quantidade}" style="float: right;" />
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText value="#{ped.quantidade}"
+										style="width:85%; float: right;" />
+
+								</f:facet>
+
+
+							</p:cellEditor>
+						</p:column>
+
+
+					</p:dataTable>
+
+
+				</p:panel>
+				<div class="fldBtns">
+					<h:commandButton value="#{msgs.cancelar}"
+						update=":formPedido:pedList "
+						actionListener="#{PedidoMB.cancelar}" id="btnCancelar"
+						styleClass="cancelar" immediate="true" />
+
+					<h:commandButton value="#{msgs.excluir}"
+						action="#{ParametroMB.excluirGrupoAtendimento}" id="btnExcluir" />
+					<h:commandButton value="#{msgs.salvar}"
+						action="#{ParametroMB.incluirGrupoAtendimento}" id="btnIncluir" />
+					<h:commandButton value="#{msgs.pesquisar}"
+						action="#{ParametroMB.alterarGrupoAtendimento}" id="btnPesquisar" />
+
+				</div>
+				</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

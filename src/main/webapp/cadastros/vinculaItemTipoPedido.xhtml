@@ -1,0 +1,130 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="Vincula Item a Tipo de Pedido" />
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:ajaxStatus id="ajaxStatusPanel" styleClass="ajaxStatus">
+			<f:facet name="start">
+				<h:graphicImage value="#{resource['img:layout/trans.gif']}" width="22px" height="22px" styleClass="aguarde" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>                                                                                                           
+		</p:ajaxStatus>	
+
+		<h:form id="formParametroItem" frame="none">
+			<f:metadata>
+				<f:viewParam name="id" value="#{vinculaItemTipoPedidoMB.id}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+			
+
+			<p:fieldset styleClass="formSearch" legend="Entrada de Parâmetros">
+				<label> #{msgs.CD}:<br /> <h:selectOneMenu
+						value="#{vinculaItemTipoPedidoMB.itemDisponivel.itp_co_cia}"
+						id="campoCD" label="#{msgs.CD}" required="true">
+						<f:selectItem itemValue="00000000" itemLabel="" />
+						<f:selectItems value="#{vinculaItemTipoPedidoMB.listacds}"
+							var="cd" itemValue="#{cd.value}" itemLabel="#{cd.label}" />
+						<p:ajax render="@form" event="change"
+							listener="#{vinculaItemTipoPedidoMB.onChangeCD}" process="@this"
+							update=":formParametroItem:campoTipo, :formParametroItem:itemList " />
+					</h:selectOneMenu>
+				</label>
+				<label>#{msgs.tipopedido}:<br /> <h:selectOneMenu
+						value="#{vinculaItemTipoPedidoMB.itemDisponivel.itp_tx_tipo_pedido}"
+						id="campoTipo" label="#{msgs.tipopedido}" required="true"
+						imedidate="true" disabled="#{vinculaItemTipoPedidoMB.disabledTIP}">
+						<f:selectItem itemValue="" itemLabel="" />
+						<f:selectItem itemValue="T" itemLabel="Todos" />
+						<f:selectItem itemValue="N" itemLabel="Normal" /> 
+						<p:ajax event="change" render="@form" 
+							listener="#{vinculaItemTipoPedidoMB.onChangeTip}" process="@this"
+							update=":formParametroItem:campoTipoOrgao, :formParametroItem:itemList " />
+
+					</h:selectOneMenu>
+				</label>
+				<label>#{msgs.tipoorgao}:<br /> <h:selectOneMenu
+						value="#{vinculaItemTipoPedidoMB.itemDisponivel.itp_tx_natureza_orgao}"
+						id="campoTipoOrgao" label="#{msgs.tipoorgao}" required="true"
+						imedidate="true" disabled="#{vinculaItemTipoPedidoMB.disabledORG}"
+						valueChangeListener="#{vinculaItemTipoPedidoMB.onChangeOrg}">
+						<f:selectItems
+							value="#{vinculaItemTipoPedidoMB.listanaturezaorgao}" />
+						<p:ajax event="change"
+							listener="#{vinculaItemTipoPedidoMB.onChangeOrg}" process="@this"
+							render="@form" update=" :formParametroItem:itemList " />
+					</h:selectOneMenu>
+				</label>
+				<label>Quantidade Máxima por Item:<br />
+					<p:inputText style="float: right"	id="qtMaxima" value="#{vinculaItemTipoPedidoMB.qtMaxima}"	readonly="false"  size="6"/> 
+				</label>
+			</p:fieldset>
+
+			<fieldset>
+				
+					<p:dataTable value="#{vinculaItemTipoPedidoMB.itemDisponivelCDs}"
+						var="item" id="itemList" widgetVar="itemListW"
+						rowIndexVar="rowIndex" rowKey="#{item.itp_co_item}"
+						selection="#{vinculaItemTipoPedidoMB.selectedItem}"
+						selectionMode="single" emptyMessage="Nenhum item na lista !"
+						paginator="true" rows="20" rendered="true"
+						currentPageReportTemplate="{currentPage} de {totalPages} pág., {totalRecords} reg."
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}  {PageLinks} {NextPageLink} {LastPageLink}  ">
+
+						<p:ajax event="rowSelect"
+							listener="#{vinculaItemTipoPedidoMB.onRowSelect}" render="@this" update=" :formParametroItem:itemList " />
+
+						<f:facet name="header"><div style="font:caption;">Lista de Itens</div></f:facet>
+						
+						<p:column style="padding: 2px; width: 23px">
+							<h:selectBooleanCheckbox value="#{item.marcado}" disabled="true" />
+						</p:column>
+						
+						<p:column headerText="#{msgs.codigoitem}" width="60"  filterBy="#{item.itp_co_item}" filterStyle="width:60px; margin:0px;">
+							<h:outputText value="#{item.itp_co_item }" />
+						</p:column>
+
+						<p:column headerText="#{msgs.descricao}"
+							 width="280" filterBy="#{item.itp_tx_descricao_item}" filterStyle="width:280px; text-size: 280px; margin:0px;">
+							<h:outputText value="#{item.itp_tx_descricao_item}" />
+						</p:column>
+
+						<p:column headerText="#{msgs.unidadedemedida}"
+							style="padding: 2px; text-align: center; width: 150px">	
+							<h:outputText value="#{item.unidMedFormatada}" />
+						</p:column>
+						
+						<p:column headerText="Qtd. Max."
+							filterBy="#{item.pit_pe_item_padrao}"
+							filterStyle="width:45px; float : center;" styleClass="ui-datatable-header-right"
+							style="padding: 2px; text-align: center; width: 55px; ">	
+							<h:outputText value="#{item.pit_pe_item_padrao}" style="float: right;"/>
+						</p:column>
+
+						<p:column headerText="#{msgs.tipo}" style="padding: 0px; text-align: left; width: 25px; "
+							filterBy="#{item.itp_tx_tipo_item}"
+							filterStyle="width:25px; float : center;" styleClass="ui-datatable-header-right">
+							<h:outputText value="#{item.itp_tx_tipo_item}" style="float: right;"/>
+						</p:column>
+
+						
+
+					</p:dataTable>
+				
+			</fieldset>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>

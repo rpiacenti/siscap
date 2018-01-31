@@ -1,0 +1,345 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.relatorio}s de Gestores" />
+	</ui:define>
+
+
+	<ui:define name="corpo">
+
+		<h:form id="formRelatorioGestor">
+			<f:metadata>
+				<f:viewParam name="id" value="#{relatorioMB.idrelat}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="true" autoUpdate="true" redisplay="false" />
+			<fieldset>
+
+				<p:panel header="Escolha um Relatório">
+					<ul>
+						<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px;" onclick="PF('dlg1').show(); return false;"> 
+                        Relatório de Grupos de Atendimento
+				</h:outputLink></li>
+						<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px" onclick="PF('dlg2').show(); return false;"> 
+                        Relatório de Orgãos e Grupos de Atendimento
+				</h:outputLink></li>
+						<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px" onclick="PF('dlg3').show(); return false;"> 
+                        Relatório de Cronograma Atendimento
+				</h:outputLink></li>
+						<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px" onclick="PF('dlg4').show(); return false;"> 
+                        Relatório de Itens Parametrizados
+				</h:outputLink></li>
+				<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px" onclick="PF('dlg5').show(); return false;"> 
+                        Relatório de Pedidos na Captação
+				</h:outputLink></li>
+				<li style="padding: 5px 2px;"><h:outputLink
+								style="margin-right:20px" onclick="PF('dlg6').show(); return false;"> 
+                        Relatório de Status Geral de Pedidos
+				</h:outputLink></li>
+
+					</ul>
+
+				</p:panel>
+
+
+</fieldset>
+	
+
+				<!-- ////////////// Inicio Dialogs ///////////////////// -->
+				<p:dialog header="Relatório Grupo de Atendimento" widgetVar="dlg1"
+					resizable="false" modal="false" width="600">
+					<p:growl id="messages1" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+					<p:panel header="Parametros do Relatório">
+
+						<table  style="text-align: left">
+							<tr>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.CD}:" /> <h:selectOneMenu
+										value="#{relatorioMB.cd}" id="campoCD" label="#{msgs.CD}">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listacds}" />
+										<f:ajax execute="@this" event="change"/>
+									</h:selectOneMenu></td>
+
+							</tr>
+							</table>
+					</p:panel>
+					
+					<div class="fldBtns">
+						<h:commandButton value=" Cancelar "
+										onclick="PF('dlg1').hide()" id="btnCancelar1" />
+						<h:commandButton value="#{msgs.gerar} Relatório" target="_blank"
+										action="#{relatorioMB.onGerarRaletorioGestor(1)}"
+										id="btnImprime1" />
+					</div>		
+						
+				</p:dialog>
+
+
+
+
+				<p:dialog header="Relatório Orgãos / Grupo de Atendimento"
+					widgetVar="dlg2" resizable="false" modal="false" width="600">
+					<p:panel header="Parametros do Relatório">
+					<p:growl id="messages2" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+
+						<table width="800" rules="none" border="0"
+							style="text-align: left">
+							<tr>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.CD}:" /> <p:selectOneMenu
+										value="#{relatorioMB.cd}" id="campoCD2" label="#{msgs.CD}">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listacds}" />
+										<f:ajax execute="@this" render="messages2" />
+									</p:selectOneMenu></td>
+
+							</tr>
+							<tr>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="MCU Orgão:" /> <p:inputText value="#{relatorioMB.mcu}" /></td>
+
+							</tr>
+						</table>
+					</p:panel>
+					<div class="fldBtns">
+					<h:commandButton value=" Cancelar "
+										onclick="PF('dlg2').hide()" id="btnCancelar2" />
+					<h:commandButton value="#{msgs.gerar} Relatório"
+										target="_blank"
+										action="#{relatorioMB.onGerarRaletorioGestor(2)}"
+										id="btnImprime2" />		
+					</div>
+				</p:dialog>
+
+
+				<p:dialog header="Relatório Cronograna de Atendimento"
+					widgetVar="dlg3" resizable="false" modal="false" width="600">
+					<p:growl id="messages3" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+					<p:panel header="Parametros do Relatório">
+						<label> (*) Campo Obrigatório !</label>
+						<table  style="text-align: left">
+							<tr>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.CD}:" /> <h:selectOneMenu
+										value="#{relatorioMB.cd}" id="campoCD3" label="#{msgs.CD}">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listacds}" />
+										<f:ajax execute="@this" render="messages3" />
+									</h:selectOneMenu></td>
+
+							</tr>
+							<tr>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="Grupo de Atendimento:" /> 
+										<h:inputText value="#{relatorioMB.grupo}" /></td>
+
+							</tr>
+
+							<tr>
+
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.ano}:*" /> <h:selectOneMenu
+										value="#{relatorioMB.ano}" id="campoAno3" label="#{msgs.ano}">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listaanos}" />
+										<f:ajax execute="@this" render="messages3" />
+									</h:selectOneMenu></td>
+
+							</tr>
+						</table>
+					</p:panel>
+
+				<div class="fldBtns">
+					<h:commandButton value=" Cancelar " onclick="PF('dlg3').hide()"
+						id="btnCancelar3" />
+					<h:commandButton value="#{msgs.gerar} Relatório" target="_blank"
+						action="#{relatorioMB.onGerarRaletorioGestor(3)}" id="btnImprime3" />
+					
+
+				</div>
+
+			</p:dialog>
+			
+			<p:dialog header="Relatório Itens Parametrizados" widgetVar="dlg4"
+					resizable="false" modal="false" width="600">
+					<p:growl id="messages4" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+					<p:panel header="Parametros do Relatório">
+						<label > (*) Campo Obrigatório !</label>
+						<table style="text-align: left">
+							<tr>
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.CD}: * " /> <h:selectOneMenu
+										value="#{relatorioMB.cd}" id="campoCD4" label="#{msgs.CD}">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listacds}" />
+										<f:ajax execute="@this" render="messages4" />
+									</h:selectOneMenu></td>
+								
+							</tr>
+
+							<tr>
+
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.tipo} de Pedido:" /> <h:selectOneMenu
+										value="#{relatorioMB.tipopedido}" id="campoTipoPed"
+										label="#{msgs.tipo} de Pedido">
+										<f:selectItem itemValue="%25" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listatipopedido}" />
+										<f:ajax execute="@this" render="messages4" />
+									</h:selectOneMenu></td>
+
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="#{msgs.tipo} Orgão:" /> <h:selectOneMenu
+										value="#{relatorioMB.tipoorgao}" id="campoCategoria"
+										label="#{msgs.tipo} Orgão">
+										<f:selectItem itemValue="%25" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listanaturezaorgao}" />
+										<f:ajax execute="@this" render="messages4" />
+									</h:selectOneMenu></td>
+
+							</tr>
+							<tr>
+									<td style="text-align: left" width="50%"><h:outputLabel
+										value="Descrição Item:" /> <h:inputText
+										value="#{relatorioMB.descricao}" size="25" maxlength="25" /></td>
+							</tr>
+						</table>
+					</p:panel>
+					<div class="fldBtns">
+					<h:commandButton value=" Cancelar "
+										onclick="PF('dlg4').hide()" id="btnCancelar4" />		
+					<h:commandButton value="#{msgs.gerar} Relatório" target="_blank"
+										action="#{relatorioMB.onGerarRaletorioGestor(4)}"
+										id="btnImprime4" process="@this" />
+					</div>			
+				</p:dialog>
+			
+
+			<p:dialog header="Relatório de Pedidos na Captação"
+				widgetVar="dlg5" resizable="false" modal="false" width="600">
+				<h:form>
+				<p:growl id="messages5" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+				<p:panel header="Parametros do Relatório">
+					<label> (*) Campo Obrigatório !</label>
+					<table width="800" rules="none" border="0" style="text-align: left">
+						<tr>
+							<td width="80px;"><label class="f0col"> Data
+									Inicial: * </label></td>
+							<td><p:calendar id="campoDtInicial5"
+									value="#{relatorioMB.dt_inicial}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="false" requiredMessage="Informe a data Inicial !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax process="@this" event="change" />
+								</p:calendar></td>
+							<td><h:message for="campoDtInicial5"
+									errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+							<td width="80px;"><label class="f0col"> Data
+									Final: * </label></td>
+							<td><p:calendar id="campoDtFinal5"
+									value="#{relatorioMB.dt_final}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="false" requiredMessage="Informe a data final !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax process="@this" event="change" />
+								</p:calendar></td>
+							<td><h:message for="campoDtFinal5"
+									errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+								<td style="text-align: left" width="50%"><h:outputLabel
+										value="SE: * " /> 
+									<h:selectOneMenu
+										value="#{relatorioMB.dr}" id="campoDR5" label="DR"
+										required="false">
+										<f:selectItem itemValue="#{null}" itemLabel="" />
+										<f:selectItems value="#{relatorioMB.listadrs}" />
+										<f:ajax execute="@this" render="messages5" />
+									</h:selectOneMenu></td>
+								
+							</tr>
+					</table>
+				</p:panel>
+						<div class="fldBtns">
+						<h:commandButton value=" Cancelar "
+										onclick="PF('dlg5').hide()" id="btnCancelar5" />
+						<h:commandButton value="Gerar Relatório" target="_blank" 
+								action="#{relatorioMB.onGerarRaletorioGestor(5)}" id="btnImprime5" />
+						</div>
+				</h:form>
+			</p:dialog>
+			<p:dialog header="Relatório de Status Geral de Pedidos"
+				widgetVar="dlg6" resizable="false" modal="false" width="600">
+				<p:growl id="messages6" showDetail="true" sticky="false" life="5000"
+					globalOnly="true" autoUpdate="true" redisplay="false" />
+				<p:panel header="Parametros do Relatório">
+					<label> (*) Campo Obrigatório !</label>
+					<table style="text-align: left; width : 800px;">
+						<tr>
+							<td width="80px;"><label > Data
+									Inicial: * </label></td>
+							<td><p:calendar id="campoDtInicial6"
+									value="#{relatorioMB.dt_inicial2}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="false" requiredMessage="Informe a data Inicial !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax process="@this" event="change" />
+								</p:calendar></td>
+
+						</tr>
+						<tr>
+							<td width="80px;"><label > Data
+									Final: * </label></td>
+							<td><p:calendar id="campoDtFinal6"
+									value="#{relatorioMB.dt_final2}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar"
+									required="false" requiredMessage="Informe a data final !">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax process="@this" event="change" />
+								</p:calendar></td>
+
+						</tr>
+					</table>
+				</p:panel>
+						<div class="fldBtns">
+						<h:commandButton value=" Cancelar "
+										onclick="PF('dlg6').hide()" id="btnCancelar6" />	
+						<h:commandButton value="Gerar Relatório" target="_blank" 
+								action="#{relatorioMB.onGerarRaletorioGestor(6)}" id="btnImprime6" />
+							
+						</div>
+			</p:dialog>
+
+	</h:form>
+
+	</ui:define>
+
+</ui:composition>

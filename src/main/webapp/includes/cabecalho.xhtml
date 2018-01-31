@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form>
+	
+	<div class="header">
+		<h1 >
+			<a href="#{request.contextPath}/index.jsp">
+				<img src="#{resource['img:layout/logo.png']}" title="ECT - Empresa Brasileira de Correios e Telégrafos" />
+			</a>
+		</h1>
+        <div class="acesso_rapido">
+           	<div class="text-right">	
+               	<span><a class="inline" href="#inline_content">#{msgs.sobreSistema}</a></span>
+				<span><a href="http://www.correios.com.br" target="_blank">#{msgs.portalCorreios}</a></span>
+				<span><a href=" http://www.correios.com.br/sobre-correios/fale-com-os-correios/fc" target="_blank">#{msgs.faleComCorreios}</a></span>
+			</div>
+		</div><!-- acesso rápido -->
+		<div class="ident">
+			<ui:fragment rendered="#{not empty usuario.nome}">
+				<a href="#"><span class="name">#{usuario.nome}</span></a> -  #{usuario.siglaLotacao != null ? usuario.siglaLotacao : ""}
+			<h:outputText value="#{session.lastAccessedTime}">
+    			<f:convertDateTime pattern="( dd/MM/yyyy - HH:mm )" type="date" />
+			</h:outputText>
+			</ui:fragment>
+			<ui:fragment rendered="#{empty usuario.nome}">
+				<span class="name"><font color="#F2F2F2">.</font></span>
+			</ui:fragment>			
+			
+		</div>
+	</div><!--header-->
+	
+	<div class="modal">
+		<div id="inline_content" class="modalAlertaContent" >
+            <fieldset>
+				<h3>#{initParam.siglaSistema} - #{initParam.nomeSistema}<br />
+					Versão: #{initParam.versaoApp}
+				</h3>				
+				<div class="div1col"><h:graphicImage value="#{resource['img:layout/trans.gif']}" width="30px" height="26px" styleClass="s_info" /></div>
+				<div class="div10col">
+				
+				<h6 align="justify">
+				 	O Pré Projeto Java - PPJ - É um sistema com funcionalidades comuns já implementadas. 
+				 	Testado e homologado pela ECT, serve para o desenvolvimento de novos sistemas na empresa com o objetivo de promover produtividade, melhor manutenabilidade e interface visual.
+				</h6>
+				</div>
+				<div class="fldBtns">
+					<button onclick="$('#inline_content').colorbox.close();" >#{msgs.fechar}</button>
+				</div>
+				
+		  </fieldset>
+        </div>
+     </div>
+     
+     <div class="modal">
+		<div id="inline_content2" class="modalAlertaContent" >
+            <fieldset>
+			<div class="div1col"><h:graphicImage value="#{resource['img:layout/trans.gif']}" width="30px" height="26px" styleClass="s_info" /></div>
+			<div class="div10col">
+				<h5>
+					#{msgs.grupos}<br />
+				</h5>
+				<h6 align="justify">
+				 	<ui:repeat var="grupo" value="#{usuario.grupos}">
+						#{grupo.nome} <br />
+					</ui:repeat>
+				</h6>
+				<h5>
+					<br />
+				</h5> 
+				<h:selectOneMenu value="usuarioExternoPJ">
+						<f:selectItems value="#{usuario.usuariosExternosPJ}"
+									   var="uExternoPJ" 
+									   itemLabel="#{uExternoPJ.nomeFantasia}"
+									   itemValue="#{uExternoPJ.idCorreios}" />
+				</h:selectOneMenu>
+			</div>
+			<div class="fldBtns">
+				<button onclick="$('#inline_content2').colorbox.close();" >#{msgs.fechar}</button>
+			</div>
+		</fieldset>
+        </div>
+     </div>
+	
+	</h:form>
+	
+</ui:composition>

@@ -1,0 +1,41 @@
+<ui:composition template="/template/templatePaginaErro.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+	<ui:define name="tituloPagina">
+		#{msgs['sessao.web.expirou']}
+	</ui:define>
+	
+	<ui:define name="subtituloPagina">
+		#{msgs.aviso}!
+	</ui:define>
+	
+	<ui:define name="corpo">	
+		<script>
+		$(function(){			
+
+			$('#form-sessao-expirada\\:linkInicio').click(function (){
+					console.log("link clicado");
+					window.location = $(this).attr("href");
+				});
+			
+			setTimeout(
+				function(){
+					$('#form-sessao-expirada\\:linkInicio').trigger("click");
+				},5000);
+	           
+	    });
+		</script>
+		<h:form id="form-sessao-expirada" style="color:red">		
+			<p>
+				Clique <h:link  id="linkInicio" outcome="/inicio/inicio.jsf" >aqui</h:link> para ser redirecionado para página início da aplicação. 
+				Ao fazer isso você renovará a sessão da aplicação a partir do sessão autenticada do idCorreios. Ou agurde 5 segundos para ser redirecionado automaticamente.
+			</p>				
+		</h:form>
+	</ui:define>
+</ui:composition>

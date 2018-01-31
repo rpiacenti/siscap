@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true" />
+	<cc:attribute name="listaDeLinhas" default="listaDeLinhas" />
+	<cc:attribute name="listaDeColunas" default="listaDeColunas" />
+	<cc:attribute name="acaoEnviar" default="imprimeCodigoDeBarras" />
+	<cc:attribute name="immediate" default="false" />
+</cc:interface>
+
+<cc:implementation >
+	<div class="divImpressaoCaixa" style="width: #{(67 * objetoExternoMB.listaDeColunas.size())}px">
+		<ui:repeat var="linha" value="#{cc.attrs.managedBean[cc.attrs.listaDeLinhas]}" varStatus="indexLinha">
+			<ui:repeat var="coluna" value="#{cc.attrs.managedBean[cc.attrs.listaDeColunas]}" varStatus="indexColuna">
+				<div class="divImpressaoEtiqueta">
+					<center>
+					<label>
+						<h:commandLink title="#{msgs.imprimir} #{msgs['codigo.barras']}" 
+								actionListener="#{cc.attrs.managedBean[cc.attrs.acaoEnviar]((indexLinha.index * objetoExternoMB.listaDeColunas.size()) + indexColuna.index + 1)}"
+								reRender="mensagens"
+								styleClass="linkPreto"
+								immediate="#{cc.attrs.immediate}">	
+							<h:outputLabel value="#{(indexLinha.index * objetoExternoMB.listaDeColunas.size()) + indexColuna.index + 1}" />
+						</h:commandLink>
+					</label>
+					</center>
+				</div>
+			</ui:repeat>
+			<br />
+		</ui:repeat>
+	</div>
+	<div class="separator"></div>
+</cc:implementation>
+</html>
+

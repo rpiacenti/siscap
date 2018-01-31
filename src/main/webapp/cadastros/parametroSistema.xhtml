@@ -1,0 +1,270 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+
+	<h:outputStylesheet name="primefaces-custom.css" />
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.parametrizacao}" />
+	</ui:define>
+
+
+
+	<ui:define name="corpo">
+
+		<p:ajaxStatus id="ajaxStatusPanel" styleClass="ajaxStatus">
+			<f:facet name="start">
+				<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+					width="22px" height="22px" styleClass="aguarde" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+		<h:form id="formParametro" frame="none">
+
+
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="true" autoUpdate="true" redisplay="false" />
+
+			<fieldset>
+				<p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>
+			<!--  	<p:panel width="790" rules="none" frame="none" align="center" border="none"
+					columns="1" header="Informações do Parâmetro" id="panelPAR">-->
+					<table style="width : 100%;">
+						<tr>
+							<td><label>#{msgs.CD}: *</label></td>
+
+							<td><h:selectOneMenu value="#{parametrosMB.cd}" id="campoCD"
+									label="#{msgs.CD}" required="true" imedidate="true"
+									style="align: left">
+									<f:selectItem itemValue="00000000" itemLabel="" />
+									<f:selectItems value="#{parametrosMB.listaCDs}" />
+									<p:ajax render="@this"
+										listener="#{parametrosMB.actionCarregaGRP_DR_PAR}"
+										update=":formParametro:parList :formParametro:campoPAR :formParametro:campoDR :formParametro:campoGRP" />
+								</h:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td><label styleClass="f0col">#{msgs.parametro}: * </label>
+							</td>
+
+							<td><h:selectOneMenu value="#{parametrosMB.parametro}"
+									id="campoPAR" label="#{msgs.PAR}" 
+									imedidate="true" style="align: left" ajax="true">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItems value="#{parametrosMB.listapar}" />
+									<p:ajax event="change" update="@form" />
+								</h:selectOneMenu></td>
+							<td width="40%">
+							<p:commandLink	rendered="#{parametrosMB.disabledlupa}" process="@this"
+								update="@form" oncomplete="PF('dlg').show(); return false;">
+								<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+								styleClass="pesq" title="Consulta Parametros Cadastrados" />
+							</p:commandLink> 
+							<p:commandLink onclick="return false;"	rendered="#{not parametrosMB.disabledlupa}">
+								<h:graphicImage value="#{resource['img:layout/trans.gif']}"
+								styleClass="npesq" title="Consulta Parametros Cadastrados" />
+							</p:commandLink> 
+							
+							</td>
+
+							<td><h:message for="campoPAR" errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+							<td><label >
+									#{msgs.parametroNatureza}: * </label></td>
+							<td><h:selectOneMenu
+									value="#{parametrosMB.natureza_parametro}" id="campoNAT"
+									label="#{msgs.parametroNatureza}" imedidate="true"
+									style="align: left" ajax="true">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItem itemValue="R" itemLabel="Restrição" />
+									<f:selectItem itemValue="P" itemLabel="Permissão" />
+									<p:ajax event="change" update="@this" />
+								</h:selectOneMenu></td>
+							<td><h:message for="campoNAT" errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+							<td><label styleClass="f0col">#{msgs.valorparametro}:
+									* </label></td>
+							<td><h:inputText value="#{parametrosMB.valorparametro}"
+									id="campoValor" label="#{msgs.valorparametro}">
+									<p:ajax event="change" processes="@this" update="@this" />
+								</h:inputText></td>
+							<td><h:message for="campoValor" errorClass="errorMsg f13col" /></td>
+						</tr>
+						<tr>
+							<td><label styleClass="f0col">
+									#{msgs.datavigenciainicial}: * </label></td>
+							<td><p:calendar id="campoDtVigInicial"
+									value="#{parametrosMB.dt_vigencia_inicial}"
+									pattern="dd/MM/yyyy" disabledWeekends="true"
+									popupIcon="ui-icon-calendar">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax event="dateSelect" processes="@this" update="@this, :formParametro:btnSalvar :formParametro:btnExcluir" />
+									<p:ajax event="change" processes="@this" update="@this, :formParametro:btnSalvar :formParametro:btnExcluir" />
+								</p:calendar> 
+									
+									
+							</td>
+							<td><h:message for="campoDtVigInicial"
+									errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+							<td><label styleClass="f0col">
+									#{msgs.datavigenciafinal}: * </label></td>
+							<td><p:calendar id="campoDtVigFinal"
+									value="#{parametrosMB.dt_vigencia_final}" pattern="dd/MM/yyyy"
+									disabledWeekends="true" popupIcon="ui-icon-calendar">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<p:ajax event="dateSelect" processes="@this" update="@this, :formParametro:btnSalvar :formParametro:btnExcluir" />
+								</p:calendar> </td>
+							<td><h:message for="campoDtVigFinal"
+									errorClass="errorMsg f8col" /></td>
+						</tr>
+						
+					</table>
+			<!-- 	</p:panel>  -->
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1" header="Atributos Alvo do Parâmetro" id="panelCAMPO">
+					<table width="800">
+						<tr>
+							<td width="150px;"><label styleClass="f0col">#{msgs.dr}:
+							</label></td>
+							<td><h:selectOneMenu value="#{parametrosMB.dr}" id="campoDR"
+									label="#{msgs.dr}" imedidate="true" style="align: left"
+									disabled="#{parametrosMB.disableddr}">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItems value="#{parametrosMB.listadrs}" var="dr"
+									itemLabel="#{dr.CCNAME}" itemValue="#{dr.CCCO}" />
+									<p:ajax event="change" processes="@this" update="@this" />
+
+								</h:selectOneMenu></td>
+							<td><h:message for="campoDR" errorClass="errorMsg f8col" /></td>
+						</tr>
+						<tr>
+							<td width="150px;"><label styleClass="f0col">#{msgs.grupoAtendimento}:
+							</label></td>
+							<td><h:selectOneMenu value="#{parametrosMB.numerogrupo}"
+									id="campoGRP" imedidate="true" label="#{msgs.grupoAtendimento}"
+									disabled="#{parametrosMB.disabledgrp}">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItems
+									value="#{parametrosMB.listagrupo}" var="grp"
+									itemLabel="#{grp.descricao}" itemValue="#{grp.numGrupo}" />
+									<p:ajax event="change" processes="@this" update="@this" />
+
+								</h:selectOneMenu></td>
+
+							<td><h:message for="campoGRP" errorClass="errorMsg" /></td>
+						</tr>
+						<tr>
+							<td width="150px;"><label styleClass="f0col">#{msgs.tipoorgao}:
+							</label></td>
+							<td><h:selectOneMenu value="#{parametrosMB.tipoorgao}"
+									id="campoTIPO" imedidate="true" label="#{msgs.tipoorgao}"
+									disabled="#{parametrosMB.disabledtipo}">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItems value="#{parametrosMB.listaTPs}" />
+									<p:ajax event="change" processes="@this" update="@this" />
+
+								</h:selectOneMenu></td>
+							<td><h:message for="campoTIPO" errorClass="errorMsg" /></td>
+						</tr>
+
+					</table>
+				</p:panel>
+				<div class="separator"></div>
+
+
+
+				<div class="fldBtns">
+
+
+					<h:commandButton  value="#{msgs.excluir}" id="btnExcluir" widgetVar="btnExcluir"
+						onclick="PF('dlgExcluir').show();" type="button" disabled="#{parametrosMB.disabledExcluir}"/>
+
+					<h:commandButton value="#{msgs.salvar}" id="btnSalvar" widgetVar="btnSalvar"
+						immediate="true" action="#{parametrosMB.onEdit()}" execute="@this"
+						disabled="#{parametrosMB.disabledSalvar}"/>
+
+				</div>
+
+				<p:dialog header="Pesquisa Parametro" widgetVar="dlg" id="dlg"
+					resizable="false" modal="true" width="600">
+
+					<p:dataTable value="#{parametrosMB.parametroList}" var="item"
+						id="parList" emptyMessage="Nenhum item na lista !"
+						paginator="true" rows="10" selection="#{parametrosMB.selectedpar}"
+						selectionMode="single" rowKey="#{item.par_nu}"
+						dblClickSelect="true" immediate="true"
+						onClick="window.location.reload();">
+						<p:ajax event="rowSelect" listener="#{parametrosMB.onRowSelect}"
+							oncomplete="PF('dlg').hide();" process="@this"
+							update=":formParametro:panelCAMPO :formParametro:btnSalvar :formParametro:btnExcluir" ajax="true"/>
+
+
+						<p:column headerText="Parametro" style="width:240px">
+							<h:outputText value="#{item.par_no }" />
+						</p:column>
+						<p:column headerText="Natureza" style="width:10px"
+							filterBy="#{item.par_no}">
+							<h:outputText value="#{item.par_in_natureza}" />
+						</p:column>
+						<p:column headerText="Data Inicio" style="width:100px">
+							<h:outputText value="#{item.par_dt_vigencia_inicial}" />
+						</p:column>
+						<p:column headerText="Data Fim" style="width:100px">
+							<h:outputText value="#{item.par_dt_vigencia_final }" />
+						</p:column>
+						<p:column headerText="Alvo" style="width:60px">
+							<h:outputText
+								value="#{item.ccco_dr}/#{item.drky_tipo_orgao}/#{item.gat_nu}" />
+						</p:column>
+						<p:column headerText="Valor" style="width:20px">
+							<h:outputText value="#{item.par_vr}" />
+						</p:column>
+					</p:dataTable>
+					<div class="fldBtns">
+						<p:commandButton value="Cancelar" id="btnSair"
+							oncomplete="PF('dlg').hide();" process="@this"/>
+					</div>
+				</p:dialog>
+
+				<p:confirmDialog
+					message="Atenção !!!"
+					id="dlgExcluir" showEffect="fade" hideEffect="fade"
+					severity="alert" widgetVar="dlgExcluir" escape="false">
+					
+						<h:outputText
+							value="Você têm certeza que deseja excluir este parâmetro ?" />
+						<br />
+						<br />
+						<div class="fldBtns">
+						<p:commandButton value="Sim quero"
+							update=":formParametro"
+							oncomplete="dlgExcluir.hide()"
+							actionListener="#{parametrosMB.onExcluir}"
+							Style="padding-right: 25px; padding-left: 25px;" return="false"/>
+						<p:commandButton value="Agora Não" onclick="PF('dlgExcluir').hide()"
+							type="button" Style="padding-right: 25px; padding-left: 25px;" />
+	
+					</div>
+				</p:confirmDialog>
+			</fieldset>
+
+
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

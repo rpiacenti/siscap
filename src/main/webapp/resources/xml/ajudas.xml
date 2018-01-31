@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	NÃO UTILIZE CARACTERES ESPECIAIS PARA A PROPRIEDADE nomeArquivo 
+	EXEMPLOS: + - @ # $ % ETC...
+-->
+<ajudasApp>
+	<ajuda nomeArquivo="pesquisarclientes" modulo="Clientes" nomePagina="Pesquisar clientes" />
+	<ajuda nomeArquivo="cadastrarclientes" modulo="Clientes" nomePagina="Cadastrar clientes" />
+	<ajuda nomeArquivo="pesquisardependentes" modulo="Dependentes" nomePagina="Pesquisar dependentes" />
+	<ajuda nomeArquivo="cadastrardependentes" modulo="Dependentes" nomePagina="Cadastrar dependentes" />
+	<ajuda nomeArquivo="pesquisarajudas" modulo="Ajudas" nomePagina="Pesquisar ajudas" />
+	<ajuda nomeArquivo="cadastrarajudas" modulo="Ajudas" nomePagina="Cadastrar ajudas" />
+</ajudasApp>

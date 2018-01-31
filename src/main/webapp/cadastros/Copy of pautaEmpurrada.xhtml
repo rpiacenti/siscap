@@ -1,0 +1,30 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:mj="http://mojarra.dev.java.net/mojarra_ext"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.pautaempurrada}" />
+	</ui:define>
+
+	<ui:define name="trilha">
+		#{msgs.pautaempurrada} > #{msgs.pautaempurrada}
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
+		<ppj:messages />
+
+		<iframe id="ifUpload" src="http://localhost:8080/siscap/arqSend.jsf" align="center" height="250" width="720"> </iframe>	
+			
+	</ui:define>
+
+</ui:composition>

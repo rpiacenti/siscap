@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+		<f:facet name="first">		
+			<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+		</f:facet> 		
+		<link rel="shortcut icon" href="#{resource['img:favicon.ico']}" type="image/x-icon" />		
+		<h:outputStylesheet name="layout.css" library="css"/>
+		<h:outputStylesheet name="primefaces-custom.css" library="css"/>
+		
+		<!-- geral/diversos -->
+		<h:outputScript library="primefaces" name="jquery/jquery.js"  />
+		<h:outputScript library="js" name="ppj.js"/>
+		
+		<!-- modal -->
+		<h:outputScript library="js" name="jquery.colorbox-min.js" />
+		
+		<!-- máscara -->
+		<h:outputScript library="js" name="jquery.maskedinput.min.js" />
+		
+		<!-- tab -->
+		<h:outputScript library="js" name="jquery.tabs.js"  />
+		<script type="text/javascript">document.documentElement.className += " js";</script>
+	</h:head>
+	
+	
+	<h:body> 
+	<ui:fragment rendered="#{initParam['ambienteApp'] != ''}">
+		<ui:include src="/includes/ambiente.xhtml" />
+	</ui:fragment>
+	<ui:include src="/includes/acessibilidade.xhtml" />
+	
+	<div class="wrap">
+		<ui:include src="/includes/cabecalho.xhtml" />
+	
+		<div class="mainContainer">
+		
+			<ui:include src="/includes/sistema.xhtml" />
+			<!-- <ui:include src="/includes/menu.xhtml" />-->
+			
+			<a name="conteudo"></a>
+			<div class="content">
+				
+				<div class="breadCrumb">
+					<ui:insert name="trilha"></ui:insert>
+				</div>
+				<h3><ui:insert name="tituloPagina"></ui:insert></h3>
+				<h4><ui:insert name="subtituloPagina"></ui:insert></h4>
+				<ui:insert name="corpo"></ui:insert>
+				
+			</div>
+			
+			<div class="footer">Política de Privacidade e notas legais - © Copyright 2012 Correios - Todos os direitos reservados </div><!--footer-->
+		
+		</div><!--mainContainer-->
+		
+	</div><!--wrap-->
+	
+	</h:body>
+	
+</html>

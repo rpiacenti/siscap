@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<cc:interface>
+
+</cc:interface>
+
+<cc:implementation >
+	<ui:repeat var="item1nivel" value="#{usuario.menu}" >
+		<li>
+			<ui:fragment rendered="#{item1nivel.itemMenu.url == null}">
+				#{item1nivel.itemMenu.nomeItem}
+			</ui:fragment>
+			<ui:fragment rendered="#{item1nivel.itemMenu.url != null}">
+				<h:outputLink value="#{request.contextPath}#{item1nivel.itemMenu.url}" >#{item1nivel.itemMenu.nomeItem}</h:outputLink>
+			</ui:fragment>
+			<ui:repeat var="item2nivel" value="#{item1nivel.listaDeFilhos}">
+				<ul>
+					<li>
+						<ui:fragment rendered="#{item2nivel.itemMenu.url == null}">
+							#{item2.itemMenu.nomeItem}
+						</ui:fragment>
+						<ui:fragment rendered="#{item2nivel.itemMenu.url != null}">
+							<h:outputLink value="#{request.contextPath}#{item2nivel.itemMenu.url}" >#{item2nivel.itemMenu.nomeItem}</h:outputLink>
+						</ui:fragment>
+						<ui:repeat var="item3nivel" value="#{item2nivel.listaDeFilhos}">
+							<ul>
+								<li>
+									<ui:fragment rendered="#{item3nivel.itemMenu.url == null}">
+										#{item3nivel.itemMenu.nomeItem}
+									</ui:fragment>
+									<ui:fragment rendered="#{item3nivel.itemMenu.url != null}">
+										<h:outputLink value="#{request.contextPath}#{item3nivel.itemMenu.url}" >#{item3nivel.itemMenu.nomeItem}</h:outputLink>
+									</ui:fragment>
+									<ui:repeat var="item4nivel" value="#{item3nivel.listaDeFilhos}">
+										<li>
+											<h:outputLink value="#{request.contextPath}#{item4nivel.itemMenu.url}" >#{item4nivel.itemMenu.nomeItem}</h:outputLink>
+										</li>
+									</ui:repeat>
+								</li>
+							</ul>
+						</ui:repeat>
+					</li>
+				</ul>
+			</ui:repeat>
+		</li>
+	</ui:repeat>
+</cc:implementation>
+</html>

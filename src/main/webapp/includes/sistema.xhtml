@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h2 title="Versão PPJ: #{initParam.versaoPPJ}">${initParam['nomeSistema']} </h2>
+	<div class="shortMenu">
+		<a href="#{request.contextPath}/index.jsp">
+			<img src="#{resource['img:layout/trans.gif']}" width="22px" height="22px" class="inic"/>
+			#{msgs.inicio}
+		</a>
+		<a  href="http://intranet/ac/degss/sistemas/siscap/" title="#{msgs['ajuda']}" target="blank">
+			#{msgs.ajuda}
+		</a>
+		<a  href="#{request.contextPath}/sair" title="#{msgs['sair.do.sistema']}">
+			#{msgs.sair}
+			<img src="#{resource['img:layout/trans.gif']}" width="22px" height="22px" class="sair"/>
+		</a>
+		<ui:insert name="ajuda"></ui:insert>
+	</div>
+	
+</ui:composition>

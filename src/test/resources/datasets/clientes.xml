@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+
+<dataset>
+
+<CAM_CLIENTE CLI_NU="1" CLI_NO="Cliente1" CLI_DT_NASCIMENTO="2013-01-13" CLI_IN_SEXO="M" CLI_IN_ESTADO_CIVIL="2"/>
+<CAM_DEPENDENTE DEP_NU="1"  CLI_NU="1"  DEP_NO="Filho Cliente1" DEP_NU_TELEFONE="[null]"  DEP_IN_PARENTESCO="[null]" />
+<CAM_DEPENDENTE DEP_NU="2"  CLI_NU="1"  DEP_NO="Filha Cliente1" DEP_NU_TELEFONE="[null]"  DEP_IN_PARENTESCO="[null]" />
+
+
+</dataset>

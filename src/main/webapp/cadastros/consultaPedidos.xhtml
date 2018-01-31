@@ -1,0 +1,311 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="tituloPagina">
+		<h:outputText value="Consulta de Pedidos" />
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:ajaxStatus id="ajaxStatusPanel" styleClass="ajaxStatus">
+			<f:facet name="start">
+				<h:graphicImage value="#{resource['img:layout/trans.gif']}" width="22px" height="22px" styleClass="aguarde" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>                                                                                                           
+		</p:ajaxStatus>	
+
+		<h:form id="formConsultaPedido" frame="none">
+			<f:metadata>
+				<f:viewParam name="id" value="#{ConsultaPedidoMB.id}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+			
+			<p:fieldset styleClass="formSearch" >
+				
+            		<label>
+						#{msgs.mcuOrgao}: <br/>
+						<h:inputText disabled="true" value="#{usuario.mculotacao}" 	styleClass=" f3col" />
+					</label>
+            		<p style="font-size:0.9em;">Durante o período de processamento dos pedidos pelo Centro de Distribuição, 
+ 						após sua validação, os pedidos estarão indisponíveis para consulta.
+ 						Aguarde a conclusão do processamento, em até 02(dois) dias úteis, para consultar as fases seguintes.
+ 						Após o seu processamento pelo CD, os pedidos estarão disponíveis no “Histórico de Pedidos”.<br></br>
+ 						Caso seu pedido indicar o status "PENDENTE", procure o seu Centro de Distribuição para maiores informações.</p>    				
+			</p:fieldset>
+
+				<fieldset>
+				<p:panel width="790" rules="none" frame="none" align="center" columns="1" header="">
+
+					<p:dataTable value="#{consultaPedidoMB.pesquisalist}" var="pes"
+						id="pesList" widgetVar="pesListW" rows="10" rowKey="#{pes.EAAA25}" editable="false"
+						emptyMessage="Nenhum item na lista !" rowIndexVar="rowIndex"
+						selectionMode="single">
+					
+
+						<p:ajax event="rowSelect" listener="#{consultaPedidoMB.onRowSelectPedido}"
+							oncomplete="PF('dlg').show();" />
+
+						<f:facet name="header"  >
+						<div style="font:caption;">Pedidos em Andamento</div>
+						
+						</f:facet>
+
+						<p:column headerText="Nº Pedido" style="width:25%">
+
+							<h:outputText value="#{pes.EAAA25}" />
+
+						</p:column>
+
+						<p:column headerText="Tipo Pedido" style="width:12%;text-align: center;">
+
+							<h:outputText value="#{pes.EAT002}" />
+
+						</p:column>
+						
+					 	<p:column headerText="Data do Pedido" style="width:25%">
+							<h:outputText value="#{pes.EATRDJ}"
+								style="text-align: center;" />
+
+						</p:column>
+
+						<p:column headerText="Status" style="width:25%">
+
+							<h:outputText value="#{pes.descricaoEAEDSP}" />
+
+						</p:column>
+
+
+					</p:dataTable>
+
+
+				</p:panel>
+				<br />
+				<p:panel width="790" rules="none" frame="none" align="center"
+					columns="1">
+
+					<p:dataTable value="#{historicoPedidoMB.historicolist}" var="his"
+						id="hisList" emptyMessage="Nenhum item na lista !"
+						rowKey="#{his.VIN_CO}" widgetVar="histVar"
+						currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+						paginator="true" rows="20" filterEvent="enter"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+						selectionMode="single">
+
+						<p:ajax event="rowSelect" listener="#{historicoPedidoMB.onRowSelectPedido}"
+							oncomplete="PF('dlgHis').show();" />
+						
+						<f:facet  name="header">						
+						<div style="font:caption;">Histórico de Pedidos</div>
+						</f:facet>
+
+						<p:column headerText="Nº Pedido" style="float: center;"
+						    filterBy="#{his.VIN_CO}"
+							filterStyle="float: left;">
+							<h:outputText value="#{his.VIN_CO}" />
+						</p:column>
+
+						<p:column headerText="Data Solicitação" style="float: center;">
+							<h:outputText value="#{his.SDDRQJ}" />
+						</p:column>
+
+						<p:column headerText="Data Fatura" style="float: center;"
+						    filterBy="#{his.SDIVD}"
+							filterStyle="float: left">
+							<h:outputText value="#{his.SDIVD}" />
+						</p:column>
+					</p:dataTable>
+
+
+				</p:panel>
+
+				<p:dialog header="Detalhes do Pedido" widgetVar="dlg" id="dlg"
+					resizable="false" modal="true" width="780" closable="false">
+
+					<p:panel width="790" rules="none" frame="none" align="center"
+						columns="1">
+
+						<p:dataTable value="#{consultaPedidoMB.itensDoPedido}" var="item"
+							id="itemList" emptyMessage="Nenhum item na lista !"
+							rowIndexVar="rowIndex" widgetVar="pedidoVar" rows="25"
+							paginator="true" filterEvent="enter"
+							currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport} ">
+
+							<f:facet name="header"><div style="font:caption;">Pedido: <h:outputText
+									value="#{consultaPedidoMB.numeroPedido}" /></div>
+							</f:facet>
+
+							<p:column headerText="Código Item" style="width:5%">
+
+								<h:outputText value="#{item.EALITM}" />
+
+							</p:column>
+
+							<p:column headerText="Descrição" style="width:36%">
+								<h:outputText value="#{item.IMDSC1}" />
+							</p:column>
+
+							<p:column headerText="Tipo" style="width:5%; text-align: center;">
+								<div align="center">
+									<h:outputText value="#{item.EAT002}" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Categoria" style="width:5%;text-align: center;">
+								<div style="horizontal-align: center;">
+									<h:outputText value="#{item.EAT001}" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Unid. Medida" style="width:8%; text-align: center;">
+								<div align="center">
+								<h:outputText value="#{item.unidMedFormatada}"
+									 style="text-align: center;" />
+								</div>
+							</p:column>
+ 
+							<p:column headerText="Quant. Solicitada" style="width:9%; text-align: center;">
+
+								<div style="horizontal-align: right;">
+									<h:outputText value="#{item.EAUORG}" style="text-align: right;"/>
+								</div>
+							</p:column>
+							
+							<p:column headerText="Status Item" style="width:9%; text-align: center;">
+
+								<div style="horizontal-align: right;">
+									<h:outputText value="#{item.descricaoEAEDSP}"/>
+								</div>
+							</p:column>
+							
+							<p:column style="width:4%">
+								<h:graphicImage rendered="#{item.justificativa ne null}" id="imgJustifica" style="width:50%; float: right;" value="#{resource['img:layout/info-16.png']}"/>
+								<p:tooltip id="toolTipFade" for="imgJustifica" value="#{item.justificativa}" position="left"/>
+								<h:graphicImage rendered="#{item.cancelamento ne null}" id="imgNegative" style="width:50%; float: right;" value="#{resource['img:layout/negative.png']}"/>
+								<p:tooltip id="toolTipFade2" for="imgNegative" value="#{item.cancelamento}" position="left"/>
+							</p:column>
+
+						</p:dataTable>
+
+
+					</p:panel>
+					<div class="fldBtns">
+						<h:commandButton value="#{msgs.sair} do Pedido" id="btnSair"
+							onClick="dlg.hide();" action="#{consultaPedidoMB.closeList()}"/>
+							
+
+
+					</div>
+				</p:dialog>
+				
+				
+				<p:dialog header="Detalhes do Pedido - Histórico" widgetVar="dlgHis" id="dlgHis"
+					resizable="false" modal="true" width="750" closable="false">
+
+					<p:panel width="790" rules="none" frame="none" align="center"
+						columns="1">
+						<p:dataTable value="#{historicoPedidoMB.pedidohistoricolist}" var="histitem"
+							id="histitem" emptyMessage="Nenhum item na lista !"
+							rowIndexVar="rowIndex" widgetVar="histitem" rows="20"
+							rowkey="#{histitem.VIN_CO}"
+							paginator="true" filterEvent="enter"
+							currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport} ">
+
+							
+
+							<f:facet name="header"><div style="font:caption;">Pedido: <h:outputText
+									value="#{historicoPedidoMB.numeroPedido}" />
+								<p>	
+								<p:commandLink	 process="@this" oncomplete="PF('dlgReg').show(); return false;">
+									<h:outputText style="font:caption;" value="Registrados do pedido, (clique aqui!)" />
+								</p:commandLink>
+								</p>
+								</div>
+
+							</f:facet>
+							
+
+							<p:column headerText="Código Item" style="width:7%">
+
+								<h:outputText value="#{histitem.SDLITM}" />
+
+							</p:column>
+
+							<p:column headerText="Descrição" style="width:30%">
+								<h:outputText value="#{histitem.SDDSC1}" />
+							</p:column>
+
+							<p:column headerText="Quant. Solic." style="width:8%; text-align: right;">
+								<h:outputText value="#{histitem.SDUORG}"
+									style="text-align: right;" />
+
+							</p:column>
+
+							<p:column headerText="Quant. Atend." style="width:8%; text-align: right;">
+
+								<div style="horizontal-align: right;">
+									<h:outputText value="#{histitem.SDQTYT}" style="float: right;" />
+								</div>
+							</p:column>
+							
+							<p:column headerText="Unid. Medida" style="width:8%; text-align: right;">
+
+								<div align="center">
+									<h:outputText value="#{histitem.SDUOM}" style="float: center;" />
+								</div>
+							</p:column>
+							
+							<p:column headerText="Status ERP" style="width:7%;text-align : center;">
+								<div align="center">
+							<h:outputText value="#{histitem.SDLTTR}" />
+								</div>
+							</p:column>
+
+						</p:dataTable>
+
+
+					</p:panel>
+					<div class="fldBtns">
+						<p:commandButton value="#{msgs.sair} do Pedido" id="btnSairHist"
+							oncomplete="PF('dlgHis').hide();"/>
+					
+					</div>
+				</p:dialog>
+				
+				<p:dialog header="Registrados do Pedido - #{historicoPedidoMB.numeroPedido}" widgetVar="dlgReg" id="dlgReg"
+					resizable="false" modal="true" width="720" closable="false">
+					<p:panel width="710" rules="none" frame="none" align="center"
+						columns="1">
+								<div>
+									<h:outputText value="Todos os registrados do pedido:" style="font:caption;" />
+									<ui:repeat var="reg" value="#{historicoPedidoMB.registrados}"
+										varStatus="status">
+										<h:outputLink
+											value="http://websro2.correiosnet.int/rastreamento/sro"
+											target="_blank">
+											<h:outputText value="#{reg}" />
+											<f:param name="opcao" value="PESQUISA" />
+											<f:param name="objetos" value="#{reg}" />
+										</h:outputLink>,
+									</ui:repeat>
+								</div>
+					</p:panel>
+					Clique no código do registrado para acompanhar no SRO.
+					<div class="fldBtns">
+						<p:commandButton value="Fechar" id="btnSairReg"
+							oncomplete="PF('dlgReg').hide();"/>
+					</div>
+				</p:dialog>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

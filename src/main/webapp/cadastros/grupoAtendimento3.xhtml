@@ -1,0 +1,245 @@
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ppj="http://java.sun.com/jsf/composite/ppj"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<!-- 	<ui:define name="ajuda">
+		<ppj:linkAjuda nomeArquivo="cadastrargrupoatendimento"></ppj:linkAjuda>
+	</ui:define>
+ -->
+	<ui:define name="tituloPagina">
+		<h:outputText value="#{msgs.grupoAtendimento}" />
+	</ui:define>
+
+	<ui:define name="trilha">
+		#{msgs.grupoAtendimento} > #{msgs.cadastro} #{msgs.de} #{msgs.grupoAtendimento}
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
+
+		
+
+		<h:form id="formGrupoAtendimento">
+			<f:metadata>
+				<f:viewParam name="id" value="#{GrupoAtendimentoMB.idgrupo}" />
+			</f:metadata>
+			<p:growl id="messages" showDetail="true" sticky="false" life="5000"
+				globalOnly="false" autoUpdate="true" redisplay="false" />
+				 
+				  
+				    
+			<fieldset>
+				<p:panel>
+					<p class="notas">#{msgs['asterisco.preenchimento.obrigatorio']}</p>
+					<h:panelGrid width="800" rules="none" frame="none" columns="3"
+						align="center">
+
+						<p:row>
+							<p:column>
+								<label> #{msgs.CD}: </label>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{grupoAtendimentoMB.cdabrev}" id="campoCD"
+									label="#{msgs.mcuOrgao}" size="12" />
+								<!-- 	<p:selectOneMenu
+									value="#{grupoAtendimentoMB.cdgrupoatendimento}" id="campoCD"
+									label="#{msgs.CD}" required="true" style="align: left" disabled= "true">
+									<f:selectItem itemValue="#{null}" itemLabel="" />
+									<f:selectItems value="#{GrupoAtendimentoMB.listacds}" />
+									<f:ajax execute="@this"
+										update=":formGrupoAtendimento:grpList :formGrupoAtendimento:messages" />
+
+								</p:selectOneMenu>  -->
+							</p:column>
+							<p:column>
+								<h:message for="campoCD" errorClass="errorMsg" />
+							</p:column>
+
+						</p:row>
+					</h:panelGrid>
+				</p:panel>
+
+				<!-- Inicio Entrada de Item de Grupo -->
+
+				<p:panel id="Entrada-Grupo" toggleable="true" visible="true"
+					width="790">
+
+					<!-- enable focus component -->
+					<p:focus context="Entrada-Grupo" />
+
+					<table style='margin-top: 0px;' width="100%">
+						<CAPTION>Entrada de Grupo de Atendimento</CAPTION>
+
+						<tr>
+
+							<td width="5%" style='vertical-align: botton;'><h:outputLabel
+									value="Nº Grupo" /></td>
+							<td width="40%" style='vertical-align: botton;'><h:outputLabel
+									value="Descrição *" /></td>
+							<td width="5%" style='vertical-align: botton;'><h:outputLabel
+									value="Categoria *" /></td>
+							<td width="5%"
+								style='vertical-align: botton; text: align: center'><h:outputLabel
+									value="Qtde Pedido Terceiro" /></td>
+							<td width="5%" style='vertical-align: botton;'><h:outputLabel
+									value="Qtde Pedido Proprio" /></td>
+
+							<td style='vertical-align: top;'></td>
+
+
+						</tr>
+						<tr>
+
+
+							<td style='vertical-align: middle;'><p:inputMask mask="99"
+									style="font-weight: inherit; widht: 50px" size="3"
+									value="#{GrupoAtendimentoMB.numerogrupo}" id="campoNumGrupo"
+									immediate="true" required="true">
+
+
+								</p:inputMask></td>
+
+							<td style='vertical-align: middle;'><p:inputText
+									value="#{GrupoAtendimentoMB.descricaogrupoatendimento}"
+									id="cadDescricao" immediate="true"
+									styleClass="#{component.valid ? '':'error'} f9col"
+									label="#{msgs.descricao}" required="true" /></td>
+
+							<td style='vertical-align: middle;'><p:selectOneMenu
+									value="#{GrupoAtendimentoMB.categoriagrupo}"
+									id="campoCategoriaGrupo" required="true"
+									label="#{msgs.tipopedido}"
+									style="font-weight: inherit; widht: 50px">
+									<f:selectItem itemValue="" itemLabel="" />
+									<f:selectItems
+										value="#{GrupoAtendimentoMB.listacategoriagrupo }" />
+									<f:ajax execute="@this" render=":formGrupoAtendimento:messages" />
+									
+								</p:selectOneMenu></td>
+
+							<td style='vertical-align: middle;'><p:inputText mask="99"
+									size="3" value="#{GrupoAtendimentoMB.numeropedidoextrater}"
+									maxlength="2" id="cadNumeroPedidoExtraTer" immediate="true"
+									styleClass="#{component.valid ? '':'error'} "
+									label="#{msgs.numeroPedidoExtraTer}" required="true" /></td>
+
+							<td style='vertical-align: middle;'><p:inputText size="3"
+									value="#{GrupoAtendimentoMB.numeropedidoextraect}"
+									maxlength="2" id="cadNumeroPedidoExtraEct" immediate="true"
+									styleClass="#{component.valid ? '':'error'} "
+									label="#{msgs.numeroPedidoExtraEct}" required="true" /></td>
+
+							<td width="5%">
+							        <h:commandButton value="#{msgs.incluir}"
+									id="btnAdd" visebled="true" disebled="true"
+									action="#{GrupoAtendimentoMB.addActionGrupo}"
+									style="padding: 4; vertical-align: bottom;">
+									</h:commandButton>
+								</td>
+
+						</tr>
+
+					</table>
+					<!--  campoCodItem descricao descricaodet unidade custo campoQuantidade"  -->
+				</p:panel>
+
+				<!-- Fim Entrada de Item de Grupo  -->
+
+
+				<p:panel id="Lista_Grupo" width="790" rules="none" frame="none"
+					align="center" columns="1">
+
+					<p:dataTable value="#{GrupoAtendimentoMB.listagrupo}" var="grp"
+						id="grpList" editable="true" emptyMessage="Nenhum item na lista !"
+						paginator="true" rows="20" rowKey="#{grp.numgrupo}"
+						filterEvent="enter"
+						currentPageReportTemplate="     Exibindo {startRecord}-{endRecord} do total de {totalRecords}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {CurrentPageReport} ">
+						<p:ajax event="rowEdit" listener="#{GrupoAtendimentoMB.onEdit}"
+							update=":formGrupoAtendimento:messages :formGrupoAtendimento:grpList" />
+						<p:ajax event="rowEditCancel"
+							listener="#{GrupoAtendimentoMB.onCancel}"
+							update=":formGrupoAtendimento:messages :formGrupoAtendimento:grpList" />
+
+						<f:facet name="header">Grupos de Atendimento</f:facet>
+
+						<p:column headerText="Nº Grupo" style="width:50px">
+
+							<h:outputText id="numGrpLabel" value="#{grp.numgrupo}" />
+
+						</p:column>
+
+						<p:column headerText="Descrição" style="width:350px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText id="descricaoLabel" value="#{grp.descricao}"
+										style="text-align: center;" />
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText id="descricaoID" value="#{grp.descricao}"
+										Style="width: 100%;" />
+								</f:facet>
+							</p:cellEditor>
+
+						</p:column>
+
+						<p:column headerText="Categoria" style="width:50px">
+
+							<h:outputText id="categoriaLabel" value="#{grp.catgrupo}"
+								style="text-align: center;" />
+
+
+						</p:column>
+
+						<p:column headerText="Nº Pedido Terceiro" style="width:60px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText id="extraterLabel" value="#{grp.exterceiro}"
+										style="text-align: center;" />
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText id="extraterID" value="#{grp.exterceiro}"
+										Style="width: 25%; margin:0px;" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Nº Pedido Proprio" style="width:60px">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText id="extrapropLabel" value="#{grp.expropria}"
+										style="text-align: center;" />
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText id="extrapropID" value="#{grp.expropria}"
+										Style="width: 25%; margin:0px;" />
+								</f:facet>
+							</p:cellEditor>
+
+						</p:column>
+						<p:column headerText="Opções" style="width:50px">
+							<p:rowEditor style="float: right;" />
+						</p:column>
+
+					</p:dataTable>
+
+
+				</p:panel>
+
+				<div class="separator"></div>
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

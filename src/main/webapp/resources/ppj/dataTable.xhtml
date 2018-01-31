@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true" />
+	<cc:attribute name="cabecalho" required="true" />
+	<cc:attribute name="atributoPaginador" required="true" />
+	<cc:attribute name="atributosObjetoIterado" required="true" />
+	<cc:attribute name="atributoEntity" required="true" />	
+	
+	<cc:attribute name="acaoEditar" />
+	<cc:attribute name="idModalExclusao" />
+	<cc:attribute name="atributoPK" />
+	<cc:attribute name="atributoExclusao" />
+	<cc:attribute name="render" />
+	<cc:attribute name="acaoPesquisar" />
+	<cc:attribute name="qtdColunasAcao" />
+	<cc:attribute name="identificador" />
+</cc:interface>
+
+<cc:implementation >
+	<ui:fragment rendered="#{ not empty cc.attrs.managedBean[cc.attrs.atributoPaginador].colecaoDeRegistros}">
+		
+		<div class="listPagination" id="#{cc.clientId}">
+                        
+            <div class="pagRegEAction">
+            	<span>Total de registros: #{cc.attrs.managedBean[cc.attrs.atributoPaginador].totalDeRegistros}</span><br/>
+            </div>
+            
+            <span class="pagination" style=" padding-top:10px;">
+                <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual == 0}">
+	                <h:graphicImage value="#{resource['img:layout/arrowLIna.png']}" />
+	            </ui:fragment>
+	            <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual > 0}">
+	                <h:commandLink actionListener="#{cc.attrs.managedBean[cc.attrs.acaoPesquisar]}">
+                		<h:graphicImage value="#{resource['img:layout/arrowLAct.png']}" />
+                		<f:ajax execute="@this"  render="@form" />
+						<f:attribute name="paginaAtual" value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual + 1}"/>
+					</h:commandLink>
+	            </ui:fragment>
+	            <h:inputText value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual}" styleClass="f1col" >
+	            	<f:convertNumber />
+	            </h:inputText> 
+	            #{msgs.de} #{cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}
+	            <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual == cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}">
+                	<h:graphicImage value="#{resource['img:layout/arrowRIna.png']}" title="Próxima página da lista de registros" />
+                </ui:fragment>
+                <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual != cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}">
+                	<h:commandLink actionListener="#{cc.attrs.managedBean[cc.attrs.acaoPesquisar]}">
+                		<h:graphicImage value="#{resource['img:layout/arrowRAct.png']}" title="Próxima página da lista de registros"  />
+                		<f:ajax execute="@this"  render="@all" />
+						<f:attribute name="paginaAtual" value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual + 1}"/>
+					</h:commandLink>
+                </ui:fragment>
+            </span>
+		
+			<table>
+				<tr>
+					<th colspan="#{cc.attrs.qtdColunasAcao}">#{msgs.acao}</th>
+					<ui:repeat var="coluna" value="#{fn:split(cc.attrs.cabecalho,',')}">
+						<th>#{coluna}</th>
+					</ui:repeat>
+				</tr>
+				<ui:repeat var="registro" value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].colecaoDeRegistros}" varStatus="status">
+					<tr>
+						<ui:fragment rendered="#{not empty cc.attrs.acaoEditar}">
+							<td width="22px">
+								<h:commandLink action="#{cc.attrs.managedBean[cc.attrs.acaoEditar]}" >
+									<h:graphicImage value="#{resource['img:layout/trans.gif']}" styleClass="edit" width="22px" height="22px" />	
+									<f:setPropertyActionListener target="#{cc.attrs.identificador}" value="#{registro[cc.attrs.atributoPK]}"  />
+								</h:commandLink>
+							</td>
+						</ui:fragment>
+						<ui:fragment rendered="#{not empty cc.attrs.idModalExclusao}">
+							<td width="22px">
+								<p:commandLink action="#{clienteMB.excluirCliente}">
+									<h:graphicImage value="#{resource['img:layout/trans.gif']}" styleClass="excl" width="22px" height="22px" />
+									<f:setPropertyActionListener target="#{cc.attrs.managedBean[cc.attrs.atributoExclusao]}" value="#{registro[cc.attrs.atributoPK]}" />
+								</p:commandLink>
+							</td>
+						</ui:fragment>
+						<ui:repeat var="atributo" value="#{fn:split(cc.attrs.atributosObjetoIterado,',')}">
+							<td>#{registro[atributo]}</td>
+						</ui:repeat>
+					</tr>
+				</ui:repeat>
+			</table>
+			
+			<span class="pagination" style="padding-top:10px;">
+                <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual == 1}">
+	                <h:graphicImage value="#{resource['img:layout/arrowLIna.png']}" />
+	            </ui:fragment>
+	            <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual != 1}">
+	                <h:commandLink actionListener="#{cc.attrs.managedBean[cc.attrs.acaoPesquisar]}">
+                		<h:graphicImage value="#{resource['img:layout/arrowLAct.png']}" />
+                		<f:ajax execute="@this"  render="@form" />
+						<f:attribute name="paginaAtual" value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual - 1}"/>
+					</h:commandLink>
+	            </ui:fragment>
+	            <h:inputText value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual}" styleClass="f1col" /> de #{cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}
+	            <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual == cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}">
+                	<h:graphicImage value="#{resource['img:layout/arrowRIna.png']}" title="Próxima página da lista de registros" />
+                </ui:fragment>
+                <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual != cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDePaginas}">
+                	<h:commandLink actionListener="#{cc.attrs.managedBean[cc.attrs.acaoPesquisar]}">
+                		<h:graphicImage value="#{resource['img:layout/arrowRAct.png']}" title="Próxima página da lista de registros"  />
+                		<f:ajax execute="@this" render="@form" />
+						<f:attribute name="paginaAtual" value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual + 1}"/>
+					</h:commandLink>
+                </ui:fragment>
+            </span>
+            
+            <ui:fragment rendered="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].totalDeRegistros gt cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDeRegistrosPorPagina}">
+				<span class="rodape float-left">
+					<h5>
+						<h:outputFormat value="{0} a {1} de {2} registros">
+							<f:param value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual == 1 ? 1 : (cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual  * cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDeRegistrosPorPagina) - (cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDeRegistrosPorPagina - 1)}" />
+							<f:param value="#{(cc.attrs.managedBean[cc.attrs.atributoPaginador].paginaAtual * cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDeRegistrosPorPagina) - (cc.attrs.managedBean[cc.attrs.atributoPaginador].quantidadeDeRegistrosPorPagina - 1) + (cc.attrs.managedBean[cc.attrs.atributoPaginador].tamanhoDaColecao - 1)}" />
+							<f:param value="#{cc.attrs.managedBean[cc.attrs.atributoPaginador].totalDeRegistros}" />
+						</h:outputFormat>
+					</h5> 
+					
+				</span>
+			</ui:fragment>
+			
+		</div>
+	</ui:fragment>
+</cc:implementation>
+</html>
