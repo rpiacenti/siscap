@@ -35,20 +35,20 @@
 		<maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
 		<urlInicio>/index.jsp</urlInicio>
 		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties - Desemvolvimento 
-			<jdbcUrl>jdbc:oracle:thin:@scan-ac07.correiosnet.int:1521/ac07</jdbcUrl> 
-			<pwdOracle>siscades99</pwdOracle> <userOracle>siscap</userOracle> -->
+			<jdbcUrl>jdbc:oracle:thin:@scan-ac07.xxxxxxxxxx.int:1521/xxxx</jdbcUrl> 
+			<pwdOracle>xxxxxxxx</pwdOracle> <userOracle>siscap</userOracle> -->
 		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties - Homologacao  -->
-			<jdbcUrl>jdbc:oracle:thin:@scan-ac04.correiosnet.int:1521/ac04</jdbcUrl> 
-			<pwdOracle>siscades99</pwdOracle><userOracle>siscap</userOracle> 
+			<jdbcUrl>jdbc:oracle:thin:@scan-ac04.xxxxxxxxxx.int:1521/xxxx</jdbcUrl> 
+			<pwdOracle>xxxxxxxx</pwdOracle><userOracle>siscap</userOracle> 
 		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties Producao 
-		<jdbcUrl>jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</jdbcUrl>
-		<pwdOracle>catel8471prd</pwdOracle>
+		<jdbcUrl>jdbc:oracle:thin:@scan-ac03.xxxxxxxx.int:1521/xxxx</jdbcUrl>
+		<pwdOracle>xxxxxx</pwdOracle>
 		<userOracle>siscap</userOracle> -->
 		<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
 		<sqlServer>10.198.238.4</sqlServer>
 		<sqlServerPort>1433</sqlServerPort>
 		<sqlServerUser>SSPMANUT</sqlServerUser>
-		<sqlServerPw>sspusr@2007</sqlServerPw>
+		<sqlServerPw>xxxxxxx</sqlServerPw>
 		<sqlServerDb>DBSSP</sqlServerDb>
 
 
@@ -571,14 +571,14 @@
 				<ambiente>Homologação</ambiente>
 				<serverName>jhom2.correiosnet.int</serverName>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<jdbcUrl>jdbc:oracle:thin:@scan-ac04.correiosnet.int:1521/ac04</jdbcUrl>
-				<pwdOracle>siscades99</pwdOracle>
+				<jdbcUrl>jdbc:oracle:thin:@scan-ac04.xxxxxxxx.int:1521/xxxx</jdbcUrl>
+				<pwdOracle>xxxxxxxxx</pwdOracle>
 				<userOracle>siscap</userOracle>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServer>xx.xxx.xxx.x</sqlServer>
 				<sqlServerPort>1433</sqlServerPort>
 				<sqlServerUser>SSPMANUT</sqlServerUser>
-				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerPw>xxxxxxxxx</sqlServerPw>
 				<sqlServerDb>DBSSP</sqlServerDb>
 			</properties>
 			<dependencies>
@@ -599,14 +599,14 @@
 				<ambiente>Homologação2</ambiente>
 				<serverName>jhom2.correiosnet.int</serverName>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<jdbcUrl>jdbc:oracle:thin:@scan-ac07.correiosnet.int:1521/ac07</jdbcUrl>
-				<pwdOracle>siscaphom</pwdOracle>
+				<jdbcUrl>jdbc:oracle:thin:@xxxxxx.xxxxxxx.int:1521/xxxx</jdbcUrl>
+				<pwdOracle>xxxxxxxx</pwdOracle>
 				<userOracle>sishom4285cap</userOracle>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServer>xx.xxx.xxx.x</sqlServer>
 				<sqlServerPort>1433</sqlServerPort>
 				<sqlServerUser>SSPMANUT</sqlServerUser>
-				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerPw>xxxxxxx</sqlServerPw>
 				<sqlServerDb>DBSSP</sqlServerDb>
 			</properties>
 			<dependencies>
@@ -625,18 +625,18 @@
 			<id>producao</id>
 			<properties>
 				<ambiente>Produção</ambiente>
-				<casServerLoginUrl>https://apps.correios.com.br/cas/login</casServerLoginUrl>
-				<casServerUrlPrefix>https://apps.correios.com.br/cas</casServerUrlPrefix>
-				<serverName>apps.correios.com.br</serverName>
+				<casServerLoginUrl>https://apps.xxxxxxxx.com.br/cas/login</casServerLoginUrl>
+				<casServerUrlPrefix>https://apps.xxxxxxxx.com.br/cas</casServerUrlPrefix>
+				<serverName>apps.xxxxxxxx.com.br</serverName>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<jdbcUrl>jdbc:oracle:thin:@scan-ac03.correiosnet.int:1521/ac03</jdbcUrl>
-				<pwdOracle>catel8471prd</pwdOracle>
+				<jdbcUrl>jdbc:oracle:thin:@scan-xxxx.xxxxxxxxx.int:1521/xxxx</jdbcUrl>
+				<pwdOracle>xxxxxxxxxx</pwdOracle>
 				<userOracle>siscap</userOracle>
 				<!-- PROPRIEDADE UTILIZADAS NO hikari-oracle.properties -->
-				<sqlServer>10.198.238.4</sqlServer>
+				<sqlServer>xx.xxx.xxx.x</sqlServer>
 				<sqlServerPort>1433</sqlServerPort>
 				<sqlServerUser>SSPMANUT</sqlServerUser>
-				<sqlServerPw>sspusr@2007</sqlServerPw>
+				<sqlServerPw>xxxxxxxxx</sqlServerPw>
 				<sqlServerDb>DBSSP</sqlServerDb>
 			</properties>
 		</profile>
